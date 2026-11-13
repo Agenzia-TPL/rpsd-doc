@@ -460,4 +460,5 @@ The guide SHALL include frequently asked questions grouped by topic, each with i
 - **Change 5**: documentazione dbt pubblica sotto lo stesso dominio o ad accesso controllato.
 - **Change 6–7**: confine tra pagine generate da `rpsd-profile-gen` e contenuto redazionale. Se le pagine di frame/servizio sono generate, va aggiunto a `profile-docs` un requisito analogo a *Generated catalog*.
 - **Change 8**: origine del file dati del catalogo indicatori finché il config non è consolidato (export del catalogo attuale o file del pilot).
+- **Change 9** (o comunque quando ogni sezione con `"*"` nel proprio `.nav.yml` ha almeno una pagina oltre a `index.md`): riportare `logs.no_matches` di `awesome-nav` da `info` a `warning` in `mkdocs.yml`, così un pattern senza corrispondenze torna a bloccare il build strict. Impostato a `info` nel change 2 perché le sezioni segnaposto non hanno altre pagine.
 - **Contratto della consegna di aprile 2027**: non coperto da questo seed; se va documentato prima del consolidamento del config serve un change dedicato.

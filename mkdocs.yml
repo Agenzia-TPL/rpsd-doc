@@ -1,7 +1,7 @@
 # Configurazione del sito rpsd-doc, letta da Zensical (fase 1: niente zensical.toml).
 # Opzioni verificate sulla documentazione Zensical: vedi
 # openspec/changes/bootstrap-site/design.md, tabella "Verifiche".
-# Navigazione: nessun `nav` qui; arriva per directory con il change add-directory-navigation.
+# Navigazione: nessun `nav` qui; è definita per directory dai file .nav.yml in docs/ (awesome-nav).
 
 site_name: Rapsodia — Documentazione
 site_description: Documentazione dei profili NeTEx e SIRI italiani e degli indicatori ART per Rapsodia
@@ -26,13 +26,26 @@ theme:
         name: Passa allo schema chiaro
   features:
     - navigation.tabs
-    - navigation.sections
     - navigation.indexes
-    # navigation.expand deliberatamente assente (design del sito §2.2)
+    # navigation.expand e navigation.sections deliberatamente assenti (design del sito §2.2):
+    # con sections i gruppi di secondo livello resterebbero sempre aperti, contro la spec
+    # site-navigation (solo il ramo della pagina corrente espanso).
     - search.highlight
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
+
+plugins:
+  # search è elencato esplicitamente: con `plugins` presente, MkDocs/Material
+  # disattiverebbe la ricerca se mancasse. awesome-nav è integrato in Zensical.
+  - search
+  - awesome-nav:
+      logs:
+        # TODO: riportare a `warning` quando ogni sezione che usa "*" nel proprio
+        # .nav.yml avrà almeno una pagina oltre a index.md (dopo i change 8 e 9,
+        # vedi openspec/seed.md §5). Finché le sezioni sono segnaposto, "*" non
+        # trova nulla e con `warning` il build strict fallirebbe.
+        no_matches: info
 
 markdown_extensions:
   - admonition
