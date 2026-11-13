@@ -26,8 +26,8 @@ Lavoro sul branch locale `add-profile-versioning`. Se un requisito non è soddis
 
 ## 5. Verifica finale
 
-- [ ] 5.1 Da clone pulito del branch: build strict e tutti i controlli e le prove della CI; controllo nel browser di `netex/`, `netex/5.0.0/`, `netex/corrente/` e, sulla fixture a due versioni, di una pagina della versione precedente con l'avviso; verifica: esiti attesi, nessun warning
-- [ ] 5.2 Commit sul branch `add-profile-versioning` (nessun push); verifica: `git status` pulito
+- [x] 5.1 Da clone pulito del branch: build strict e tutti i controlli e le prove della CI; controllo nel browser di `netex/`, `netex/5.0.0/`, `netex/corrente/` e, sulla fixture a due versioni, di una pagina della versione precedente con l'avviso; verifica: esiti attesi, nessun warning
+- [x] 5.2 Commit sul branch `add-profile-versioning` (nessun push); verifica: `git status` pulito
 
 ## Workflow follow-up
 

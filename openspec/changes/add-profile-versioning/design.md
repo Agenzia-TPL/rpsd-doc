@@ -143,6 +143,8 @@ L'override del template e gli alias hanno effetti su ciò che costruisce copie d
 - [Il trailer `Errata` si può scrivere a mano] → intercetta l'errore involontario; la revisione della PR resta.
 - [Date e differenze da completare pubblicate così] → marcate in modo esplicito e conteggiate dal controllo; si completano quando le fonti sono nel repository.
 
+- [Osservato in apply: le pagine di una versione non corrente non hanno sidebar né tab attivo, perché non sono nella navigazione] → coerente con il requisito *Sidebar shows the current version* (le altre versioni si raggiungono dall'elenco); da rivalutare nei change 6–7, quando una versione non corrente avrà davvero pagine da navigare (per esempio un indice delle pagine nella pagina indice della versione).
+
 ## Migration Plan
 
 `docs/netex/index.md` e `docs/siri/index.md` cambiano contenuto (da segnaposto a elenco versioni) ma non URL. Nessun URL esistente sparisce.
