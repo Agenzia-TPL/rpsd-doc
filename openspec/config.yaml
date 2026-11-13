@@ -1,0 +1,58 @@
+schema: spec-driven
+
+context: |
+  rpsd-doc is the static documentation site of Rapsodia, a public-transport (TPL)
+  monitoring platform for the Lombardy transport agencies. The site documents the
+  Italian NeTEx and SIRI profiles, the ART quality indicators (Delibera ART 53/2024)
+  and, in a later step, one section per service contract.
+
+  Full design: rpsd-doc-site-design.md (repo root). Change plan and requirements:
+  openspec/seed.md. Read both before proposing a change.
+
+  Tech stack:
+  - Generator: Zensical (pinned version), configuration kept in mkdocs.yml
+  - Navigation: per-directory .nav.yml files (awesome-nav), no nav in mkdocs.yml
+  - Plugins in use: search, tags, glightbox, redirects, awesome-nav
+  - Not used by decision: mike, macros, git-revision-date-localized, gen-files
+  - Hosting: GitHub Pages, deployed by GitHub Actions
+  - Python tooling only; no Node toolchain
+  - Fallback generator if Zensical fails the spike: Docusaurus
+
+  Content rules:
+  - Site content is in Italian; terms that are proper names of the standards
+    (frame, delivery, element names) stay in English
+  - A page is either hand-written or generated, never both. Generated directories
+    are overwritten as a whole by rpsd-tools and are never edited by hand
+  - NeTEx and SIRI profile docs are versioned by path: docs/netex/<version>/,
+    docs/siri/<version>/. A new profile version is a new folder
+  - General pages carry no contract thresholds and no tender-annex references
+  - Indicator codes, rule ids, contract ids and published URLs are stable
+  - Hand-written pages are at most 1500 words
+
+  Out of scope for now (second step, blocked on the rpsd-config data model):
+  docs/contratti/, the validation rule catalog, restricted contracts.
+
+rules:
+  proposal:
+    - State which sections of rpsd-doc-site-design.md the change implements
+    - State whether the change touches hand-written content, generated content, or site infrastructure
+    - Always state what is out of scope
+  specs:
+    - Take requirements from openspec/seed.md section 4 as written; do not add requirements without saying so in the proposal
+    - Write requirements as observable behavior of the built site or of the build, checkable by a reader or by CI
+    - One SHALL or MUST per requirement; at least one WHEN/THEN scenario each
+    - Keep generator-specific mechanics (plugin options, template code) in design.md
+  design:
+    - Use only features available in both Zensical and Material for MkDocs unless the proposal justifies otherwise
+  tasks:
+    - End every change with a strict build and a check of the rendered pages touched
+    - Never include tasks that push, open PRs or change repository settings on GitHub without explicit approval
+
+operations:
+  apply:
+    guidance:
+      - Stop and report if a requirement cannot be met with Zensical instead of working around it
+      - Every table of fields or constraints in content pages must be traceable to a source document
+  archive:
+    guidance:
+      - Summarize which requirements were verified and how
