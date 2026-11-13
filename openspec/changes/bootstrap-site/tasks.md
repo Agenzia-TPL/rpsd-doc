@@ -39,8 +39,8 @@ Regola generale: le opzioni di `mkdocs.yml` sono già state confrontate con la d
 ## 6. Report e verifica finale
 
 - [x] 6.1 Scrivere `spike/REPORT.md`: versione Zensical e Python, esito di ciascuno scenario (verificato in CI locale / manualmente / solo per ispezione), tempo di build con 400 pagine, discrepanze rispetto a Material, raccomandazione (conferma Zensical o piano B); verifica: ogni scenario della spec ha una riga
-- [ ] 6.2 Build finale da clone pulito: `zensical build --strict` del sito, `python scripts/spike.py --scale`, `python scripts/check_broken_link.py`; controllo delle pagine renderizzate toccate (`site/index.html` e le cinque pagine di `spike/site/funzioni/`); verifica: tutti i comandi con exit atteso, nessun warning
-- [ ] 6.3 Commit sul branch `bootstrap-site` (nessun push); verifica: `git status` pulito, `git remote` vuoto
+- [x] 6.2 Build finale da clone pulito: `zensical build --strict` del sito, `python scripts/spike.py --scale`, `python scripts/check_broken_link.py`; controllo delle pagine renderizzate toccate (`site/index.html` e le cinque pagine di `spike/site/funzioni/`); verifica: tutti i comandi con exit atteso, nessun warning
+- [x] 6.3 Commit sul branch `bootstrap-site` (nessun push); verifica: `git status` pulito, `git remote` vuoto
 
 ## Workflow follow-up
 
