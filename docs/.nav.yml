@@ -1,0 +1,8 @@
+# Tab di primo livello, nell'ordine richiesto (spec site-navigation).
+# Elenco esplicito, senza "*": una cartella nuova in docs/ non diventa un tab per caso.
+nav:
+  - Home: index.md
+  - NeTEx: netex
+  - SIRI: siri
+  - Indicatori: indicatori
+  - Guida operativa: guida

@@ -94,7 +94,7 @@ Rischi e mitigazioni:
 | Repository | `rpsd-doc` | |
 | Lingua | Italiano | |
 
-Estensioni Markdown e feature del tema restano quelle della v0.1 (admonition, superfences/mermaid, tabbed, highlight con annotazioni, arithmatex, attr_list, toc con permalink; navigation tabs, sections, indexes, search highlight, code copy), con una modifica: **`navigation.expand` va disattivato**, altrimenti la sidebar della sezione Contratti si apre su tutte le pagine di tutti i contratti.
+Estensioni Markdown e feature del tema restano quelle della v0.1 (admonition, superfences/mermaid, tabbed, highlight con annotazioni, arithmatex, attr_list, toc con permalink; navigation tabs, indexes, search highlight, code copy), con due modifiche: **`navigation.expand` va disattivato**, altrimenti la sidebar della sezione Contratti si apre su tutte le pagine di tutti i contratti; **`navigation.sections` è stato tolto** (change `add-directory-navigation`, novembre 2026), perché rende i gruppi di secondo livello sempre aperti e la sidebar mostrerebbe, per esempio, tutte le pagine di tutti i contratti mentre se ne legge uno.
 
 ### 2.3 Versioning
 

@@ -25,6 +25,8 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: zensical build --strict
+      - name: Tab di primo livello nell'ordine richiesto e tab attivo corretto
+        run: python scripts/check_navigation.py
 
   spike:
     name: Spike (scala, sidebar, link rotti)
@@ -36,7 +38,9 @@ jobs:
           python-version-file: .python-version
           cache: pip
       - run: pip install -r requirements.txt
-      - name: Build delle pagine di prova con 400 pagine (limite 60 s) e controllo sidebar
+      - name: Build delle pagine di prova con 400 pagine (limite 60 s) e controllo sidebar (anche pagina a tre livelli)
         run: python scripts/spike.py --scale
       - name: Il build strict deve fallire su link e anchor rotti
         run: python scripts/check_broken_link.py
+      - name: Una sottosezione nuova compare senza modificare la configurazione
+        run: python scripts/check_new_subsection.py
