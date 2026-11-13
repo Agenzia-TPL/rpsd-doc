@@ -128,6 +128,13 @@ Legge `mkdocs.yml` con PyYAML (già nel lock), ignorando i tag `!!python/name`.
 - Job "Spike (scala, sidebar, link rotti)": `python scripts/test_versions.py`.
 - Nomi dei job invariati.
 
+### D9. Effetti su spike e script esistenti (aggiunta in apply)
+
+L'override del template e gli alias hanno effetti su ciò che costruisce copie del sito:
+- **Spike**: con `INHERIT`, `custom_dir` è relativo al file figlio, quindi `spike/mkdocs.yml` ridefinisce `theme.custom_dir: ../overrides` (le mappe si uniscono). Gli alias ereditati puntano a pagine che lo spike non ha, e un redirect verso una pagina inesistente è un warning (il build strict fallisce): lo spike ridefinisce quindi `plugins` con `redirect_maps` vuoto. Con `INHERIT` la **lista** dei plugin viene sostituita, non unita (verificato: senza ripeterla `awesome-nav` sparisce e `check_sidebar.py` fallisce), per cui lo spike ripete la lista completa e `scripts/spike.py` verifica a ogni esecuzione che coincida con quella di `mkdocs.yml`, salvo `redirect_maps`.
+- **Copie temporanee del sito** (`check_urls.py`, `check_new_subsection.py`, `check_broken_link.py`, prove di `test_conventions.py`): copiavano solo `mkdocs.yml` e `docs/`. Ora usano tutte `copy_site_sources()` di `scripts/spike.py`, con l'elenco unico `SITE_SOURCES = ["mkdocs.yml", "docs", "overrides"]`; `check_urls.py` estrae dalla revisione base solo i sorgenti che lì esistono.
+- La prova di `test_conventions.py` sullo spostamento di pagina non presuppone più `redirect_maps` vuoto.
+
 ## Risks / Trade-offs
 
 - [Il motore dei template di Zensical non è Jinja2 e potrebbe cambiare] → template limitato a costrutti comuni; le prove D7 costruiscono il sito reale e falliscono se l'avviso sparisce.

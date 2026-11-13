@@ -4,3 +4,17 @@ INHERIT: ../mkdocs.yml
 site_name: rpsd-doc — Spike funzioni di rendering
 docs_dir: docs
 site_dir: site
+theme:
+  # custom_dir è relativo a questo file: punta all'override del sito
+  custom_dir: ../overrides
+# Con INHERIT la lista dei plugin viene sostituita, non unita: va ripetuta per intero.
+# Unica differenza ammessa rispetto a mkdocs.yml: redirect_maps vuoto (gli alias del
+# sito puntano a pagine che lo spike non ha). scripts/spike.py verifica che il resto
+# coincida con mkdocs.yml.
+plugins:
+  - search
+  - redirects:
+      redirect_maps: {}
+  - awesome-nav:
+      logs:
+        no_matches: info

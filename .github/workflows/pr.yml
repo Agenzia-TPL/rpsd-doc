@@ -34,6 +34,8 @@ jobs:
         run: python scripts/check_conventions.py --commits "origin/${GITHUB_BASE_REF}"
       - name: Nessun URL pubblicato sparisce (pagina o redirect)
         run: python scripts/check_urls.py "origin/${GITHUB_BASE_REF}"
+      - name: Versioni dei profili (metadati, cartelle, sidebar, alias, elenco, avvisi, versioni congelate)
+        run: python scripts/check_versions.py --site site --commits "origin/${GITHUB_BASE_REF}"
 
   spike:
     name: Spike (scala, sidebar, link rotti)
@@ -53,3 +55,5 @@ jobs:
         run: python scripts/check_new_subsection.py
       - name: Prove dei controlli sulle convenzioni (casi conformi e non conformi)
         run: python scripts/test_conventions.py
+      - name: Prove del versioning dei profili (fixture con due versioni NeTEx)
+        run: python scripts/test_versions.py

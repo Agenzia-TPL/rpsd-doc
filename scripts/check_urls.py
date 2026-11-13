@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import argparse
 import io
-import shutil
 import subprocess
 import sys
 import tarfile
@@ -21,10 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
-from spike import zensical  # noqa: E402
-
-SOURCES = ["mkdocs.yml", "docs"]
-
+from spike import SITE_SOURCES, copy_site_sources, zensical  # noqa: E402
 
 def served_urls(site: Path) -> set[str]:
     """URL relativi delle pagine HTML servite (esclusa la pagina 404)."""
@@ -46,15 +42,13 @@ def build(source: Path, strict: bool) -> tuple[set[str], str]:
 
 
 def export_revision(root: Path, rev: str, dest: Path) -> None:
-    data = subprocess.run(["git", "archive", "--format=tar", rev, *SOURCES], cwd=root,
+    """Estrae da rev i sorgenti del sito presenti in quella revisione."""
+    present = subprocess.run(["git", "ls-tree", "--name-only", rev, *SITE_SOURCES], cwd=root,
+                             capture_output=True, text=True, check=True).stdout.split()
+    data = subprocess.run(["git", "archive", "--format=tar", rev, *present], cwd=root,
                           capture_output=True, check=True).stdout
     with tarfile.open(fileobj=io.BytesIO(data)) as tar:
         tar.extractall(dest, filter="data")
-
-
-def copy_worktree(root: Path, dest: Path) -> None:
-    shutil.copy(root / "mkdocs.yml", dest / "mkdocs.yml")
-    shutil.copytree(root / "docs", dest / "docs")
 
 
 def compare(base_urls: set[str], head_urls: set[str]) -> list[str]:
@@ -77,7 +71,7 @@ def main() -> int:
         except subprocess.CalledProcessError as exc:
             print(f"Controllo URL: impossibile leggere la revisione {args.base!r}: {exc.stderr.decode().strip()}")
             return 1
-        copy_worktree(root, head_dir)
+        copy_site_sources(head_dir, root)
         base_urls, _ = build(base_dir, strict=False)
         head_urls, _ = build(head_dir, strict=True)
 
