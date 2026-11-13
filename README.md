@@ -5,6 +5,8 @@ ART (Delibera ART 53/2024) e, in un secondo step, una sezione per contratto di
 servizio. Generatore: [Zensical](https://zensical.org/docs/), con la
 configurazione in `mkdocs.yml`. Design completo: `rpsd-doc-site-design.md`.
 
+Per scrivere o modificare contenuti: regole e controlli in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Requisiti
 
 - Python 3.13 (versione in `.python-version`)
@@ -101,7 +103,7 @@ GitHub:
 
 | Workflow | Quando | Cosa fa |
 |---|---|---|
-| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito e `python scripts/check_navigation.py` (tab); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py` e `python scripts/check_new_subsection.py`. Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
+| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito, `python scripts/check_navigation.py` (tab), `python scripts/check_conventions.py --commits origin/<base>` (convenzioni di contenuto, vedi CONTRIBUTING.md) e `python scripts/check_urls.py origin/<base>` (URL stabili); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py` e `python scripts/test_conventions.py` (prove dei controlli). Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
 | `deploy.yml` | push su `main` (e avvio manuale) | job `build`: build strict e caricamento di `site/` come artifact di Pages; job `deploy`: pubblicazione su GitHub Pages. Se il build fallisce, `deploy` non parte e il sito pubblicato resta invariato |
 
 Per riprodurre i controlli in locale:
@@ -109,9 +111,12 @@ Per riprodurre i controlli in locale:
 ```bash
 zensical build --strict
 python scripts/check_navigation.py
+python scripts/check_conventions.py --commits origin/main
+python scripts/check_urls.py origin/main
 python scripts/spike.py --scale
 python scripts/check_broken_link.py
 python scripts/check_new_subsection.py
+python scripts/test_conventions.py
 ```
 
 ### Passi manuali su GitHub (riservati a Franco)
