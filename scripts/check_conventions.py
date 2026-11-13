@@ -9,6 +9,7 @@ Regole (design del change add-content-conventions):
   L1  le pagine redazionali non superano 1500 parole
   C1  i callout usano solo i tipi ammessi; danger e info solo con i titoli riservati
   S1  al primo uso in una pagina, ogni sigla del glossario è un link alla sua voce
+      (esclusi titoli, titoli dei callout e codice)
 
 I percorsi generati sono in generated-paths.txt.
 
@@ -251,7 +252,9 @@ def check_glossary(root: Path, notes: list[str] | None = None) -> list[Problem]:
         if rel == GLOSSARY:
             continue
         _, body, offset = split_front_matter(text)
-        lines = ["" if HEADING.match(line) else INLINE_CODE.sub(lambda m: " " * len(m.group(0)), line)
+        # Titoli di pagina e righe di apertura dei callout esclusi: lì un link non viene reso.
+        lines = ["" if HEADING.match(line) or CALLOUT.match(line)
+                 else INLINE_CODE.sub(lambda m: " " * len(m.group(0)), line)
                  for line in mask_code_blocks(body)]
         prose = "\n".join(lines)
         links = [(m.start(1), m.end(1), m.start(2), m.end(2), m.group(2)) for m in LINK.finditer(prose)]

@@ -65,7 +65,8 @@ resta alla revisione.
 
 - In ogni pagina, il **primo uso** di una sigla del glossario è un link alla sua voce,
   per esempio `[PdE](../panoramica/glossario.md#pde)`. Gli usi successivi sono liberi.
-  Contano anche tabelle e callout; non contano titoli e codice.
+  Contano anche tabelle e testo dei callout; non contano titoli di pagina, titoli dei
+  callout (dove un link non viene reso) e codice.
 
 Controllo: `scripts/check_conventions.py` (regola S1).
 

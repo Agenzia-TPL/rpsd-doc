@@ -83,7 +83,7 @@ I due titoli riservati non possono essere usati con altri tipi. Vale per tutte l
   ```markdown
   ### PdE {#pde .sigla}
   ```
-- Regola: in ogni altra pagina di `docs/`, la **prima** occorrenza di ciascuna sigla nel testo (esclusi titoli, front matter, blocchi di codice e codice in linea; confronto sensibile alle maiuscole, a parola intera) deve stare nel testo di un link il cui destinatario termina con `glossario.md#<anchor>` o `glossario/#<anchor>`. Le occorrenze successive sono libere.
+- Regola: in ogni altra pagina di `docs/`, la **prima** occorrenza di ciascuna sigla nel testo (esclusi titoli, front matter, blocchi di codice e codice in linea; esclusi anche i titoli dei callout, dove un link non viene reso — aggiunto dopo la verifica; confronto sensibile alle maiuscole, a parola intera) deve stare nel testo di un link il cui destinatario termina con `glossario.md#<anchor>` o `glossario/#<anchor>`. Le occorrenze successive sono libere.
 - Glossario assente: il controllo lo dice e passa (nessuna sigla).
 - Solo le voci marcate `.sigla` sono soggette: il requisito parla di sigle di dominio, non di tutti i termini.
 
