@@ -28,7 +28,7 @@ decisione: design del sito §2.1 e decisione aperta n. 1 del §10.
 | Alternative example variants | Minimal and complete variant | ✅ | Browser: tab "Minimale"/"Completo" si alternano, l'URL della pagina non cambia |
 | Mathematical formulas | Indicator formula | ✅ | Browser: MathJax compone la formula inline e quella in blocco; nessun sorgente LaTeX visibile |
 | Diagrams from text | Flow diagram | ✅ | Browser: flowchart e sequence diagram resi come SVG e leggibili in schema chiaro e scuro |
-| Italian interface and search | Search for an Italian term | ⚠️ **parziale** | Browser: la ricerca di "perspicuità" trova la pagina e il termine è evidenziato all'apertura (`search.json` con `lang: ["it"]`). **Ma la finestra di ricerca è in inglese** ("Search", "Close search", "Filters", "1 result"): stringhe fisse nel JavaScript del tema, non traducibili da configurazione. Accettato da Franco come limite noto (bozza di issue 1) |
+| Italian interface and search | Search for an Italian term | ⚠️ **parziale** | Browser: la ricerca di "perspicuità" trova la pagina e il termine è evidenziato all'apertura (`search.json` con `lang: ["it"]`). **Ma la finestra di ricerca è in inglese** ("Search", "Close search", "Filters", "1 result"): stringhe fisse nel JavaScript del tema, non traducibili da configurazione. Limitazione nota e voluta da Zensical (issue [#16](https://github.com/zensical/zensical/issues/16), avviso nella documentazione). Accettata da Franco come limite noto |
 | Scale | Large section | ✅ | CI locale: 400 pagine generate, build strict pulito (`--clean`) in **2,2 s** (limite concordato 60 s, da confermare sul runner GitHub). Sidebar: controllo automatico (`check_sidebar.py`) e browser: dalla sezione `funzioni/` sono visibili 5 link e nessuno verso `scala/`; da `scala/` 401 link e nessuno verso `funzioni/` |
 
 ## Interfaccia in italiano: dettaglio
@@ -39,7 +39,7 @@ impostato in `mkdocs.yml`). Restano in inglese:
 
 | Stringa | Dove | Rimedio |
 |---|---|---|
-| "Search", "Close search", "Filters", "N result(s)" | finestra di ricerca | nessuno da configurazione; bozza di issue 1 |
+| "Search", "Close search", "Filters", "N result(s)" | finestra di ricerca | nessuno da configurazione; localizzazione rinviata da Zensical per scelta (issue #16): nessuna issue da aprire |
 | "Tabs" | `aria-label` dei tab di navigazione | traduzione mancante nel tema; bozza di issue 2 |
 | "Could not copy to clipboard" | errore della copia | traduzione mancante nel tema; bozza di issue 2 |
 | "Made with Zensical" | footer | si toglie con `extra.generator: false` (stessa opzione di Material): da decidere nella revisione grafica |

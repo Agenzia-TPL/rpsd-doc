@@ -9,13 +9,20 @@ Il testo delle issue è in inglese, la lingua del progetto upstream.
 
 | # | Titolo | Impatto per rpsd-doc | Stato |
 |---|---|---|---|
-| 1 | Search dialog strings are not localized | Requisito *Italian interface and search* soddisfatto solo in parte | bozza |
+| 1 | Search dialog strings are not localized | Requisito *Italian interface and search* soddisfatto solo in parte | **non pubblicare**: già nota, vedi sotto |
 | 2 | Italian translation incomplete (`tabs`, `clipboard.error`) | Due stringhe minori in inglese | bozza |
 | 3 | Copy of annotated code keeps trailing whitespace | Cosmetico; prima di aprirla confrontare con Material | da verificare |
 
 ---
 
 ## 1. Search dialog strings are not localized
+
+> **Non pubblicare (decisione di Franco, 13 novembre 2026).** Il problema è già noto: issue
+> [#16](https://github.com/zensical/zensical/issues/16), chiusa a novembre 2025. I maintainer hanno
+> tradotto il pulsante di ricerca e dichiarato che la finestra di ricerca **non è localizzata per
+> scelta** finché l'interfaccia è in evoluzione; la documentazione contiene un avviso in tal senso.
+> Ricontrollare a ogni aggiornamento di Zensical e comunque entro fine febbraio 2027.
+> La bozza resta qui solo come riferimento.
 
 **Environment**: zensical 0.1.1, zensical-ui 0.0.42, configuration in `mkdocs.yml`.
 
