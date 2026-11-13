@@ -30,7 +30,7 @@ decisione: design del sito §2.1 e decisione aperta n. 1 del §10.
 | Mathematical formulas | Indicator formula | ✅ | Browser: MathJax compone la formula inline e quella in blocco; nessun sorgente LaTeX visibile |
 | Diagrams from text | Flow diagram | ✅ | Browser: flowchart e sequence diagram resi come SVG e leggibili in schema chiaro e scuro |
 | Italian interface and search | Search for an Italian term | ⚠️ **parziale** | Browser: la ricerca di "perspicuità" trova la pagina e il termine è evidenziato all'apertura (`search.json` con `lang: ["it"]`). **Ma la finestra di ricerca è in inglese** ("Search", "Close search", "Filters", "1 result"): stringhe fisse nel JavaScript del tema, non traducibili da configurazione. Limitazione nota e voluta da Zensical (issue [#16](https://github.com/zensical/zensical/issues/16), avviso nella documentazione). Accettata da Franco come limite noto |
-| Scale | Large section | ✅ | CI locale: 400 pagine generate, build strict pulito (`--clean`) in **2,2 s** (limite concordato 60 s, da confermare sul runner GitHub). Sidebar: controllo automatico (`check_sidebar.py`) e browser: dalla sezione `funzioni/` sono visibili 5 link e nessuno verso `scala/`; da `scala/` 401 link e nessuno verso `funzioni/` |
+| Scale | Large section | ✅ | CI locale: 400 pagine generate, build strict pulito (`--clean`) in **2,2 s** (limite concordato 60 s; sul runner GitHub 3,5 s). Sidebar: controllo automatico (`check_sidebar.py`) e browser: dalla sezione `funzioni/` sono visibili 5 link e nessuno verso `scala/`; da `scala/` 401 link e nessuno verso `funzioni/` |
 
 ## Interfaccia in italiano: dettaglio
 
@@ -83,4 +83,6 @@ run su GitHub, dopo i passi manuali del README.
 | Deploy da push su `main` | ✅ run 43417096737: build strict 21 s, pubblicazione 9 s |
 | Sito online | ✅ https://agenzia-tpl.github.io/rpsd-doc/ con `lang="it"`; le pagine dello spike non sono pubblicate (`/funzioni/` → 404) |
 | Protezione di `main` | ✅ controlli obbligatori "Build strict del sito" e "Spike (scala, sidebar, link rotti)"; push forzati e cancellazione bloccati |
-| Controlli sulla PR di prova `report-ci` | in corso |
+| Controlli sulla PR di prova [#1](https://github.com/Agenzia-TPL/rpsd-doc/pull/1) | ✅ "Build strict del sito" 19 s e "Spike (scala, sidebar, link rotti)" 18 s, entrambi segnalati da GitHub come obbligatori |
+| Scala sul runner `ubuntu-latest` | ✅ 400 pagine, build strict pulito in **3,5 s** (limite 60 s); controllo sidebar OK |
+| Link rotti in CI | ✅ `check_broken_link.py`: build strict fallito con exit 1, 2 link rotti segnalati con pagina, riga e link |
