@@ -29,8 +29,8 @@ Lavoro sul branch locale `add-content-conventions`. Se un requisito non è soddi
 
 ## 6. Verifica finale
 
-- [ ] 6.1 Da clone pulito del branch: `zensical build --strict`, `check_navigation.py`, `check_conventions.py --commits main`, `check_urls.py main`, `test_conventions.py`, `spike.py --scale`, `check_broken_link.py`, `check_new_subsection.py`; controllo nel browser della home e di una sezione (callout `note`); verifica: tutti i comandi con l'esito atteso, nessun warning
-- [ ] 6.2 Commit sul branch `add-content-conventions` (nessun push); verifica: `git status` pulito
+- [x] 6.1 Da clone pulito del branch: `zensical build --strict`, `check_navigation.py`, `check_conventions.py --commits main`, `check_urls.py main`, `test_conventions.py`, `spike.py --scale`, `check_broken_link.py`, `check_new_subsection.py`; controllo nel browser della home e di una sezione (callout `note`); verifica: tutti i comandi con l'esito atteso, nessun warning
+- [x] 6.2 Commit sul branch `add-content-conventions` (nessun push); verifica: `git status` pulito
 
 ## Workflow follow-up
 
