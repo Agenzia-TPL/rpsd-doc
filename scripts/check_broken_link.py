@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
-from spike import copy_assets, zensical  # noqa: E402
+from spike import copy_assets, copy_site_sources, zensical  # noqa: E402
 
 ANSI = re.compile(r"\x1b\[[0-9;]*m")
 
@@ -43,7 +43,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         tmp_root = Path(tmp)
         # Stessa struttura relativa dello spike: tmp/spike/{mkdocs.yml,docs}, tmp/mkdocs.yml
-        shutil.copy(ROOT / "mkdocs.yml", tmp_root / "mkdocs.yml")
+        copy_site_sources(tmp_root)  # mkdocs.yml e overrides/ servono allo spike ereditato
         spike = tmp_root / "spike"
         shutil.copytree(ROOT / "spike" / "docs", spike / "docs", ignore=shutil.ignore_patterns("scala"))
         shutil.copy(ROOT / "spike" / "mkdocs.yml", spike / "mkdocs.yml")

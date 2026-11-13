@@ -1,0 +1,25 @@
+{#-
+  Avviso sulle versioni di profilo non correnti (capability profile-versioning).
+  Per ogni pagina sotto <profilo>/<versione>/ con versione diversa dalla corrente,
+  aggiunge in testa un callout con lo stato e il link alla versione corrente.
+  Dati: config.extra.profili in mkdocs.yml.
+  Solo costrutti comuni al motore di template di Zensical e a Jinja2 (Material):
+  niente metodi Python sulle stringhe, sì a dictsort, slicing e concatenazione con ~.
+-#}
+{% extends "base.html" %}
+{% block content %}
+  {% for nome, profilo in (config.extra.profili or {})|dictsort %}
+    {% for versione, stato in profilo.versioni|dictsort %}
+      {% set prefisso = nome ~ "/" ~ versione ~ "/" %}
+      {% if page.url[:prefisso|length] == prefisso and versione != profilo.corrente %}
+        <div class="admonition warning avviso-versione">
+          <p class="admonition-title">Versione {{ stato }} del profilo</p>
+          <p>Questa pagina documenta il profilo {{ profilo.titolo }} {{ versione }}, che non è la
+          versione corrente. Versione corrente:
+          <a href="{{ base_url }}/{{ nome }}/{{ profilo.corrente }}/">{{ profilo.titolo }} {{ profilo.corrente }}</a>.</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+  {{ super() }}
+{% endblock %}

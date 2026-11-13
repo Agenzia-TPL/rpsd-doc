@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parent.parent
 SPIKE = ROOT / "spike"
 SPIKE_CONFIG = SPIKE / "mkdocs.yml"
 SCALE_LIMIT_S = 60.0  # limite concordato (proposal di bootstrap-site)
+# Sorgenti che servono per costruire il sito: aggiornare qui se se ne aggiungono.
+SITE_SOURCES = ["mkdocs.yml", "docs", "overrides"]
 
 
 def zensical() -> str:
@@ -31,6 +33,50 @@ def zensical() -> str:
     if not found:
         sys.exit("zensical non trovato: attivare il .venv o installare requirements.txt")
     return found
+
+
+def load_config(path: Path) -> dict:
+    """mkdocs.yml letto con PyYAML, ignorando i tag !!python/... (non servono qui)."""
+    import yaml
+
+    class Loader(yaml.SafeLoader):
+        pass
+
+    Loader.add_multi_constructor("tag:yaml.org,2002:python/", lambda loader, suffix, node: None)
+    return yaml.load(path.read_text(encoding="utf-8"), Loader=Loader) or {}
+
+
+def normalized_plugins(config: dict, drop_redirect_maps: bool) -> list:
+    out = []
+    for item in config.get("plugins", []):
+        if isinstance(item, dict):
+            name, opts = next(iter(item.items()))
+            opts = dict(opts or {})
+            if drop_redirect_maps and name == "redirects":
+                opts.pop("redirect_maps", None)
+            out.append((name, opts))
+        else:
+            out.append((item, {}))
+    return sorted(out, key=lambda x: x[0])
+
+
+def check_plugins_in_sync() -> None:
+    """I plugin dello spike devono coincidere con quelli del sito, salvo redirect_maps."""
+    site = normalized_plugins(load_config(ROOT / "mkdocs.yml"), drop_redirect_maps=True)
+    spike = normalized_plugins(load_config(SPIKE_CONFIG), drop_redirect_maps=True)
+    if site != spike:
+        sys.exit("I plugin di spike/mkdocs.yml non coincidono con quelli di mkdocs.yml "
+                 f"(a parte redirect_maps):\n  sito:  {site}\n  spike: {spike}")
+
+
+def copy_site_sources(dest: Path, root: Path = ROOT) -> None:
+    """Copia in dest i sorgenti necessari a costruire il sito (per i controlli su copie temporanee)."""
+    for name in SITE_SOURCES:
+        src = root / name
+        if src.is_dir():
+            shutil.copytree(src, dest / name)
+        elif src.exists():
+            shutil.copy(src, dest / name)
 
 
 def copy_assets() -> None:
@@ -58,6 +104,7 @@ def main() -> None:
     parser.add_argument("--scale", action="store_true", help="genera 400 pagine e verifica tempo e sidebar")
     args = parser.parse_args()
 
+    check_plugins_in_sync()
     copy_assets()
     if not args.scale:
         build()
