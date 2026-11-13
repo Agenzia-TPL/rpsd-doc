@@ -171,6 +171,14 @@ class Glossary(Fixture):
     def test_code_and_headings_are_ignored(self):
         self.assertEqual(self.check(f"## Il PdE\n\nIl campo `PdE` e poi il {GLOSSARY_LINK}."), [])
 
+    def test_callout_title_is_ignored(self):
+        body = f'!!! note "Il PdE"\n\n    Il {GLOSSARY_LINK} nel testo del callout.'
+        self.assertEqual(self.check(body), [])
+
+    def test_callout_body_counts(self):
+        body = f'!!! note "Nota"\n\n    Il PdE nel testo.\n\nPoi il {GLOSSARY_LINK}.'
+        self.assertEqual(self.check(body), ["S1"])
+
     def test_term_not_marked_as_acronym_is_free(self):
         self.assertEqual(self.check("Il Frame contiene dati."), [])
 
