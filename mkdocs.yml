@@ -39,6 +39,10 @@ plugins:
   # search è elencato esplicitamente: con `plugins` presente, MkDocs/Material
   # disattiverebbe la ricerca se mancasse. awesome-nav è integrato in Zensical.
   - search
+  # URL stabili: spostando o rinominando una pagina pubblicata, aggiungere qui
+  # vecchio/percorso.md: nuovo/percorso.md (controllato da scripts/check_urls.py).
+  - redirects:
+      redirect_maps: {}
   - awesome-nav:
       logs:
         # TODO: riportare a `warning` quando ogni sezione che usa "*" nel proprio
