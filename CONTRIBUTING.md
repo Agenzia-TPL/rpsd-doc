@@ -92,8 +92,35 @@ Tab e sidebar sono definiti dai file `.nav.yml` di ogni cartella: vedi la sezion
 ## Profili versionati
 
 `docs/netex/<versione>/` e `docs/siri/<versione>/` contengono una copia congelata per
-versione di profilo: una versione non corrente non si modifica, salvo errata. Una
-nuova versione è una nuova cartella (`CLAUDE.md`, design §2.3).
+versione di profilo (`CLAUDE.md`, design §2.3, spec `profile-versioning`).
+
+- La versione corrente e lo stato di ogni versione (corrente, precedente, ritirata)
+  stanno in `mkdocs.yml`, sotto `extra.profili`.
+- La sidebar mostra solo la versione corrente; le altre si raggiungono dall'elenco
+  versioni in `docs/<profilo>/index.md`.
+- Le pagine delle versioni non correnti ricevono in automatico un avviso con il link
+  alla versione corrente (override del template in `overrides/main.html`): non si
+  scrive a mano.
+- `netex/corrente/` e `siri/corrente/` portano alla versione corrente.
+
+**Una versione non corrente non si modifica**, salvo errata: un commit che la tocca
+deve avere il trailer `Errata: <motivo>`. Una revisione del profilo è una nuova
+cartella.
+
+**Pubblicare una nuova versione** (es. NeTEx 5.1.0 dopo 5.0.0):
+
+1. creare `docs/netex/5.1.0/` con le sue pagine e il suo `.nav.yml` (la cartella
+   `5.0.0/` non si tocca);
+2. in `mkdocs.yml`, `extra.profili.netex`: `corrente: "5.1.0"`, `"5.1.0": corrente`,
+   `"5.0.0": precedente`;
+3. in `docs/netex/.nav.yml` sostituire la voce della versione con `Profilo 5.1.0: 5.1.0`,
+   e in `redirect_maps` far puntare `netex/corrente/index.md` a `netex/5.1.0/index.md`;
+4. in `docs/netex/index.md` aggiungere la riga della 5.1.0 e cambiare lo stato della
+   5.0.0 in `precedente`.
+
+Se manca un passo, il controllo fallisce indicando quale.
+
+Controllo: `scripts/check_versions.py` (regole V1–V7).
 
 ## Contenuti e fonti
 
@@ -108,7 +135,9 @@ zensical build --strict
 python scripts/check_navigation.py
 python scripts/check_conventions.py --commits origin/main
 python scripts/check_urls.py origin/main
+python scripts/check_versions.py --site site --commits origin/main
 python scripts/test_conventions.py
+python scripts/test_versions.py
 ```
 
 Gli altri controlli della CI sono elencati nel [README](README.md).
