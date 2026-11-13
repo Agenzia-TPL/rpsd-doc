@@ -280,7 +280,7 @@ indicatori/
 ├── catalogo/
 │   ├── index.md      # riepilogo generato
 │   └── <codice>.md   # una pagina per indicatore, generata
-└── matrice.md        # indicatori × dataset, generata
+└── matrice/          # indicatori × dataset, generata (index.md, URL /indicatori/matrice/)
 ```
 
 La pagina di indicatore generale segue il template v0.1 con due vincoli, coerenti con il catalogo: **nessuna soglia numerica e nessun riferimento ad allegati di gara** (solo normativa valida per tutti i contratti, es. delibera ART 53/2024); granularità di calcolo e di aggregazione sempre dichiarate. In fondo, blocco generato "Contratti che applicano questo indicatore" (vedi §7 per il vincolo sui contratti riservati).
@@ -430,7 +430,7 @@ rpsd-doc/
 │   ├── indicatori/
 │   │   ├── delibera/           # redazionale
 │   │   ├── catalogo/           # GENERATO
-│   │   └── matrice.md          # GENERATO
+│   │   └── matrice/            # GENERATO (index.md)
 │   ├── guida/                  # redazionale
 │   ├── contratti/              # GENERATO — secondo step
 │   ├── validazione/            # GENERATO — secondo step, solo ipotesi B
@@ -532,7 +532,7 @@ validation rule catalog, the ART indicators, and one section per service contrac
   version is a new folder, not an edit of the existing one.
 
 ## Hand-written vs generated
-- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice.md and,
+- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice/ and,
   once they exist (second step), docs/contratti/ and docs/validazione/.
   They are produced by rpsd-tools doc-gen from the bundles in data/ using templates/.
 - To change generated content: change the config (source of truth), re-export the

@@ -22,9 +22,11 @@ ART indicators and, in a later step, one section per service contract.
   version is a new folder, not an edit of the existing one.
 
 ## Hand-written vs generated
-- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice.md and,
+- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice/ and,
   once they exist (second step), docs/contratti/ and docs/validazione/.
   They are produced by rpsd-tools from data files in data/ using templates/.
+  The authoritative list is generated-paths.txt; commits touching those paths
+  must carry the trailer "Generato-da: rpsd-tools <version>" (checked in CI).
 
 ## Conventions
 - Language: Italian (content), English (technical terms from standards)

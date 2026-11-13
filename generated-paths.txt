@@ -1,0 +1,8 @@
+# Cartelle che contengono solo pagine generate da rpsd-tools (design del sito §3).
+# Sono sovrascritte per intero a ogni generazione: non si modificano a mano.
+# Ogni commit che le tocca deve avere il trailer "Generato-da: rpsd-tools <versione>".
+# Letto da scripts/check_conventions.py. Un percorso non ancora esistente è ammesso.
+docs/indicatori/catalogo/
+docs/indicatori/matrice/
+docs/contratti/      # secondo step
+docs/validazione/    # secondo step, solo ipotesi B (catalogo generale delle regole)
