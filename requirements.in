@@ -1,0 +1,4 @@
+# Dipendenze dirette. Il lock completo è requirements.txt:
+# rigenerarlo da un .venv pulito con
+#   pip install -r requirements.in && pip freeze > requirements.txt
+zensical==0.1.1

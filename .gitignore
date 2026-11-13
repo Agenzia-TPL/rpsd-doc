@@ -1,0 +1,12 @@
+# Ambiente Python
+.venv/
+__pycache__/
+
+# Output di build e cache di Zensical
+site/
+.cache/
+
+# Spike: output e file generati o copiati da scripts/
+spike/site/
+spike/docs/scala/
+spike/docs/assets/

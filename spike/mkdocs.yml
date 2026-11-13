@@ -1,0 +1,6 @@
+# Configurazione dello spike: eredita tema ed estensioni dal sito.
+# Pagine di prova non normative, NON pubblicate. Build: python scripts/spike.py
+INHERIT: ../mkdocs.yml
+site_name: rpsd-doc — Spike funzioni di rendering
+docs_dir: docs
+site_dir: site

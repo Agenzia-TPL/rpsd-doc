@@ -1,0 +1,61 @@
+# Configurazione del sito rpsd-doc, letta da Zensical (fase 1: niente zensical.toml).
+# Opzioni verificate sulla documentazione Zensical: vedi
+# openspec/changes/bootstrap-site/design.md, tabella "Verifiche".
+# Navigazione: nessun `nav` qui; arriva per directory con il change add-directory-navigation.
+
+site_name: Rapsodia — Documentazione
+site_description: Documentazione dei profili NeTEx e SIRI italiani e degli indicatori ART per Rapsodia
+site_url: https://example.invalid/rpsd-doc/  # TODO: fissare alla creazione del repo remoto
+repo_url: https://example.invalid/rpsd-doc   # TODO: fissare alla creazione del repo remoto
+docs_dir: docs
+
+theme:
+  name: material
+  variant: classic
+  language: it
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: lucide/sun
+        name: Passa allo schema scuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: lucide/moon
+        name: Passa allo schema chiaro
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    # navigation.expand deliberatamente assente (design del sito §2.2)
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+      permalink_title: Link permanente
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
