@@ -24,8 +24,8 @@ Lavoro sul branch locale `add-directory-navigation`. Se uno scenario di `site-na
 
 ## 5. Verifica finale
 
-- [ ] 5.1 Build finale da clone pulito del branch: `zensical build --strict`, `python scripts/check_navigation.py`, `python scripts/spike.py --scale`, `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py`; controllo nel browser delle pagine toccate (home, le quattro sezioni, pagina profonda dello spike) in schema chiaro; verifica: tutti i comandi con l'esito atteso, nessun warning, tab e sidebar come da spec
-- [ ] 5.2 Commit sul branch `add-directory-navigation` (nessun push); verifica: `git status` pulito
+- [x] 5.1 Build finale da clone pulito del branch: `zensical build --strict`, `python scripts/check_navigation.py`, `python scripts/spike.py --scale`, `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py`; controllo nel browser delle pagine toccate (home, le quattro sezioni, pagina profonda dello spike) in schema chiaro; verifica: tutti i comandi con l'esito atteso, nessun warning, tab e sidebar come da spec
+- [x] 5.2 Commit sul branch `add-directory-navigation` (nessun push); verifica: `git status` pulito
 
 ## Workflow follow-up
 
