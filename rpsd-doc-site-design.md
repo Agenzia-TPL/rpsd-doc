@@ -511,7 +511,7 @@ Allineato alle scadenze di progetto (config con pilot a fine novembre 2026, part
 | 5 | Pubblicare indicatori base e di qualità/trasmissione, o solo ART | Franco, responsabile |
 | 6 | Quali documenti contrattuali sono pubblicabili come file e quali solo citati | Agenzia |
 | 7 | Formule nelle pagine di contratto: con parametri risolti (proposta) o solo rimando alla definizione generale | Franco |
-| 8 | Soluzione di hosting per i contratti riservati | Franco, Mindicity |
+| 8 | Soluzione di hosting per i contratti riservati | — |
 
 
 ## 11. Note per l'implementazione con Claude Code
