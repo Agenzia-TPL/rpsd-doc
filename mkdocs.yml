@@ -5,8 +5,8 @@
 
 site_name: Rapsodia — Documentazione
 site_description: Documentazione dei profili NeTEx e SIRI italiani e degli indicatori ART per Rapsodia
-site_url: https://example.invalid/rpsd-doc/  # TODO: fissare alla creazione del repo remoto
-repo_url: https://example.invalid/rpsd-doc   # TODO: fissare alla creazione del repo remoto
+site_url: https://agenzia-tpl.github.io/rpsd-doc/
+repo_url: https://github.com/Agenzia-TPL/rpsd-doc
 docs_dir: docs
 
 theme:
