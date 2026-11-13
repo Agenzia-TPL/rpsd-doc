@@ -37,6 +37,8 @@ Implementa `rpsd-doc-site-design.md`:
 - **Pagine segnaposto pubblicate** per le quattro sezioni, così i tab sono visibili subito (scelta di Franco).
 - **`navigation.prune` non adottato per ora** (scelta di Franco): con prune le pagine fuori da una sezione grande si alleggeriscono molto (da 152 KB a 34 KB nella prova con 400 pagine), ma i rami chiusi della sidebar diventano link invece di espandersi sul posto. Si rivaluta quando arrivano le sezioni generate (catalogo indicatori, contratti).
 
+- **`navigation.sections` tolto** (deciso in apply, scelta di Franco): con la feature i gruppi di secondo livello restano sempre aperti e il requisito *Sidebar limited to the current context* non è soddisfatto. Modifica al design del sito §2.2 (design D7).
+
 Nessun requisito aggiunto rispetto al seed §4.2.
 
 ## Fuori scope
@@ -49,7 +51,7 @@ Nessun requisito aggiunto rispetto al seed §4.2.
 
 ## Impact
 
-- File modificati: `mkdocs.yml` (sezione `plugins`), `.github/workflows/pr.yml`, `README.md`, `scripts/check_sidebar.py`.
+- File modificati: `mkdocs.yml` (sezione `plugins`, feature `navigation.sections` tolta), `rpsd-doc-site-design.md` (§2.2), `.github/workflows/pr.yml`, `README.md`, `scripts/check_sidebar.py`.
 - File nuovi: `docs/.nav.yml`, `docs/{netex,siri,indicatori,guida}/index.md` e `.nav.yml`, pagine di prova a tre livelli in `spike/docs/`, script di controllo in `scripts/`.
 - Dipendenze: nessuna nuova per Zensical (awesome-nav è integrato). In caso di piano B con Material servirebbe il pacchetto `mkdocs-awesome-nav`.
 - URL pubblicati nuovi: `/netex/`, `/siri/`, `/indicatori/`, `/guida/`. Sono stabili: i change successivi ne sostituiscono il contenuto, non il percorso.

@@ -4,7 +4,7 @@
 
 Motivazione e perimetro: `proposal.md`. Requisiti: `specs/site-navigation/spec.md` (seed §4.2 senza modifiche).
 
-Stato attuale (dopo `bootstrap-site`): `mkdocs.yml` senza `plugins` e senza `nav`; feature del tema `navigation.tabs`, `navigation.sections`, `navigation.indexes`, senza `navigation.expand`; `docs/` contiene solo `index.md` e `assets/`. Lo spike (`spike/mkdocs.yml`) eredita la configurazione con `INHERIT`. `scripts/check_sidebar.py` verifica già, sullo spike, che la sezione attiva contenga solo le proprie pagine.
+Stato attuale (dopo `bootstrap-site`): `mkdocs.yml` senza `plugins` e senza `nav`; feature del tema `navigation.tabs`, `navigation.sections`, `navigation.indexes`, senza `navigation.expand` (`navigation.sections` viene tolto da questo change, vedi D7); `docs/` contiene solo `index.md` e `assets/`. Lo spike (`spike/mkdocs.yml`) eredita la configurazione con `INHERIT`. `scripts/check_sidebar.py` verifica già, sullo spike, che la sezione attiva contenga solo le proprie pagine.
 
 ### Verifiche fatte in fase di proposta (13 novembre 2026)
 
@@ -38,10 +38,14 @@ Fonti: codice di Zensical 0.1.1 (`zensical/config.py`) = **codice**; documentazi
 ```yaml
 plugins:
   - search
-  - awesome-nav
+  - awesome-nav:
+      logs:
+        no_matches: info   # temporaneo, vedi sotto
 ```
 
-`search` è elencato esplicitamente per reversibilità: in MkDocs/Material la presenza di `plugins` disattiva i plugin di default non elencati. Nessuna opzione per `awesome-nav` (i default `filename: .nav.yml` vanno bene). Nessuna modifica a `requirements.txt`.
+`search` è elencato esplicitamente per reversibilità: in MkDocs/Material la presenza di `plugins` disattiva i plugin di default non elencati. Nessuna modifica a `requirements.txt`.
+
+**Aggiornato in apply (scelta di Franco, opzione 1):** `awesome-nav` ha una sola opzione impostata, `logs.no_matches: info`. Un `"*"` che non trova nulla genera di default un warning e il build strict fallisce; le sezioni segnaposto hanno solo `index.md`, quindi il loro `"*"` (convenzione D3) non trova nulla. Con `info` il messaggio resta nel log ma non blocca. **Temporaneo**: va riportato a `warning` quando ogni sezione con `"*"` ha almeno una pagina oltre a `index.md` (dopo i change 8 e 9); annotato con un `TODO` in `mkdocs.yml` e in `openspec/seed.md` §5.
 *Piano B*: con Material va aggiunto a `requirements.in` il pacchetto `mkdocs-awesome-nav`.
 
 ### D2. `.nav.yml` della radice: i tab
@@ -85,6 +89,12 @@ Eccezione prevista: i `.nav.yml` di `netex/` e `siri/` nel change 4 elencheranno
 
 La pagina profonda sta nello spike perché il sito reale non ha ancora pagine a tre livelli; la struttura dei `.nav.yml` dello spike segue la convenzione D3.
 
+### D7. Niente `navigation.sections` (aggiunta in apply, scelta di Franco)
+
+Con `navigation.sections` i gruppi di secondo livello della sidebar sono resi come intestazioni sempre aperte, indipendentemente dalla pagina corrente: su una pagina di `navigazione/ramo-a/livello-2/` dello spike il ramo fratello "Ramo B" resta aperto con tutte le sue pagine (verificato nel browser), contro il requisito *Sidebar limited to the current context*. Senza la feature i gruppi di secondo livello diventano voci richiudibili: antenati della pagina aperti, rami fratelli chiusi. Material si comporta allo stesso modo.
+Costo: solo estetico, si perdono i titoli in grassetto dei gruppi di secondo livello. Aggiornato di conseguenza il design del sito §2.2.
+Il controllo automatico tratta come aperto un ramo con `aria-expanded="true"` **oppure** reso come sezione (`md-nav__item--section`), perché con `navigation.sections` l'attributo resta `false` anche quando il gruppo è visibile: la prima versione del controllo dava un falso positivo per questo motivo.
+
 ### D6. README
 
 Sezione "Navigazione": la radice definisce i tab; ogni cartella ha il proprio `.nav.yml` che termina con `"*"`; per aggiungere una sottosezione basta creare la cartella con pagine e `.nav.yml`. Le regole complete di scrittura arrivano con la pagina "come contribuire" (change 3).
@@ -95,6 +105,7 @@ Sezione "Navigazione": la radice definisce i tab; ogni cartella ha il proprio `.
 - [Le pagine segnaposto vengono indicizzate e linkate] → URL stabili e contenuto neutro; i change successivi ne sostituiscono il testo, non il percorso.
 - [Senza `navigation.prune` le pagine crescono con il numero di pagine del sito] → misurato e accettato per ora (proposal); da rivalutare con le sezioni generate.
 - [Formato `.nav.yml` interpretato dal Rust di Zensical, non dal plugin originale] → i controlli in CI lo intercettano; prima di un aggiornamento di Zensical si rilancia lo spike.
+- [Una voce del `.nav.yml` che punta a una cartella inesistente viene ignorata in silenzio: un errore di battitura fa sparire un tab o una sezione senza warning] → verificato in apply: l'opzione `logs.no_matches` di awesome-nav non copre questo caso (segnala solo i pattern senza corrispondenze) e, impostata a `warning`, farebbe fallire il build strict sulle sezioni che oggi hanno solo `index.md` e `"*"`. Non si usa; i tab sono controllati da `check_navigation.py`.
 - [Piano B] → con Material serve `mkdocs-awesome-nav`; i `.nav.yml` usati (voci, titolo, `"*"`) appartengono al formato del plugin originale.
 
 ## Migration Plan
