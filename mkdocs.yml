@@ -11,6 +11,8 @@ docs_dir: docs
 
 theme:
   name: material
+  # Override del template: avviso sulle versioni di profilo non correnti (overrides/main.html)
+  custom_dir: overrides
   variant: classic
   language: it
   palette:
@@ -42,7 +44,10 @@ plugins:
   # URL stabili: spostando o rinominando una pagina pubblicata, aggiungere qui
   # vecchio/percorso.md: nuovo/percorso.md (controllato da scripts/check_urls.py).
   - redirects:
-      redirect_maps: {}
+      redirect_maps:
+        # Alias della versione corrente dei profili (profile-versioning)
+        netex/corrente/index.md: netex/5.0.0/index.md
+        siri/corrente/index.md: siri/1.0.5/index.md
   - awesome-nav:
       logs:
         # TODO: riportare a `warning` quando ogni sezione che usa "*" nel proprio
@@ -76,3 +81,19 @@ markdown_extensions:
 extra_javascript:
   - assets/javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+# Versioni dei profili documentate (profile-versioning). Unico punto da aggiornare
+# quando cambia la versione corrente: vedi CONTRIBUTING.md, "Profili versionati".
+# Stati ammessi: corrente, precedente, ritirata. Controllato da scripts/check_versions.py.
+extra:
+  profili:
+    netex:
+      titolo: NeTEx
+      corrente: "5.0.0"
+      versioni:
+        "5.0.0": corrente
+    siri:
+      titolo: SIRI
+      corrente: "1.0.5"
+      versioni:
+        "1.0.5": corrente

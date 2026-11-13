@@ -198,9 +198,8 @@ class StableUrls(unittest.TestCase):
         base = Path(self.tmp.name)
         self.base, self.head = base / "base", base / "head"
         for d in (self.base, self.head):
-            (d / "docs").mkdir(parents=True)
-            (d / "mkdocs.yml").write_text((ROOT / "mkdocs.yml").read_text(encoding="utf-8"), encoding="utf-8")
-            (d / "docs" / "index.md").write_text("# Home\n", encoding="utf-8")
+            d.mkdir()
+            cu.copy_site_sources(d, ROOT)  # sito reale: configurazione, override, pagine
         (self.base / "docs" / "vecchia.md").write_text("# Pagina\n", encoding="utf-8")
         (self.head / "docs" / "nuova").mkdir()
         (self.head / "docs" / "nuova" / "pagina.md").write_text("# Pagina\n", encoding="utf-8")
@@ -219,9 +218,10 @@ class StableUrls(unittest.TestCase):
     def test_moved_page_with_redirect_passes(self):
         config = self.head / "mkdocs.yml"
         text = config.read_text(encoding="utf-8")
-        self.assertIn("redirect_maps: {}", text)
-        config.write_text(text.replace("redirect_maps: {}",
-                                       "redirect_maps:\n        vecchia.md: nuova/pagina.md"), encoding="utf-8")
+        self.assertIn("      redirect_maps:\n", text)
+        config.write_text(text.replace("      redirect_maps:\n",
+                                       "      redirect_maps:\n        vecchia.md: nuova/pagina.md\n", 1),
+                          encoding="utf-8")
         self.assertEqual(self.lost(), [])
         redirect = (self.head / "site" / "vecchia" / "index.html").read_text(encoding="utf-8")
         self.assertIn("../nuova/pagina/", redirect)

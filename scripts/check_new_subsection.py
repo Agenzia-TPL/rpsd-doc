@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -24,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from check_sidebar import hrefs, primary_nav, top_level_items  # noqa: E402
-from spike import zensical  # noqa: E402
+from spike import copy_site_sources, zensical  # noqa: E402
 
 SECTION = "guida"
 SUBSECTION = "prova-sottosezione"
@@ -46,8 +45,7 @@ def main() -> int:
     problems = []
     with tempfile.TemporaryDirectory() as tmp:
         tmp_root = Path(tmp)
-        shutil.copy(ROOT / "mkdocs.yml", tmp_root / "mkdocs.yml")
-        shutil.copytree(ROOT / "docs", tmp_root / "docs")
+        copy_site_sources(tmp_root)
         if args.without_glob:
             nav = tmp_root / "docs" / SECTION / ".nav.yml"
             nav.write_text(nav.read_text(encoding="utf-8").replace('  - "*"\n', ""), encoding="utf-8")

@@ -72,8 +72,8 @@ integrato in Zensical); `mkdocs.yml` non contiene `nav`.
   sidebar, senza alcun avviso.
 - Per aggiungere una sottosezione basta creare la cartella con le pagine e il suo
   `.nav.yml`: non serve toccare `mkdocs.yml` né il `.nav.yml` del livello superiore.
-- Eccezione prevista: `netex/` e `siri/` elencheranno solo la versione corrente del
-  profilo, senza `"*"` (change `add-profile-versioning`).
+- Eccezione: `docs/netex/.nav.yml` e `docs/siri/.nav.yml` elencano solo la versione
+  corrente del profilo, senza `"*"` (vedi CONTRIBUTING.md, "Profili versionati").
 
 Nota: finché le sezioni contengono solo `index.md`, il loro `"*"` non trova nulla;
 per non bloccare il build strict `mkdocs.yml` imposta temporaneamente
@@ -103,7 +103,7 @@ GitHub:
 
 | Workflow | Quando | Cosa fa |
 |---|---|---|
-| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito, `python scripts/check_navigation.py` (tab), `python scripts/check_conventions.py --commits origin/<base>` (convenzioni di contenuto, vedi CONTRIBUTING.md) e `python scripts/check_urls.py origin/<base>` (URL stabili); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py` e `python scripts/test_conventions.py` (prove dei controlli). Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
+| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito, `python scripts/check_navigation.py` (tab), `python scripts/check_conventions.py --commits origin/<base>` (convenzioni di contenuto, vedi CONTRIBUTING.md), `python scripts/check_urls.py origin/<base>` (URL stabili) e `python scripts/check_versions.py --site site --commits origin/<base>` (versioni dei profili); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py`, `python scripts/test_conventions.py` e `python scripts/test_versions.py` (prove dei controlli). Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
 | `deploy.yml` | push su `main` (e avvio manuale) | job `build`: build strict e caricamento di `site/` come artifact di Pages; job `deploy`: pubblicazione su GitHub Pages. Se il build fallisce, `deploy` non parte e il sito pubblicato resta invariato |
 
 Per riprodurre i controlli in locale:
@@ -113,10 +113,12 @@ zensical build --strict
 python scripts/check_navigation.py
 python scripts/check_conventions.py --commits origin/main
 python scripts/check_urls.py origin/main
+python scripts/check_versions.py --site site --commits origin/main
 python scripts/spike.py --scale
 python scripts/check_broken_link.py
 python scripts/check_new_subsection.py
 python scripts/test_conventions.py
+python scripts/test_versions.py
 ```
 
 ### Passi manuali su GitHub (riservati a Franco)

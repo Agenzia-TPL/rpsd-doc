@@ -1,0 +1,4 @@
+# Navigazione della versione: voci ordinate prima di "*", poi tutto il resto.
+nav:
+  - index.md
+  - "*"

@@ -1,5 +1,6 @@
-# Navigazione della sezione: voci ordinate prima di "*", poi tutto il resto.
-# Una sottocartella nuova con il proprio .nav.yml compare senza modificare questo file.
+# Sidebar del profilo: solo la versione corrente (profile-versioning), quindi niente "*".
+# Le altre versioni restano pubblicate e si raggiungono dall'elenco in index.md.
+# Da aggiornare quando cambia la versione corrente (CONTRIBUTING.md, "Profili versionati").
 nav:
   - index.md
-  - "*"
+  - Profilo 5.0.0: 5.0.0
