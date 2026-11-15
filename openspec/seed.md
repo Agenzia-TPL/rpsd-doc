@@ -89,7 +89,8 @@ Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restrict
 | 2 | `add-directory-navigation` | Tab di primo livello e sidebar definite da `.nav.yml` | `site-navigation` |
 | 3 | `add-content-conventions` | Controlli in CI sulle convenzioni e pagina "come contribuire" | `content-conventions` |
 | 4 | `add-profile-versioning` | Scheletro `netex/5.0.0/`, `siri/1.0.5/`, pagine elenco versioni, avviso sulle versioni non correnti, alias `corrente` | `profile-versioning` |
-| 5 | `add-overview-pages` | Home, progetto, architettura, glossario, modello dati | `overview` |
+| 4b | `restructure-site-sections` | Tab Rapsodia, Architettura, Modello dati, Dashboard, Contratti (indice redazionale e segnaposto `esempio`); solo struttura, aggiunto il 14 novembre 2026 | `site-navigation`, `content-conventions` |
+| 5 | `add-overview-pages` | Contenuti di Rapsodia (home, progetto, glossario, novità), Architettura (sottosistemi e moduli), Modello dati, Dashboard | `overview` |
 | 6 | `add-netex-profile-docs` | Introduzione, concetti, una pagina per frame, esempi (NeTEx 5.0.0) | `profile-docs` |
 | 7 | `add-siri-profile-docs` | Introduzione, concetti, una pagina per servizio, esempi (SIRI 1.0.5) | `profile-docs` |
 | 8 | `add-indicator-catalog` | Pagine sulla delibera, catalogo generato, matrice | `indicator-catalog` |
@@ -335,6 +336,8 @@ Each profile version SHALL explain the concepts needed before reading the frame 
 
 ### 4.6 `overview`
 
+Riformulato il 14 novembre 2026 (change `restructure-site-sections`): pagine distribuite nei tab Rapsodia, Architettura e Modello dati. Nessun requisito sulla Dashboard finché il contenuto non è definito (decisione di Franco). Il diagramma del flusso potrà essere sostituito da un tipo di grafico che mostri anche App e IoT.
+
 ## ADDED Requirements
 
 ### Requirement: Landing page
@@ -344,12 +347,26 @@ The home page SHALL state in one screen what Rapsodia is and who the site is for
 - **WHEN** a reader opens the home page
 - **THEN** they see a one-sentence description, one entry point per main section, and the current versions of the NeTEx and SIRI profiles
 
-### Requirement: Project and architecture overview
-The site SHALL describe the project (goals, consortium, partners) and the high-level architecture with a diagram of the data flow, without implementation detail.
+### Requirement: Project overview
+The Rapsodia section SHALL describe the project: goals, consortium and partners.
 
-#### Scenario: Architecture page
-- **WHEN** a reader opens the architecture page
-- **THEN** a diagram shows the flow from the transport operators to the dashboards, with the role of each component in one or two sentences
+#### Scenario: Project page
+- **WHEN** a reader opens the project page
+- **THEN** they find the goals of the project and the consortium members and partners with their role
+
+### Requirement: Architecture by subsystem
+The Architettura section SHALL describe the platform as three subsystems, Core (A+D), App (B) and IoT (C), with one page per subsystem and a diagram of the data flow, without implementation detail.
+
+#### Scenario: Architecture landing page
+- **WHEN** a reader opens the Architettura section
+- **THEN** a diagram shows the data flow from the transport operators to the dashboards and each subsystem is introduced in one or two sentences with a link to its page
+
+### Requirement: Core functional modules
+The Core page SHALL list the functional modules of the Core, each with a short description and a link to its repository.
+
+#### Scenario: Module lookup
+- **WHEN** a reader opens the Core page
+- **THEN** each module has its name, what it does in one or two sentences and a working link to its repository
 
 ### Requirement: Glossary
 The site SHALL provide an alphabetical glossary of the domain terms used across the site.

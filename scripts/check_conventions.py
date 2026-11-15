@@ -6,12 +6,16 @@ Regole (design del change add-content-conventions):
   G2  ogni pagina con `generato: true` sta sotto un percorso generato
   G3  (con --commits BASE) ogni commit non di merge in BASE..HEAD che tocca un percorso
       generato ha il trailer "Generato-da: rpsd-tools <versione>"
+  G4  ogni pagina in un segnaposto dichiarato (riga "!" in generated-paths.txt) ha
+      `segnaposto: true` nel front matter e un callout "Contratto segnaposto"
   L1  le pagine redazionali non superano 1500 parole
   C1  i callout usano solo i tipi ammessi; danger e info solo con i titoli riservati
   S1  al primo uso in una pagina, ogni sigla del glossario è un link alla sua voce
       (esclusi titoli, titoli dei callout e codice)
 
-I percorsi generati sono in generated-paths.txt.
+I percorsi generati sono in generated-paths.txt: una riga per percorso; "*" vale un
+solo segmento (docs/contratti/*/ = ogni cartella di contratto); una riga che inizia
+con "!" dichiara un segnaposto scritto a mano dentro un percorso generato.
 
 Uso: python scripts/check_conventions.py [--commits BASE] [--root DIR]
 """
@@ -25,7 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 MAX_WORDS = 1500
-GLOSSARY = "docs/panoramica/glossario.md"
+GLOSSARY = "docs/rapsodia/glossario.md"
 TRAILER = "Generato-da"
 GENERATOR = "rpsd-tools"
 
@@ -37,7 +41,9 @@ RESERVED_CALLOUTS = {"danger": "Obbligatorio per KPI", "info": "Novità Rapsodia
 
 
 def load_generated_paths(root: Path) -> list[str]:
-    """Prefissi (relativi alla radice, con / finale) delle cartelle generate."""
+    """Percorsi (relativi alla radice, con / finale) di generated-paths.txt.
+
+    I segnaposto dichiarati mantengono il "!" iniziale."""
     paths = []
     for line in (root / "generated-paths.txt").read_text(encoding="utf-8").splitlines():
         line = line.split("#", 1)[0].strip()
@@ -46,8 +52,34 @@ def load_generated_paths(root: Path) -> list[str]:
     return paths
 
 
-def is_generated(rel: str, prefixes: list[str]) -> bool:
-    return any(rel.startswith(p) for p in prefixes)
+def matches(rel: str, pattern: str) -> bool:
+    """rel sta sotto pattern; "*" in pattern vale un solo segmento di percorso."""
+    segs = pattern.rstrip("/").split("/")
+    parts = rel.split("/")
+    if len(parts) <= len(segs):  # rel deve stare *sotto* la cartella, non esserne un antenato
+        return False
+    return all(s == "*" or s == p for s, p in zip(segs, parts))
+
+
+def is_placeholder(rel: str, paths: list[str]) -> bool:
+    return any(matches(rel, p[1:]) for p in paths if p.startswith("!"))
+
+
+def is_generated(rel: str, paths: list[str]) -> bool:
+    if is_placeholder(rel, paths):
+        return False
+    return any(matches(rel, p) for p in paths if not p.startswith("!"))
+
+
+def pathspecs(paths: list[str]) -> list[str]:
+    """Pathspec git equivalenti: glob per i percorsi generati, exclude per i segnaposto."""
+    specs = []
+    for p in paths:
+        if p.startswith("!"):
+            specs.append(f":(exclude,glob){p[1:]}**")
+        else:
+            specs.append(f":(glob){p}**")
+    return specs
 
 
 def pages(root: Path) -> list[tuple[str, str]]:
@@ -122,6 +154,25 @@ def check_generated_pages(root: Path) -> list[Problem]:
     return problems
 
 
+# --------------------------------------------------------------------------- G4
+
+PLACEHOLDER_CALLOUT = re.compile(r'^\s*!!!\s+warning\s+"Contratto segnaposto"\s*$', re.M)
+
+
+def check_placeholders(root: Path) -> list[Problem]:
+    paths = load_generated_paths(root)
+    problems = []
+    for rel, text in pages(root):
+        if not is_placeholder(rel, paths):
+            continue
+        meta, body, _ = split_front_matter(text)
+        if meta.get("segnaposto", "").lower() != "true" or not PLACEHOLDER_CALLOUT.search(body):
+            problems.append(Problem("G4", rel, "segnaposto dichiarato in generated-paths.txt senza "
+                                               "`segnaposto: true` nel front matter e callout "
+                                               "warning \"Contratto segnaposto\""))
+    return problems
+
+
 # --------------------------------------------------------------------------- G3
 
 
@@ -135,13 +186,13 @@ def check_commits(root: Path, base: str) -> list[Problem]:
         git(root, "rev-parse", "--verify", f"{base}^{{commit}}")
     except subprocess.CalledProcessError:
         return [Problem("G3", base, "riferimento base non trovato (serve la cronologia completa: fetch-depth 0)")]
-    shas = git(root, "log", "--no-merges", "--format=%H", f"{base}..HEAD", "--", *prefixes).split()
+    shas = git(root, "log", "--no-merges", "--format=%H", f"{base}..HEAD", "--", *pathspecs(prefixes)).split()
     problems = []
     for sha in shas:
         trailer = git(root, "log", "-1", f"--format=%(trailers:key={TRAILER},valueonly)", sha).strip()
         if trailer.startswith(GENERATOR):
             continue
-        files = git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", sha, "--", *prefixes).split()
+        files = git(root, "diff-tree", "--no-commit-id", "--name-only", "-r", sha, "--", *pathspecs(prefixes)).split()
         subject = git(root, "log", "-1", "--format=%s", sha).strip()
         problems.append(Problem(
             "G3", f"commit {sha[:7]} \"{subject}\"",
@@ -289,6 +340,7 @@ def main() -> int:
     notes: list[str] = []
     results = {
         "pagine generate (G1, G2)": check_generated_pages(root),
+        "segnaposto (G4)": check_placeholders(root),
         "lunghezza (L1)": check_length(root, lengths),
         "callout (C1)": check_callouts(root),
         "glossario (S1)": check_glossary(root, notes),

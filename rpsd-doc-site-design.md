@@ -7,6 +7,14 @@
 
 ## 0. Cosa cambia
 
+### Ristrutturazione delle sezioni (14 novembre 2026, change `restructure-site-sections`)
+
+- **Tab di primo livello**: Rapsodia | Architettura | NeTEx | SIRI | Indicatori | Modello dati | Dashboard | Guida operativa | Contratti (§4.1).
+- **Home → Rapsodia**: la home è l'indice del sito; il tab raccoglie anche progetto, glossario e novità del sito (`docs/rapsodia/`). La "Panoramica" non esiste più (§4.2).
+- **Architettura** è un tab a sé, organizzato per sottosistemi: Core (A+D), App (B), IoT (C); il Core elenca i moduli funzionali con link ai repository (§4.2).
+- **Modello dati** e **Dashboard** diventano tab (§4.2, §4.4).
+- **Contratti**: il tab è anticipato al primo step. `contratti/index.md` è redazionale; le cartelle dei contratti restano generate; un segnaposto `esempio` fino al primo contratto generato (§5.2).
+
 ### Dalla v0.2 alla v0.3
 
 - **Stack deciso: Zensical**, con Docusaurus come piano B e criteri di uscita espliciti (§2.1).
@@ -123,7 +131,7 @@ Regola di base: **una pagina è o redazionale o generata, mai mista.** Le direct
 
 | Sezione | Origine | Strumento |
 |---------|---------|-----------|
-| Home, Panoramica, Glossario | Redazionale | — |
+| Rapsodia (home, progetto, glossario, novità), Architettura, Dashboard | Redazionale | — |
 | NeTEx / SIRI — introduzione, concetti, esempi commentati | Redazionale | — |
 | NeTEx / SIRI — pagine di frame e servizio (per versione di profilo) | Generata da XSD + linee guida 5T, con integrazioni redazionali da definire | `rpsd-profile-gen` |
 | Indicatori — delibera, CMQ, penali | Redazionale | — |
@@ -203,13 +211,22 @@ Catalogo regole e catalogo indicatori (definizioni generali) arrivano con un bun
 ### 4.1 Tab di primo livello
 
 ```
-Primo step:    Home | NeTEx | SIRI | Indicatori | Guida operativa
-Secondo step:  … | Contratti | (Validazione, se si sceglie il catalogo generale)
+Primo step:    Rapsodia | Architettura | NeTEx | SIRI | Indicatori | Modello dati | Dashboard | Guida operativa | Contratti
+Secondo step:  … | (Validazione, se si sceglie il catalogo generale)
+
+Il tab Contratti è presente dal primo step con l'elenco dei contratti (redazionale) e
+un contratto segnaposto; i contratti generati arrivano con il secondo step (§5).
 ```
 
 ### 4.2 Parte generale
 
-**Home / Panoramica** — introduzione, progetto, architettura di alto livello, modello dati (§4.4), glossario, changelog del sito. Con il secondo step la home aggiunge una card "Contratti" come ingresso principale per le Aziende.
+**Rapsodia** — la home (`docs/index.md`) è l'indice del sito: cos'è Rapsodia e un ingresso per ogni sezione. Il tab contiene anche le pagine `rapsodia/progetto.md` (obiettivi, consorzio, partner), `rapsodia/glossario.md` e `rapsodia/novita.md` (changelog del sito). Con il secondo step la home mette in evidenza i Contratti come ingresso principale per le Aziende.
+
+**Architettura** — definizione generale della piattaforma, diagramma del flusso dei dati (in seguito, eventualmente, un grafico che mostri anche App e IoT) e una pagina per sottosistema: **Core (A+D)**, **App (B)**, **IoT (C)**. La pagina del Core elenca i moduli funzionali con una breve descrizione e il link al repository GitHub di ciascuno.
+
+**Modello dati** — tab a sé: strati del modello e link alla documentazione dbt (§4.4).
+
+**Dashboard** — tab a sé per le dashboard degli indicatori; contenuti da definire.
 
 **NeTEx** e **SIRI** — documentazione dei profili italiani e delle estensioni introdotte con 5T, **una cartella per versione di profilo** (§2.3):
 
@@ -297,7 +314,7 @@ La navigazione è definita per directory con `.nav.yml`. La radice elenca i tab;
 
 La documentazione del database prodotta da `dbt docs generate` è un'applicazione statica autonoma (una pagina HTML che legge `manifest.json` e `catalog.json`), con propria navigazione, ricerca e grafo di lineage: non è Markdown e non si può fondere nelle pagine del sito. **Si pubblica come sito separato e si collega**, non si importa.
 
-- `panoramica/modello-dati.md` è una pagina redazionale: livelli del modello (raw, staging, intermediate, mart), convenzioni, e link alla documentazione dbt.
+- `modello-dati/index.md` è una pagina redazionale: livelli del modello (raw, staging, intermediate, mart), convenzioni, e link alla documentazione dbt.
 - Se la documentazione dbt può essere pubblica, la CI di `rpsd-transform` la pubblica sotto lo stesso dominio (per esempio `/dbt/`), copiando l'output nel sito dopo il build: stesso indirizzo, interfaccia propria.
 - Se non può esserlo, resta su un host ad accesso controllato e la pagina riporta il link per chi ha le credenziali. Da valutare prima di pubblicare: la documentazione dbt espone l'intero progetto, compresi schema raw, modelli di staging e codice SQL.
 - Evoluzione possibile: se alle Agenzie serve un dizionario dati delle sole tabelle mart usate dalle dashboard, `rpsd-tools` può generarlo in Markdown da `manifest.json` e `catalog.json`. In quel caso le pagine entrano nel sito come contenuto generato, limitate ai modelli esposti.
@@ -321,7 +338,7 @@ Dimensione attesa: circa 40 pagine per contratto, quindi ~400 con dieci contratt
 
 ```
 contratti/
-├── index.md                    # elenco contratti (generato)
+├── index.md                    # elenco contratti (redazionale)
 └── <id-contratto>/
     ├── .nav.yml                # generato
     ├── index.md                # scheda del contratto
@@ -340,7 +357,7 @@ contratti/
     └── changelog.md
 ```
 
-`contratti/index.md` è una tabella generata: contratto, ente affidante, impresa affidataria, ambito, validità, stato, versione config. Con dieci contratti basta una tabella ordinabile; i contratti conclusi restano in elenco con il loro stato.
+`contratti/index.md` è una tabella **redazionale** (decisione del 14 novembre 2026, change `restructure-site-sections`): contratto, ente affidante, impresa affidataria, ambito, validità, stato, versione config. Con dieci contratti basta una tabella ordinabile; i contratti conclusi restano in elenco con il loro stato.
 
 ### 5.3 Scheda del contratto (`index.md`)
 
@@ -420,7 +437,8 @@ rpsd-doc/
 ├── docs/
 │   ├── .nav.yml
 │   ├── index.md
-│   ├── panoramica/             # redazionale (incl. modello-dati.md → link dbt docs)
+│   ├── rapsodia/               # redazionale: progetto, glossario, novità (tab Rapsodia con index.md)
+│   ├── architettura/           # redazionale: Core (A+D), App (B), IoT (C)
 │   ├── netex/
 │   │   ├── index.md            # redazionale: elenco versioni
 │   │   └── 5.0.0/              # redazionale + rpsd-profile-gen
@@ -431,8 +449,11 @@ rpsd-doc/
 │   │   ├── delibera/           # redazionale
 │   │   ├── catalogo/           # GENERATO
 │   │   └── matrice/            # GENERATO (index.md)
+│   ├── modello-dati/           # redazionale (→ link dbt docs)
+│   ├── dashboard/              # redazionale
 │   ├── guida/                  # redazionale
-│   ├── contratti/              # GENERATO — secondo step
+│   ├── contratti/              # index.md redazionale; <id-contratto>/ GENERATO
+│   │   └── esempio/            # segnaposto, da togliere col primo contratto generato
 │   ├── validazione/            # GENERATO — secondo step, solo ipotesi B
 │   └── assets/
 │       ├── images/
@@ -478,7 +499,7 @@ Allineato alle scadenze di progetto (config con pilot a fine novembre 2026, part
 3. Struttura versionata di `netex/` e `siri/` con le versioni correnti dei profili.
 
 *Fase 1 — Contenuti (dicembre 2026–marzo 2027)*
-4. Home, panoramica, glossario, pagina sul modello dati con link alla documentazione dbt.
+4. Rapsodia (home, progetto, glossario, novità), Architettura, Modello dati con link alla documentazione dbt, Dashboard.
 5. NeTEx e SIRI: introduzione, concetti, pagine di frame e servizio, esempi.
 6. Indicatori: pagine sulla delibera, catalogo delle definizioni, matrice.
 7. Guida operativa, incluso il funzionamento della validazione.

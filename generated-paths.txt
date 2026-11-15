@@ -2,7 +2,10 @@
 # Sono sovrascritte per intero a ogni generazione: non si modificano a mano.
 # Ogni commit che le tocca deve avere il trailer "Generato-da: rpsd-tools <versione>".
 # Letto da scripts/check_conventions.py. Un percorso non ancora esistente è ammesso.
+# "*" vale un solo segmento di percorso. Una riga con "!" dichiara un segnaposto
+# scritto a mano dentro un percorso generato (regola G4).
 docs/indicatori/catalogo/
 docs/indicatori/matrice/
-docs/contratti/      # secondo step
+docs/contratti/*/    # ogni cartella di contratto; docs/contratti/index.md è redazionale
+!docs/contratti/esempio/    # segnaposto: da togliere col primo contratto generato
 docs/validazione/    # secondo step, solo ipotesi B (catalogo generale delle regole)
