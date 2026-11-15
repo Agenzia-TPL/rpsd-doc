@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Controlla i tab di primo livello del sito costruito (scenario *Reader on any page*).
+"""Controlla i tab di primo livello del sito costruito (spec site-navigation).
 
 Per la home e per la pagina indice di ogni sezione verifica che:
-- i tab siano esattamente Home, NeTEx, SIRI, Indicatori, Guida operativa, in quest'ordine;
+- la pagina esista (requisito *Every section has a landing page*);
+- i tab siano esattamente quelli di EXPECTED_TABS, in quest'ordine;
 - ci sia un solo tab attivo e sia quello della sezione della pagina.
 
 Uso: python scripts/check_navigation.py [site]
@@ -15,11 +16,17 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from check_sidebar import Node, TreeBuilder  # noqa: E402
 
-EXPECTED_TABS = ["Home", "NeTEx", "SIRI", "Indicatori", "Guida operativa"]
+EXPECTED_TABS = ["Rapsodia", "Architettura", "NeTEx", "SIRI", "Indicatori",
+                 "Modello dati", "Dashboard", "Guida operativa", "Contratti"]
 
 # pagina (relativa a site/) -> tab che deve risultare attivo
 PAGES = {
-    "index.html": "Home",
+    "index.html": "Rapsodia",
+    "rapsodia/progetto/index.html": "Rapsodia",
+    "architettura/index.html": "Architettura",
+    "modello-dati/index.html": "Modello dati",
+    "dashboard/index.html": "Dashboard",
+    "contratti/index.html": "Contratti",
     "netex/index.html": "NeTEx",
     "siri/index.html": "SIRI",
     "indicatori/index.html": "Indicatori",
@@ -60,7 +67,7 @@ def check(site: Path) -> int:
         for p in problems:
             print(f"  - {p}")
         return 1
-    print("Controllo tab: OK (cinque tab nell'ordine richiesto, tab attivo corretto su ogni pagina)")
+    print(f"Controllo tab: OK ({len(EXPECTED_TABS)} tab nell'ordine richiesto, tab attivo corretto su ogni pagina)")
     return 0
 
 

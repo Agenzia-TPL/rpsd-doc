@@ -54,7 +54,8 @@ La navigazione è definita per directory con file `.nav.yml` (formato awesome-na
 integrato in Zensical); `mkdocs.yml` non contiene `nav`.
 
 - `docs/.nav.yml` definisce i **tab di primo livello** e il loro ordine:
-  Home, NeTEx, SIRI, Indicatori, Guida operativa. È un elenco esplicito, senza `"*"`:
+  Rapsodia, Architettura, NeTEx, SIRI, Indicatori, Modello dati, Dashboard,
+  Guida operativa, Contratti. È un elenco esplicito, senza `"*"`:
   una cartella nuova in `docs/` non diventa un tab finché non viene aggiunta qui.
 - Ogni cartella di sezione e sottosezione ha il **proprio `.nav.yml`**, con un titolo
   (se diverso dal nome della cartella) e un `nav` che elenca le voci da tenere in un
@@ -72,6 +73,8 @@ integrato in Zensical); `mkdocs.yml` non contiene `nav`.
   sidebar, senza alcun avviso.
 - Per aggiungere una sottosezione basta creare la cartella con le pagine e il suo
   `.nav.yml`: non serve toccare `mkdocs.yml` né il `.nav.yml` del livello superiore.
+- Il tab Rapsodia non è una cartella: raggruppa la home (`docs/index.md`) e le pagine
+  di `docs/rapsodia/`, elencate una per una in `docs/.nav.yml`.
 - Eccezione: `docs/netex/.nav.yml` e `docs/siri/.nav.yml` elencano solo la versione
   corrente del profilo, senza `"*"` (vedi CONTRIBUTING.md, "Profili versionati").
 
