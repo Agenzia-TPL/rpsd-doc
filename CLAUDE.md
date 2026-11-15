@@ -15,6 +15,9 @@ ART indicators and, in a later step, one section per service contract.
 - One change per branch
 - Never push, create remote branches, open PRs or change GitHub settings
   without explicit approval from Franco
+- No AI attribution on GitHub: commit messages, PR titles/bodies, issues and
+  comments must not mention Claude or Claude Code (no "Co-Authored-By: Claude",
+  no "Generated with Claude Code")
 
 ## Versioned profiles
 - docs/netex/<version>/ and docs/siri/<version>/ hold one frozen copy per profile
