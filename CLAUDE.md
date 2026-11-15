@@ -23,10 +23,14 @@ ART indicators and, in a later step, one section per service contract.
 
 ## Hand-written vs generated
 - NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice/ and,
-  once they exist (second step), docs/contratti/ and docs/validazione/.
-  They are produced by rpsd-tools from data files in data/ using templates/.
-  The authoritative list is generated-paths.txt; commits touching those paths
-  must carry the trailer "Generato-da: rpsd-tools <version>" (checked in CI).
+  once they exist (second step), each contract folder docs/contratti/<id>/ and
+  docs/validazione/. They are produced by rpsd-tools from data files in data/
+  using templates/. The authoritative list is generated-paths.txt; commits
+  touching those paths must carry the trailer "Generato-da: rpsd-tools <version>"
+  (checked in CI).
+- docs/contratti/index.md (contract list) is hand-written. docs/contratti/esempio/
+  is a declared hand-written placeholder ("!" line in generated-paths.txt),
+  removed when the first contract is generated.
 
 ## Conventions
 - Language: Italian (content), English (technical terms from standards)

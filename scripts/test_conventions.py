@@ -16,10 +16,12 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import check_conventions as cc  # noqa: E402
 import check_urls as cu  # noqa: E402
 
-GENERATED_PATHS = "docs/indicatori/catalogo/\ndocs/indicatori/matrice/\n"
+GENERATED_PATHS = ("docs/indicatori/catalogo/\ndocs/indicatori/matrice/\n"
+                   "docs/contratti/*/  # contratti\n!docs/contratti/esempio/  # segnaposto\n")
+PLACEHOLDER = ('---\nsegnaposto: true\n---\n\n# Esempio\n\n!!! warning "Contratto segnaposto"\n\n    Testo.\n')
 GENERATED_FM = "---\ngenerato: true\ngenerato_da: rpsd-tools 0.1.0\n---\n"
 GLOSSARY = "# Glossario\n\n### PdE {#pde .sigla}\n\nDefinizione di prova.\n\n### Frame {#frame}\n\nVoce non sigla.\n"
-GLOSSARY_LINK = "[PdE](../panoramica/glossario.md#pde)"
+GLOSSARY_LINK = "[PdE](../rapsodia/glossario.md#pde)"
 
 
 class Fixture(unittest.TestCase):
@@ -96,6 +98,59 @@ class HandEditCommits(Fixture):
         self.assertEqual(cc.check_commits(self.root, "base"), [])
 
 
+class ContractSection(Fixture):
+    """Indice dei contratti redazionale, cartelle generate, segnaposto dichiarato (G1, G2, G4)."""
+
+    def test_hand_written_contract_index_passes(self):
+        self.write("docs/contratti/index.md", "# Contratti\n")
+        self.assertEqual(cc.check_generated_pages(self.root), [])
+        self.assertFalse(cc.is_generated("docs/contratti/index.md", cc.load_generated_paths(self.root)))
+
+    def test_hand_written_page_in_contract_fails(self):
+        self.write("docs/contratti/c-01/index.md", "# Contratto\n")
+        self.assertEqual(self.rules(cc.check_generated_pages(self.root)), ["G1"])
+
+    def test_generated_contract_passes(self):
+        self.write("docs/contratti/c-01/dati/netex.md", GENERATED_FM + "# NeTEx\n")
+        self.assertEqual(cc.check_generated_pages(self.root), [])
+
+    def test_declared_placeholder_passes(self):
+        self.write("docs/contratti/esempio/index.md", PLACEHOLDER)
+        self.assertEqual(cc.check_generated_pages(self.root), [])
+        self.assertEqual(cc.check_placeholders(self.root), [])
+
+    def test_placeholder_without_flag_fails(self):
+        self.write("docs/contratti/esempio/index.md", PLACEHOLDER.replace("segnaposto: true", "titolo: x"))
+        self.assertEqual(self.rules(cc.check_placeholders(self.root)), ["G4"])
+
+    def test_placeholder_without_callout_fails(self):
+        self.write("docs/contratti/esempio/index.md", "---\nsegnaposto: true\n---\n\n# Esempio\n")
+        self.assertEqual(self.rules(cc.check_placeholders(self.root)), ["G4"])
+
+    def test_prefix_lines_keep_prefix_semantics(self):
+        paths = cc.load_generated_paths(self.root)
+        self.assertTrue(cc.is_generated("docs/indicatori/catalogo/a/b/ind.md", paths))
+        self.assertFalse(cc.is_generated("docs/indicatori/index.md", paths))
+        self.assertFalse(cc.is_generated("docs/indicatori/catalogo.md", paths))
+
+
+class ContractCommits(HandEditCommits):
+    def test_hand_commit_in_contract_fails(self):
+        self.write("docs/contratti/c-01/index.md", GENERATED_FM + "# Contratto\n")
+        self.git("add", "-A")
+        self.git("commit", "-q", message="contratto a mano")
+        problems = cc.check_commits(self.root, "base")
+        self.assertEqual(self.rules(problems), ["G3"])
+        self.assertIn("docs/contratti/c-01/index.md", problems[0].message)
+
+    def test_commit_on_index_and_placeholder_passes(self):
+        self.write("docs/contratti/index.md", "# Contratti\n")
+        self.write("docs/contratti/esempio/index.md", PLACEHOLDER)
+        self.git("add", "-A")
+        self.git("commit", "-q", message="indice e segnaposto")
+        self.assertEqual(cc.check_commits(self.root, "base"), [])
+
+
 class PageLength(Fixture):
     def test_1500_words_passes(self):
         self.write("docs/guida/pagina.md", "# Titolo\n\n" + "parola " * 1499 + "\n")
@@ -160,13 +215,13 @@ class Glossary(Fixture):
         self.assertEqual(self.check(f"Il {GLOSSARY_LINK} è trasmesso. Poi il PdE cambia."), [])
 
     def test_link_to_built_url_passes(self):
-        self.assertEqual(self.check("Il [PdE](../../panoramica/glossario/#pde) è trasmesso."), [])
+        self.assertEqual(self.check("Il [PdE](../../rapsodia/glossario/#pde) è trasmesso."), [])
 
     def test_first_use_not_linked_fails(self):
         self.assertEqual(self.check(f"Il PdE è trasmesso. Poi il {GLOSSARY_LINK} cambia."), ["S1"])
 
     def test_link_to_wrong_anchor_fails(self):
-        self.assertEqual(self.check("Il [PdE](../panoramica/glossario.md#frame) è trasmesso."), ["S1"])
+        self.assertEqual(self.check("Il [PdE](../rapsodia/glossario.md#frame) è trasmesso."), ["S1"])
 
     def test_code_and_headings_are_ignored(self):
         self.assertEqual(self.check(f"## Il PdE\n\nIl campo `PdE` e poi il {GLOSSARY_LINK}."), [])

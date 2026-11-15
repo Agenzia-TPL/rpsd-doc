@@ -30,7 +30,9 @@ context: |
   - Hand-written pages are at most 1500 words
 
   Out of scope for now (second step, blocked on the rpsd-config data model):
-  docs/contratti/, the validation rule catalog, restricted contracts.
+  generated contract folders docs/contratti/<id>/, the validation rule catalog,
+  restricted contracts. The Contratti tab already exists with a hand-written
+  contract list (docs/contratti/index.md) and a placeholder contract "esempio".
 
 rules:
   proposal:

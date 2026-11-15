@@ -23,8 +23,17 @@ Una pagina è **o redazionale o generata, mai mista** (design §3).
 - Ogni commit che tocca una cartella generata porta il trailer
   `Generato-da: rpsd-tools <versione>`, aggiunto da `rpsd-tools`. Una PR con un
   commit senza trailer su quelle cartelle fallisce.
+- In `generated-paths.txt` un `*` vale un solo segmento di percorso:
+  `docs/contratti/*/` vuol dire "ogni cartella di contratto". L'indice
+  `docs/contratti/index.md` resta quindi **redazionale**: è l'elenco dei contratti e si
+  scrive a mano.
+- Un **segnaposto** scritto a mano dentro un percorso generato è ammesso solo se è
+  dichiarato in `generated-paths.txt` con una riga che inizia con `!` (oggi
+  `!docs/contratti/esempio/`). Le sue pagine hanno `segnaposto: true` nel front matter
+  e il callout `!!! warning "Contratto segnaposto"`. Il segnaposto `esempio` si toglie,
+  insieme alla sua riga, quando arriva il primo contratto generato.
 
-Controllo: `scripts/check_conventions.py` (regole G1, G2, G3).
+Controllo: `scripts/check_conventions.py` (regole G1, G2, G3, G4).
 
 ## Lunghezza
 
@@ -56,7 +65,7 @@ resta alla revisione.
 
 ## Glossario e sigle
 
-- Il glossario è `docs/panoramica/glossario.md`. Ogni sigla è un titolo con anchor
+- Il glossario è `docs/rapsodia/glossario.md`. Ogni sigla è un titolo con anchor
   esplicito e classe `sigla`:
 
   ```markdown
@@ -64,7 +73,7 @@ resta alla revisione.
   ```
 
 - In ogni pagina, il **primo uso** di una sigla del glossario è un link alla sua voce,
-  per esempio `[PdE](../panoramica/glossario.md#pde)`. Gli usi successivi sono liberi.
+  per esempio `[PdE](../rapsodia/glossario.md#pde)`. Gli usi successivi sono liberi.
   Contano anche tabelle e testo dei callout; non contano titoli di pagina, titoli dei
   callout (dove un link non viene reso) e codice.
 
