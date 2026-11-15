@@ -1,0 +1,8 @@
+# Navigazione della sezione: voci ordinate prima di "*", poi tutto il resto.
+# Una sottocartella nuova con il proprio .nav.yml compare senza modificare questo file.
+nav:
+  - index.md
+  - core.md
+  - app.md
+  - iot.md
+  - "*"
