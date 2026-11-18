@@ -293,7 +293,7 @@ Each profile section SHALL offer a version-independent URL that leads to the cur
 
 ### 4.5 `profile-docs`
 
-Aggiornato il 18 novembre 2026 (change `add-generated-profile-pages`): la change 5b introduce *One page per frame and per service* e quattro requisiti nuovi, *Generated profile pages* (l'analogo di *Generated catalog* chiesto al §5), *Field table per object*, *Stable anchors* e *Published inconsistencies*; il testo vigente è in `openspec/specs/profile-docs/spec.md` dopo l'archiviazione. SIRI-SM tolto dallo scenario *SIRI services* (decisione di Franco del 18/11/2026): le linee guida SIRI IT 1.0.5 non lo descrivono; servizi VM, ET, SX, FM, PT. I requisiti restanti di questa sezione (*Uniform page structure*, *Extensions are distinguishable*, *Runnable examples*, *Fundamentals*) vanno riletti per le change 6 e 7 alla luce delle pagine generate.
+Aggiornato il 18 novembre 2026 (change `add-generated-profile-pages`): la change 5b introduce *One page per frame and per service* e quattro requisiti nuovi, *Generated profile pages* (l'analogo di *Generated catalog* chiesto al §5), *Field table per object*, *Stable anchors* e *Published inconsistencies*; il testo vigente è in `openspec/specs/profile-docs/spec.md` dopo l'archiviazione. SIRI-SM tolto dallo scenario *SIRI services*: le linee guida SIRI IT 1.0.5 lo citano solo nell'elenco dei servizi dello standard CEN (cap. 3); il profilo italiano (cap. 5) descrive VM, ET, SX, FM e PT. I requisiti restanti di questa sezione (*Uniform page structure*, *Extensions are distinguishable*, *Runnable examples*, *Fundamentals*) vanno riletti per le change 6 e 7 alla luce delle pagine generate.
 
 ## ADDED Requirements
 
