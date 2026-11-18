@@ -1,0 +1,35 @@
+{#- Incongruenze fra linee guida, XSD ed esempi. L'ancora di riga è l'id stabile del bundle,
+    destinazione dei link "⚠ Incongruenza"; le righe con lo stesso id hanno una sola ancora. #}
+{% include "_testa.md.j2" %}
+
+# Incongruenze del profilo
+
+Differenze fra le linee guida, l'XSD e i file d'esempio, trovate durante la mappatura delle note.
+
+{% set issues = data.get("issues", []) %}
+{% set text_issues = data.get("text_issues", []) %}
+{% if not issues and not text_issues %}
+Nessuna incongruenza registrata.
+{% endif %}
+{% if text_issues %}
+## Nel testo
+
+| Linee guida | Percorso | Incongruenza |
+|---|---|---|
+{% for i in text_issues %}
+| §{{ i.section }} | {{ (i.path|code if i.get("path") else "")|cell }} | {{ i.issue|cell }} |
+{% endfor %}
+
+{% endif %}
+{% if issues %}
+## Nelle tabelle
+
+| Percorso | Linee guida | Incongruenza | Riga |
+|---|---|---|---|
+{% set ns = namespace(visti=[]) %}
+{% for i in issues %}
+{% set file = fmt.file_of[i.page] if i.get("page") is not none and i.get("anchor") is not none else none %}
+| {{ "" if i.id in ns.visti else '<a id="' ~ i.id ~ '"></a>' }}{{ i.path|code|cell }} | {{ fmt.issue_sources(i)|cell }} | {{ i.issue|cell }} | {{ "[" ~ file ~ "](" ~ file ~ "#" ~ i.anchor ~ ")" if file else "" }} |
+{% set ns.visti = ns.visti + [i.id] %}
+{% endfor %}
+{% endif %}

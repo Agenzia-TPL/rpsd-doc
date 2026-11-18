@@ -1,0 +1,23 @@
+{#- Tabella di un oggetto, in cascata: titolo con ancora del bundle, fatti, righe, campi non citati. #}
+{% macro tabella(page, t) %}
+{{ "#" * t.level }} {{ t.title }} {{ "{#" ~ t.anchor ~ "}" }}
+
+{{ fmt.table_facts(t) }}
+
+| Campo | Cardinalità | Tipo | Esempio | Significato (5T) | Fonte |
+|---|---|---|---|---|---|
+{% for r in t.rows %}
+| {{ fmt.field(r, page)|cell }} | {{ fmt.card(r)|cell }} | {{ fmt.type(r.get("type"), r.get("enumeration"), r.get("values"))|cell }} | {{ fmt.example(r)|cell }} | {{ fmt.meaning(r)|cell }} | {{ fmt.sources(r)|cell }} |
+{% endfor %}
+
+{% if t.get("other_fields") %}
+??? note "Altri campi dell'XSD"
+
+    | Campo | Cardinalità | Tipo |
+    |---|---|---|
+{% for f in t.other_fields %}
+    | {{ f.field|code|cell }} | {{ f.card|cell }} | {{ fmt.type(f.get("type"), f.get("enumeration"))|cell }} |
+{% endfor %}
+
+{% endif %}
+{% endmacro %}

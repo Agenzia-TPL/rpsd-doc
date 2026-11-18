@@ -7,6 +7,13 @@
 
 ## 0. Cosa cambia
 
+### Pagine dei profili generate in rpsd-doc (18 novembre 2026, change `add-generated-profile-pages`)
+
+- **Strumento**: le pagine di frame e servizio non vengono più da uno strumento dedicato (previsto nella v0.3) ma dal bundle `site.yaml` di `rpsd-tools profile-docs generate`, committato in `data/profili/<profilo>/<versione>/` (§3).
+- **Motore dei template in rpsd-doc**: per i profili i template Jinja (`templates/profili/`) sono eseguiti da `scripts/generate_profile_pages.py` di rpsd-doc, non da rpsd-tools (decisione di Franco del 16/11/2026; §3.1, §10 punto 3).
+- **Cartelle di versione interamente generate**: `docs/netex/<versione>/` e `docs/siri/<versione>/` stanno in `generated-paths.txt`. Introduzione, concetti ed esempi commentati sono pagine redazionali fuori dalla cartella di versione (change 6 e 7; §10 punto 4).
+- **Incongruenze pubblicate**: ogni versione ha la pagina delle differenze fra linee guida, XSD ed esempi, finché la piattaforma non va in produzione.
+
 ### Ristrutturazione delle sezioni (14 novembre 2026, change `restructure-site-sections`)
 
 - **Tab di primo livello**: Rapsodia | Architettura | NeTEx | SIRI | Indicatori | Modello dati | Dashboard | Guida operativa | Contratti (§4.1).
@@ -115,7 +122,7 @@ Nel sito convivono più assi di versione indipendenti: il profilo NeTEx, il prof
 - La sidebar mostra solo la versione corrente; le altre si raggiungono dall'elenco versioni. Le pagine di una versione non corrente portano un riquadro di avviso con link alla corrente.
 - Si apre una cartella solo per le versioni di profilo effettivamente adottate da almeno un contratto, non per ogni rilascio pubblicato.
 - Ogni contratto dichiara la versione di profilo di ciascun dataset e linka le pagine di quella versione: due contratti su versioni diverse di profilo convivono senza ambiguità.
-- Le pagine di frame e servizio sono in larga parte generate (`rpsd-profile-gen`), quindi una nuova versione costa una nuova generazione più la revisione delle parti redazionali.
+- Le pagine di frame e servizio sono generate dal bundle di `rpsd-tools profile-docs` (§3), quindi una nuova versione costa un nuovo bundle e una nuova generazione, più la revisione delle parti redazionali.
 - Un percorso `netex/corrente/` come alias della versione corrente (via `redirects`) è utile per i link dalla guida operativa; i contratti linkano sempre la versione esplicita.
 
 **Contratti** — ogni contratto espone versione del config, data di decorrenza e changelog generato (§5.6).
@@ -133,7 +140,7 @@ Regola di base: **una pagina è o redazionale o generata, mai mista.** Le direct
 |---------|---------|-----------|
 | Rapsodia (home, progetto, glossario, novità), Architettura, Dashboard | Redazionale | — |
 | NeTEx / SIRI — introduzione, concetti, esempi commentati | Redazionale | — |
-| NeTEx / SIRI — pagine di frame e servizio (per versione di profilo) | Generata da XSD + linee guida 5T, con integrazioni redazionali da definire | `rpsd-profile-gen` |
+| NeTEx / SIRI — pagine di frame e servizio, strutture comuni, enumerazioni, incongruenze (per versione di profilo, l'intera cartella) | Generata da XSD + note delle linee guida 5T, via bundle `site.yaml` | `rpsd-tools profile-docs` (bundle) + `scripts/generate_profile_pages.py` (template di rpsd-doc) |
 | Indicatori — delibera, CMQ, penali | Redazionale | — |
 | Indicatori — catalogo definizioni | Generata dal config | `rpsd-tools` |
 | Modello dati | Pagina redazionale + link alla documentazione dbt | `dbt docs` (sito separato) |
@@ -160,7 +167,7 @@ Scelte proposte:
 
 - **Il bundle è l'interfaccia.** `doc-gen` non legge il DB Django del config: legge un export in YAML. Finché il DB non è definito, il bundle è prodotto dai file di input del pilot; quando il DB sarà disponibile cambia solo l'export. Lo schema del bundle va concordato con Davide.
 - **Il bundle è committato in `rpsd-doc`** (`data/`) insieme alle pagine che ne derivano: ogni versione pubblicata è riproducibile e il diff del bundle spiega il diff delle pagine.
-- **I template stanno in `rpsd-doc`** (`templates/`), il motore in `rpsd-tools`: l'impaginazione è una scelta del sito e deve poter cambiare senza rilasciare `rpsd-tools`.
+- **I template stanno in `rpsd-doc`** (`templates/`), il motore in `rpsd-tools`: l'impaginazione è una scelta del sito e deve poter cambiare senza rilasciare `rpsd-tools`. Per i profili NeTEx e SIRI anche il motore è in rpsd-doc (`scripts/generate_profile_pages.py`): rpsd-tools fornisce solo il bundle (`profile-docs generate`, schema `contracts/profile-data.schema.json`), e un controllo in CI verifica che le pagine committate corrispondano al bundle.
 - **La generazione arriva via pull request**, mai con push diretto: una modifica a soglie o regole di un contratto è un cambiamento con effetti contrattuali e va riletta.
 - Ogni pagina generata porta nel front matter `generato: true`, id contratto, versione config e data di generazione, e in testa un riquadro con versione e decorrenza.
 
@@ -428,10 +435,12 @@ rpsd-doc/
 ├── mkdocs.yml                  # configurazione (letta da Zensical)
 ├── requirements.txt            # zensical e plugin, versioni bloccate
 ├── templates/                  # template Jinja usati da rpsd-tools doc-gen
+│   ├── profili/                # pagine dei profili, eseguiti da scripts/generate_profile_pages.py
 │   ├── contratto/
 │   ├── regole/
 │   └── indicatori/
 ├── data/                       # bundle committati (input della generazione)
+│   ├── profili/<profilo>/<versione>/site.yaml   # bundle di rpsd-tools profile-docs
 │   ├── catalogo/
 │   └── contratti/<id-contratto>/bundle.yaml
 ├── docs/
@@ -441,10 +450,10 @@ rpsd-doc/
 │   ├── architettura/           # redazionale: Core (A+D), App (B), IoT (C)
 │   ├── netex/
 │   │   ├── index.md            # redazionale: elenco versioni
-│   │   └── 5.0.0/              # redazionale + rpsd-profile-gen
+│   │   └── 5.0.0/              # GENERATO (bundle in data/profili/netex/5.0.0/)
 │   ├── siri/
 │   │   ├── index.md
-│   │   └── 1.0.5/
+│   │   └── 1.0.5/              # GENERATO (bundle in data/profili/siri/1.0.5/)
 │   ├── indicatori/
 │   │   ├── delibera/           # redazionale
 │   │   ├── catalogo/           # GENERATO
@@ -527,8 +536,8 @@ Allineato alle scadenze di progetto (config con pilot a fine novembre 2026, part
 | 2c | Regole di validazione: solo nel contratto (A) o catalogo generale + attivazione (B), dopo il consolidamento del config | Franco, Davide |
 | 2d | Documentazione dbt: pubblica sotto lo stesso dominio o ad accesso controllato | Franco, responsabile |
 | 2e | Granularità delle cartelle di versione dei profili (ogni versione adottata da un contratto, o solo major/minor) | Franco |
-| 3 | Template in `rpsd-doc` e motore in `rpsd-tools`, oppure tutto in `rpsd-tools` | Franco |
-| 4 | Confine tra `rpsd-profile-gen` e contenuto redazionale nelle pagine di frame/servizio | Franco |
+| 3 | Template in `rpsd-doc` e motore in `rpsd-tools`, oppure tutto in `rpsd-tools` — per i profili deciso il 16/11/2026: template e motore in rpsd-doc, bundle da rpsd-tools | Franco |
+| 4 | Confine tra pagine generate e contenuto redazionale dei profili — deciso il 16/11/2026: cartella di versione tutta generata, parte redazionale fuori | Franco |
 | 5 | Pubblicare indicatori base e di qualità/trasmissione, o solo ART | Franco, responsabile |
 | 6 | Quali documenti contrattuali sono pubblicabili come file e quali solo citati | Agenzia |
 | 7 | Formule nelle pagine di contratto: con parametri risolti (proposta) o solo rimando alla definizione generale | Franco |
