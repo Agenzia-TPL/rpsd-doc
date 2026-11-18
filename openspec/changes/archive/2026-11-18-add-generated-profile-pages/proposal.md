@@ -29,7 +29,7 @@ Il contenuto è **generato**; i template, lo script, i controlli e i documenti d
 ### New Capabilities
 - `profile-docs`: pagine dei profili NeTEx e SIRI per versione. In questa change entrano dal seed §4.5 solo *One page per frame and per service* (scenario SIRI adattato, vedi sotto) e, come chiede il seed §5, un requisito analogo a *Generated catalog*. **Requisiti aggiunti rispetto al seed**: tabelle dei campi per oggetto, ancore stabili, pagina delle incongruenze. I requisiti del seed *Uniform page structure*, *Extensions are distinguishable*, *Runnable examples* e *Fundamentals* restano alle change 6–7 (parte redazionale) o a change successive.
 
-**Conflitto con il seed da risolvere in revisione**: lo scenario *SIRI services* del seed elenca anche SIRI-SM, che le linee guida SIRI IT 1.0.5 e il bundle non contengono (servizi: VM, ET, SX, FM, PT). La spec segue il bundle; il seed va corretto.
+**SIRI-SM**: lo scenario *SIRI services* del seed lo elencava, ma il profilo italiano del 5T non lo descrive. Le linee guida SIRI IT 1.0.5 lo citano solo nell'elenco dei servizi dello standard CEN (cap. 3); il profilo italiano (cap. 5) descrive VM, ET, SX, FM e PT. La spec segue il profilo 5T e il seed è stato corretto.
 
 ### Modified Capabilities
 _Nessuna._ `content-conventions` (*Generated pages are identifiable*) e `profile-versioning` (*Non-current version notice*, *Sidebar shows the current version*) coprono già il comportamento; cambiano solo i percorsi elencati in `generated-paths.txt`.
