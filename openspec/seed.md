@@ -91,8 +91,9 @@ Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restrict
 | 4 | `add-profile-versioning` | Scheletro `netex/5.0.0/`, `siri/1.0.5/`, pagine elenco versioni, avviso sulle versioni non correnti, alias `corrente` | `profile-versioning` |
 | 4b | `restructure-site-sections` | Tab Rapsodia, Architettura, Modello dati, Dashboard, Contratti (indice redazionale e segnaposto `esempio`); solo struttura, aggiunto il 14 novembre 2026 | `site-navigation`, `content-conventions` |
 | 5 | `add-overview-pages` | Contenuti di Rapsodia (home, progetto, glossario, novità), Architettura (sottosistemi e moduli), Modello dati, Dashboard | `overview` |
-| 6 | `add-netex-profile-docs` | Introduzione, concetti, una pagina per frame, esempi (NeTEx 5.0.0) | `profile-docs` |
-| 7 | `add-siri-profile-docs` | Introduzione, concetti, una pagina per servizio, esempi (SIRI 1.0.5) | `profile-docs` |
+| 5b | `add-generated-profile-pages` | Pagine di frame e servizio, strutture comuni, enumerazioni e incongruenze di NeTEx 5.0.0 e SIRI 1.0.5, generate dal bundle di `rpsd-tools profile-docs` con i template di rpsd-doc; aggiunto il 18 novembre 2026 | `profile-docs` |
+| 6 | `add-netex-profile-docs` | Solo la parte redazionale: «Informazioni generali» del NeTEx (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per frame vengono dal change 5b | `profile-docs` |
+| 7 | `add-siri-profile-docs` | Solo la parte redazionale: «Informazioni generali» del SIRI (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per servizio vengono dal change 5b | `profile-docs` |
 | 8 | `add-indicator-catalog` | Pagine sulla delibera, catalogo generato, matrice | `indicator-catalog` |
 | 9 | `add-operational-guide` | Guida operativa e FAQ | `operational-guide` |
 
@@ -292,6 +293,8 @@ Each profile section SHALL offer a version-independent URL that leads to the cur
 
 ### 4.5 `profile-docs`
 
+Aggiornato il 18 novembre 2026 (change `add-generated-profile-pages`): la change 5b introduce *One page per frame and per service* e quattro requisiti nuovi, *Generated profile pages* (l'analogo di *Generated catalog* chiesto al §5), *Field table per object*, *Stable anchors* e *Published inconsistencies*; il testo vigente è in `openspec/specs/profile-docs/spec.md` dopo l'archiviazione. SIRI-SM tolto dallo scenario *SIRI services*: le linee guida SIRI IT 1.0.5 lo citano solo nell'elenco dei servizi dello standard CEN (cap. 3); il profilo italiano (cap. 5) descrive VM, ET, SX, FM e PT. I requisiti restanti di questa sezione (*Uniform page structure*, *Extensions are distinguishable*, *Runnable examples*, *Fundamentals*) vanno riletti per le change 6 e 7 alla luce delle pagine generate.
+
 ## ADDED Requirements
 
 ### Requirement: One page per frame and per service
@@ -303,7 +306,7 @@ Each profile version SHALL document every NeTEx frame of the Italian profile and
 
 #### Scenario: SIRI services
 - **WHEN** a reader opens the service list of a SIRI profile version
-- **THEN** there is one page each for SIRI-PT, SIRI-ET, SIRI-VM, SIRI-SM, SIRI-SX and SIRI-FM
+- **THEN** there is one page each for SIRI-PT, SIRI-ET, SIRI-VM, SIRI-SX and SIRI-FM
 
 ### Requirement: Uniform page structure
 Every frame page and every service page SHALL follow the same section structure: role, when it is used, structure with a field table, contained entities, Rapsodia extensions, XML example.
@@ -475,7 +478,7 @@ The guide SHALL include frequently asked questions grouped by topic, each with i
 - **Change 1**: "tempo di build accettabile" va quantificato (scenario *Large section*).
 - **Change 4**: granularità delle cartelle di versione (ogni versione adottata da un contratto, o solo major/minor).
 - **Change 5**: documentazione dbt pubblica sotto lo stesso dominio o ad accesso controllato.
-- **Change 6–7**: confine tra pagine generate da `rpsd-profile-gen` e contenuto redazionale. Se le pagine di frame/servizio sono generate, va aggiunto a `profile-docs` un requisito analogo a *Generated catalog*.
+- **Change 6–7**: ~~confine tra pagine generate e contenuto redazionale~~ deciso il 16/11/2026: la cartella di versione è tutta generata (change 5b, con il requisito *Generated profile pages*); la parte redazionale sta fuori. Per metterla in `docs/<profilo>/` va allentata la regola V2 di `scripts/check_versions.py`, che oggi ammette fuori dalle cartelle di versione solo `index.md`.
 - **Change 8**: origine del file dati del catalogo indicatori finché il config non è consolidato (export del catalogo attuale o file del pilot).
 - **Change 9** (o comunque quando ogni sezione con `"*"` nel proprio `.nav.yml` ha almeno una pagina oltre a `index.md`): riportare `logs.no_matches` di `awesome-nav` da `info` a `warning` in `mkdocs.yml`, così un pattern senza corrispondenze torna a bloccare il build strict. Impostato a `info` nel change 2 perché le sezioni segnaposto non hanno altre pagine.
 - **Contratto della consegna di aprile 2027**: non coperto da questo seed; se va documentato prima del consolidamento del config serve un change dedicato.

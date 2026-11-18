@@ -35,6 +35,29 @@ Una pagina è **o redazionale o generata, mai mista** (design §3).
 
 Controllo: `scripts/check_conventions.py` (regole G1, G2, G3, G4).
 
+### Pagine dei profili NeTEx e SIRI
+
+Le cartelle di versione `docs/netex/<versione>/` e `docs/siri/<versione>/` sono
+generate. I dati vengono da `rpsd-tools profile-docs generate` (bundle `site.yaml`);
+l'impaginazione è dei template di questo repository, in `templates/profili/`, applicati
+da `scripts/generate_profile_pages.py`.
+
+Per aggiornare un profilo:
+
+1. in un checkout di rpsd-tools: `uv run rpsd-tools profile-docs generate
+   profiles/netex-it --out <cartella>` (o `profiles/siri-it`);
+2. copiare `<cartella>/netex-it/site.yaml` in `data/profili/netex/<versione>/site.yaml`
+   (`data.yaml` non serve al sito);
+3. `python scripts/generate_profile_pages.py --all`;
+4. committare bundle e pagine insieme, con il trailer
+   `Generato-da: rpsd-tools <versione>` preso dalla chiave `generator` del bundle.
+
+Una modifica ai template si committa con le pagine rigenerate. Se cambia le pagine di
+una versione non corrente è un'errata e porta anche il trailer `Errata: <motivo>`.
+
+Controllo: `python scripts/generate_profile_pages.py --all --check` fallisce se le
+pagine committate non corrispondono al bundle.
+
 ## Lunghezza
 
 Una pagina redazionale non supera **1500 parole** (design §8). Il conteggio esclude
@@ -118,8 +141,8 @@ cartella.
 
 **Pubblicare una nuova versione** (es. NeTEx 5.1.0 dopo 5.0.0):
 
-1. creare `docs/netex/5.1.0/` con le sue pagine e il suo `.nav.yml` (la cartella
-   `5.0.0/` non si tocca);
+1. aggiungere il bundle in `data/profili/netex/5.1.0/` e generare `docs/netex/5.1.0/`
+   (sezione "Pagine dei profili NeTEx e SIRI"; la cartella `5.0.0/` non si tocca);
 2. in `mkdocs.yml`, `extra.profili.netex`: `corrente: "5.1.0"`, `"5.1.0": corrente`,
    `"5.0.0": precedente`;
 3. in `docs/netex/.nav.yml` sostituire la voce della versione con `Profilo 5.1.0: 5.1.0`,

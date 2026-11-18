@@ -1,4 +1,14 @@
-# Navigazione della versione: voci ordinate prima di "*", poi tutto il resto.
+# GENERATED — DO NOT EDIT · profile-docs netex-it · netex-it-lev5@cecb0cd
 nav:
-  - index.md
-  - "*"
+- Panoramica: index.md
+- GeneralFrame: general-frame.md
+- ServiceCalendarFrame: service-calendar-frame.md
+- ResourceFrame: resource-frame.md
+- SiteFrame: site-frame.md
+- ServiceFrame: service-frame.md
+- TimetableFrame: timetable-frame.md
+- FareFrame: fare-frame.md
+- MobilityServiceFrame: mobility-service-frame.md
+- Strutture comuni: common.md
+- Enumerazioni: enumerations.md
+- Incongruenze: issues.md

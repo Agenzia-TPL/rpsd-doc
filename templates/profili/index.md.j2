@@ -1,0 +1,37 @@
+{#- Panoramica della versione: documenti di origine, elenco delle pagine, tabelle della busta. #}
+{% from "_tabella.md.j2" import tabella with context %}
+{% include "_testa.md.j2" %}
+
+# {{ data.title }}
+
+- Linee guida{{ " " ~ data.version if data.get("version") else "" }}: «{{ data.guidelines.document }}»
+{% for d in data.guidelines.get("documents", []) %}
+    - {{ d }}
+{% endfor %}
+- XSD: {{ data.xsd|code }}
+{% if data.get("review") %}
+- Note del profilo riviste da {{ data.review.by }} il {{ data.review.date }}
+{% else %}
+- Note del profilo non ancora riviste
+{% endif %}
+
+La cardinalità è quella dell'XSD: l'obbligatorietà non fa parte del profilo (linee guida, §2.2.4). Il significato è quello dato dalle linee guida; i campi dell'XSD che le linee guida non citano sono nel riquadro chiuso sotto ogni tabella.
+
+## Pagine del profilo
+
+{% for p in data.pages if p.kind == "area" %}
+- [{{ p.title }}]({{ p.file }}){{ ": " ~ p.description if p.get("description") else "" }}
+{% endfor %}
+{% for p in data.pages if p.kind == "common" %}
+- [{{ p.title }}]({{ p.file }})
+{% endfor %}
+- [Enumerazioni](enumerations.md)
+- [Incongruenze](issues.md)
+
+## Busta
+
+Elementi: {{ page.roots|map("code")|join(", ") }}.
+
+{% for t in page.get("tables", []) %}
+{{ tabella(page, t) -}}
+{% endfor %}

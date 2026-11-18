@@ -9,3 +9,5 @@ docs/indicatori/matrice/
 docs/contratti/*/    # ogni cartella di contratto; docs/contratti/index.md è redazionale
 !docs/contratti/esempio/    # segnaposto: da togliere col primo contratto generato
 docs/validazione/    # secondo step, solo ipotesi B (catalogo generale delle regole)
+docs/netex/*/    # ogni versione del profilo NeTEx, dal bundle in data/profili/netex/<versione>/
+docs/siri/*/     # ogni versione del profilo SIRI, dal bundle in data/profili/siri/<versione>/

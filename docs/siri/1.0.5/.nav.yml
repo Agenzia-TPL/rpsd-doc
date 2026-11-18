@@ -1,4 +1,11 @@
-# Navigazione della versione: voci ordinate prima di "*", poi tutto il resto.
+# GENERATED — DO NOT EDIT · profile-docs siri-it · siri@v2.2.1
 nav:
-  - index.md
-  - "*"
+- Panoramica: index.md
+- SIRI-VM (Vehicle Monitoring): siri-vm.md
+- SIRI-ET (Estimated Timetable): siri-et.md
+- SIRI-SX (Situation Exchange): siri-sx.md
+- SIRI-FM (Facility Monitoring): siri-fm.md
+- SIRI-PT (Production Timetable): siri-pt.md
+- Strutture comuni: common.md
+- Enumerazioni: enumerations.md
+- Incongruenze: issues.md

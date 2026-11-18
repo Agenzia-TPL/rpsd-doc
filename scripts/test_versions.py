@@ -46,7 +46,8 @@ def publish_new_version(dest: Path) -> None:
     """Procedura di CONTRIBUTING.md per pubblicare NeTEx 5.1.0."""
     new = dest / "docs/netex" / NEW
     shutil.copytree(dest / "docs/netex" / OLD, new)  # pagine nuove; la 5.0.0 non si tocca
-    replace(new / "index.md", f"# Profilo NeTEx {OLD}", f"# Profilo NeTEx {NEW}")
+    # index.md generato dal bundle (add-generated-profile-pages): cambia la versione delle linee guida
+    replace(new / "index.md", f"- Linee guida {OLD}:", f"- Linee guida {NEW}:")
     cfg = dest / "mkdocs.yml"
     replace(cfg, f'corrente: "{OLD}"\n      versioni:\n        "{OLD}": corrente',
             f'corrente: "{NEW}"\n      versioni:\n        "{NEW}": corrente\n        "{OLD}": precedente')

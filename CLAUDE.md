@@ -25,10 +25,13 @@ ART indicators and, in a later step, one section per service contract.
   version is a new folder, not an edit of the existing one.
 
 ## Hand-written vs generated
-- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice/ and,
+- NEVER edit by hand: docs/indicatori/catalogo/, docs/indicatori/matrice/,
+  the profile version folders docs/netex/<version>/ and docs/siri/<version>/ and,
   once they exist (second step), each contract folder docs/contratti/<id>/ and
-  docs/validazione/. They are produced by rpsd-tools from data files in data/
-  using templates/. The authoritative list is generated-paths.txt; commits
+  docs/validazione/. They are produced from data files in data/ using templates/.
+  Profile pages: bundle data/profili/<profile>/<version>/site.yaml from
+  `rpsd-tools profile-docs generate`, rendered by
+  `python scripts/generate_profile_pages.py --all` (templates/profili/). The authoritative list is generated-paths.txt; commits
   touching those paths must carry the trailer "Generato-da: rpsd-tools <version>"
   (checked in CI).
 - docs/contratti/index.md (contract list) is hand-written. docs/contratti/esempio/

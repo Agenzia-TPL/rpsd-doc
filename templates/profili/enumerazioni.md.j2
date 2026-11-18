@@ -1,0 +1,13 @@
+{#- Valori dell'XSD delle enumerazioni usate dalle pagine; ancore del bundle. #}
+{% include "_testa.md.j2" %}
+
+# Enumerazioni
+
+Valori dell'XSD delle enumerazioni usate dalle pagine del profilo.
+
+{% for e in data.get("enumerations", []) if e.get("anchor") %}
+## {{ e.name }} {{ "{#" ~ e.anchor ~ "}" }}
+
+{{ e["values"]|map("code")|join(", ") }}
+
+{% endfor %}

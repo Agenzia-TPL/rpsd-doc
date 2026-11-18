@@ -1,0 +1,17 @@
+{#- Pagina di un frame NeTEx o di un servizio SIRI: una tabella per oggetto, in cascata. #}
+{% from "_tabella.md.j2" import tabella with context %}
+{% include "_testa.md.j2" %}
+
+# {{ page.title }}
+
+{% if page.get("description") %}
+{{ page.description }}
+
+{% endif %}
+{% if not page.get("tables") %}
+Le linee guida non descrivono campi di questa pagina.
+
+{% endif %}
+{% for t in page.get("tables", []) %}
+{{ tabella(page, t) -}}
+{% endfor %}

@@ -1,0 +1,30 @@
+{#- Strutture comuni: identificazione e tabelle raggruppate per argomento. #}
+{% from "_tabella.md.j2" import tabella with context %}
+{% include "_testa.md.j2" %}
+
+# {{ page.title }}
+
+Strutture usate in più punti del profilo, raggruppate per argomento. La descrizione unica di ogni campo è ricavata dalle note delle linee guida elencate nella colonna Fonte. Le righe dei frame che usano una struttura rimandano qui e tengono la nota del loro contesto.
+
+{% set ident = data.get("identification") %}
+{% if ident and (ident.get("id") or ident.get("version")) %}
+## Identificazione {{ "{#identificazione}" }}
+
+Descrizione unica degli attributi comuni a tutti gli oggetti, riportata nelle loro tabelle.
+
+| Campo | Significato |
+|---|---|
+{% for nome, chiave in [("@id", "id"), ("@version", "version")] if ident.get(chiave) %}
+| {{ nome|code }} | {{ ident[chiave].meaning|cell }} |
+{% endfor %}
+
+{% endif %}
+{% set ns = namespace(gruppo=None) %}
+{% for t in page.get("tables", []) %}
+{% if t.get("group") != ns.gruppo %}
+{% set ns.gruppo = t.get("group") %}
+## {{ ns.gruppo }}
+
+{% endif %}
+{{ tabella(page, t) -}}
+{% endfor %}
