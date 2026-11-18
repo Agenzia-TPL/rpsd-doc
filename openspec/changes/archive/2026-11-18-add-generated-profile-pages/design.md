@@ -36,7 +36,7 @@ Alternativa scartata: `data/` senza `profili/`. Il catalogo indicatori metterà 
 
 `scripts/generate_profile_pages.py <bundle> <cartella> [--check]`:
 
-1. carica il bundle con `yaml.safe_load`; verifica le chiavi richieste dallo schema (`pages`, `issues`, `enumerations`, `generator`, `version`, …) ed esce con errore se mancano. Non dipende da rpsd-tools né dal suo JSON Schema: la validazione completa resta a rpsd-tools;
+1. carica il bundle con `yaml.safe_load`; verifica le chiavi indispensabili (`profile`, `title`, `xsd`, `guidelines`, `generator`, `pages`) ed esce con errore se mancano; `issues`, `enumerations` e `version` sono facoltative, come nel renderer di rpsd-tools. Non dipende da rpsd-tools né dal suo JSON Schema: la validazione completa resta a rpsd-tools;
 2. rende ogni file in memoria con un `jinja2.Environment(loader=FileSystemLoader("templates/profili"), undefined=StrictUndefined, keep_trailing_newline=True, autoescape=False)`; `StrictUndefined` fa fallire la generazione se un template usa un dato assente;
 3. senza `--check`: svuota la cartella e scrive i file; con `--check`: confronta l'insieme dei file e il contenuto, stampa i file diversi, mancanti o in più, ed esce con 1.
 

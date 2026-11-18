@@ -24,7 +24,7 @@ Regola generale: nessun contenuto di dominio scritto a mano; tutto viene dal bun
 ## 4. Documenti di progetto
 
 - [x] 4.1 Aggiornare `rpsd-doc-site-design.md` §3 (tabella delle origini: bundle di `rpsd-tools profile-docs` + script di rpsd-doc al posto di `rpsd-profile-gen`; per i profili il motore dei template è in rpsd-doc) e §6 (`data/profili/`, `templates/profili/`), con una voce in §0. Verifica: `grep -n rpsd-profile-gen rpsd-doc-site-design.md` non trova nulla.
-- [x] 4.2 Aggiornare `openspec/seed.md`: §3 (questa change prima della 6; 6 e 7 ridotte a «Informazioni generali» redazionali), §4.5 (scenario SIRI senza SIRI-SM, se Franco conferma; requisiti aggiunti), §5 (punto change 6–7 risolto). Le modifiche ai requisiti si riportano a Franco. Verifica: `openspec validate add-generated-profile-pages --strict`.
+- [x] 4.2 Aggiornare `openspec/seed.md`: §3 (questa change prima della 6; 6 e 7 ridotte a «Informazioni generali» redazionali), §4.5 (scenario SIRI senza SIRI-SM, che il profilo italiano del 5T non descrive; requisiti aggiunti), §5 (punto change 6–7 risolto). Le modifiche ai requisiti si riportano a Franco. Verifica: `openspec validate add-generated-profile-pages --strict`.
 - [x] 4.3 Aggiornare `CLAUDE.md` (percorsi generati: `docs/netex/<versione>/`, `docs/siri/<versione>/`; bundle in `data/profili/`). Verifica: rilettura del diff.
 
 ## 5. Verifica finale
