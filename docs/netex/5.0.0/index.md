@@ -28,10 +28,6 @@ La cardinalità è quella dell'XSD: l'obbligatorietà non fa parte del profilo (
 - [Enumerazioni](enumerations.md)
 - [Incongruenze](issues.md)
 
-## Busta
-
-Elementi: `netex:PublicationDelivery`, `netex:CompositeFrame`.
-
 ## PublicationDelivery {#publicationdelivery}
 
 Linee guida §5.1.2 «Tag comuni», Tabella 3. Tipo dell'XSD `PublicationDeliveryStructure`.
