@@ -58,6 +58,10 @@ una versione non corrente è un'errata e porta anche il trailer `Errata: <motivo
 Controllo: `python scripts/generate_profile_pages.py --all --check` fallisce se le
 pagine committate non corrispondono al bundle.
 
+I template partono dal Markdown di riferimento di rpsd-tools ma possono discostarsene
+di proposito. Differenze volute oggi: la Panoramica non ha il titolo «Busta» né la
+riga «Elementi: …», che le linee guida 5T non usano (change `remove-envelope-heading`).
+
 ## Lunghezza
 
 Una pagina redazionale non supera **1500 parole** (design §8). Il conteggio esclude

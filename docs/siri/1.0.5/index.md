@@ -25,10 +25,6 @@ La cardinalità è quella dell'XSD: l'obbligatorietà non fa parte del profilo (
 - [Enumerazioni](enumerations.md)
 - [Incongruenze](issues.md)
 
-## Busta
-
-Elementi: `siri:ServiceDelivery`.
-
 ## ServiceDelivery {#servicedelivery}
 
 Linee guida §5.2.2 «Tag comuni – ServiceDelivery», Tabella 1.
