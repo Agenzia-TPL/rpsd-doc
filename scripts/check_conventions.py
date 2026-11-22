@@ -29,7 +29,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 MAX_WORDS = 1500
-GLOSSARY = "docs/rapsodia/glossario.md"
+GLOSSARY = "docs/guida/glossario.md"
 TRAILER = "Generato-da"
 GENERATOR = "rpsd-tools"
 

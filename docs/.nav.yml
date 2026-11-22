@@ -1,12 +1,10 @@
 # Tab di primo livello, nell'ordine richiesto (spec site-navigation).
 # Elenco esplicito, senza "*": una cartella nuova in docs/ non diventa un tab per caso.
-# Il tab Rapsodia raggruppa la home e le pagine di docs/rapsodia/, piatte nella sidebar.
+# Il tab Rapsodia raggruppa la home e la pagina Release del sito (docs/rapsodia/).
 nav:
   - Rapsodia:
     - index.md
-    - rapsodia/progetto.md
-    - rapsodia/glossario.md
-    - rapsodia/novita.md
+    - rapsodia/release.md
   - Architettura: architettura
   - NeTEx: netex
   - SIRI: siri

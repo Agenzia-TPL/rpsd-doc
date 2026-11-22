@@ -53,6 +53,7 @@ def publish_new_version(dest: Path) -> None:
             f'corrente: "{NEW}"\n      versioni:\n        "{NEW}": corrente\n        "{OLD}": precedente')
     replace(cfg, f"netex/corrente/index.md: netex/{OLD}/index.md", f"netex/corrente/index.md: netex/{NEW}/index.md")
     replace(dest / "docs/netex/.nav.yml", f"Profilo {OLD}: {OLD}", f"Profilo {NEW}: {NEW}")
+    replace(dest / "docs/index.md", f"[{OLD}](netex/{OLD}/index.md)", f"[{NEW}](netex/{NEW}/index.md)")
     replace(dest / "docs/netex/index.md", f"| [{OLD}]({OLD}/index.md) | corrente |",
             f"| [{NEW}]({NEW}/index.md) | corrente | _da completare_ | _da completare_ |\n"
             f"| [{OLD}]({OLD}/index.md) | precedente |")
@@ -84,7 +85,7 @@ class TwoVersions(unittest.TestCase):
 
     def test_new_version_keeps_previous_urls_and_sources(self):
         # Scenario: New profile version published
-        self.assertEqual(compare(self.base_urls, self.head_urls), [])
+        self.assertEqual(compare(self.base_urls, self.head_urls)[0], [])
         for page in sorted((self.base / "docs/netex" / OLD).rglob("*")):
             if page.is_file():
                 twin = self.head / page.relative_to(self.base)
@@ -120,7 +121,8 @@ class TwoVersions(unittest.TestCase):
 
     def test_all_rules_pass_on_fixture(self):
         problems = (cv.check_metadata(self.config) + cv.check_folders(self.head, self.config)
-                    + cv.check_sidebar_nav(self.head, self.config) + cv.check_alias(self.config))
+                    + cv.check_sidebar_nav(self.head, self.config) + cv.check_alias(self.config)
+                    + cv.check_home(self.head, self.config))
         self.assertEqual(problems, [])
 
 
@@ -175,6 +177,20 @@ class NonCompliant(unittest.TestCase):
     def test_version_list_missing_row(self):
         replace(self.root / "docs/netex/index.md", "| [5.0.0](5.0.0/index.md) | corrente |", "| 5.0.0 | corrente |")
         self.assertEqual(self.rules(cv.check_version_list(self.root, self.config())), ["V5"])
+
+    def test_home_passes(self):
+        self.assertEqual(cv.check_home(self.root, self.config()), [])
+
+    def test_home_with_previous_version(self):
+        # versione corrente cambiata in mkdocs.yml, home rimasta alla precedente
+        replace(self.root / "mkdocs.yml", 'corrente: "5.0.0"\n      versioni:\n        "5.0.0": corrente',
+                'corrente: "5.1.0"\n      versioni:\n        "5.1.0": corrente\n        "5.0.0": precedente')
+        self.assertEqual(self.rules(cv.check_home(self.root, self.config())), ["V8"])
+        self.assertEqual(len(cv.check_home(self.root, self.config())), 2)  # manca 5.1.0, c'è 5.0.0
+
+    def test_home_without_current_link(self):
+        replace(self.root / "docs/index.md", "[1.0.5](siri/1.0.5/index.md)", "1.0.5")
+        self.assertEqual(self.rules(cv.check_home(self.root, self.config())), ["V8"])
 
     def test_missing_notice_on_built_page(self):
         cfg = {"extra": {"profili": {"netex": {"corrente": "5.1.0", "versioni": {"5.1.0": "corrente",

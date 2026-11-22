@@ -92,7 +92,7 @@ resta alla revisione.
 
 ## Glossario e sigle
 
-- Il glossario è `docs/rapsodia/glossario.md`. Ogni sigla è un titolo con anchor
+- Il glossario è `docs/guida/glossario.md`, nella Guida operativa. Ogni sigla è un titolo con anchor
   esplicito e classe `sigla`:
 
   ```markdown
@@ -100,7 +100,7 @@ resta alla revisione.
   ```
 
 - In ogni pagina, il **primo uso** di una sigla del glossario è un link alla sua voce,
-  per esempio `[PdE](../rapsodia/glossario.md#pde)`. Gli usi successivi sono liberi.
+  per esempio `[PdE](../guida/glossario.md#pde)`. Gli usi successivi sono liberi.
   Contano anche tabelle e testo dei callout; non contano titoli di pagina, titoli dei
   callout (dove un link non viene reso) e codice.
 
@@ -117,13 +117,41 @@ spostata o rinominata, si aggiunge in `mkdocs.yml`, sotto
 vecchio/percorso.md: nuovo/percorso.md
 ```
 
+Eccezione: una pagina che sul branch di destinazione è **solo un segnaposto** (titolo
+e callout `note` «Sezione in preparazione», nient'altro) si può togliere o spostare
+senza redirect, perché non ha mai pubblicato contenuto. Una pagina con l'avviso più
+altro contenuto (per esempio la tabella delle versioni in `netex/index.md`) non è un
+segnaposto e resta protetta.
+
 Controllo: `scripts/check_urls.py`, che confronta gli URL della PR con quelli del
-branch di destinazione.
+branch di destinazione ed elenca a parte i segnaposto tolti.
 
 ## Navigazione
 
 Tab e sidebar sono definiti dai file `.nav.yml` di ogni cartella: vedi la sezione
 "Navigazione" del [README](README.md).
+
+## Release del sito
+
+`docs/rapsodia/release.md` elenca le modifiche al sito in una tabella, dalla più
+recente: una riga per ogni change completata e pubblicata, con la data di
+archiviazione, l'area e lo scopo ripreso dalla sua proposal.
+
+| Area | Icona |
+|---|---|
+| Profili | `:material-file-document-multiple-outline:` |
+| Struttura | `:material-sitemap-outline:` |
+| Convenzioni | `:material-check-decagram-outline:` |
+| Navigazione | `:material-compass-outline:` |
+| Sito | `:material-rocket-launch-outline:` |
+
+La home mostra l'intestazione e le righe comprese fra i marcatori
+`<!-- --8<-- [start:recenti] -->` e `<!-- --8<-- [end:recenti] -->`, incluse con
+`pymdownx.snippets`: si scrivono una volta sola. I marcatori stanno fra le righe della
+tabella e non la spezzano, perché `pymdownx.snippets` li toglie prima del rendering.
+
+Quando si aggiunge una riga in cima, si sposta il marcatore `end:recenti` in modo che
+fra i due marcatori restino l'intestazione e le **tre** righe più recenti.
 
 ## Profili versionati
 
@@ -152,11 +180,13 @@ cartella.
 3. in `docs/netex/.nav.yml` sostituire la voce della versione con `Profilo 5.1.0: 5.1.0`,
    e in `redirect_maps` far puntare `netex/corrente/index.md` a `netex/5.1.0/index.md`;
 4. in `docs/netex/index.md` aggiungere la riga della 5.1.0 e cambiare lo stato della
-   5.0.0 in `precedente`.
+   5.0.0 in `precedente`;
+5. nella home (`docs/index.md`), scheda NeTEx, cambiare «Versione corrente» in
+   `[5.1.0](netex/5.1.0/index.md)`.
 
 Se manca un passo, il controllo fallisce indicando quale.
 
-Controllo: `scripts/check_versions.py` (regole V1–V7).
+Controllo: `scripts/check_versions.py` (regole V1–V8).
 
 ## Contenuti e fonti
 

@@ -1,20 +1,89 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # Rapsodia — Documentazione
 
 Rapsodia è la piattaforma di monitoraggio del trasporto pubblico locale delle
-Agenzie TPL lombarde. Questo sito ne raccoglie la documentazione.
+Agenzie TPL lombarde; questo sito ne raccoglie la documentazione per le Aziende TPL,
+le Agenzie TPL e il team tecnico.
 
-## Sezioni del sito
+<div class="grid cards" markdown>
 
-| Sezione | Cosa contiene |
-|---|---|
-| [Il progetto](rapsodia/progetto.md) | Il progetto Rapsodia |
-| [Glossario](rapsodia/glossario.md) | I termini usati nel sito |
-| [Novità del sito](rapsodia/novita.md) | Le modifiche al sito, dalla più recente |
-| [Architettura](architettura/index.md) | I sottosistemi della piattaforma e i loro moduli |
-| [NeTEx](netex/index.md) | Il profilo italiano di NeTEx |
-| [SIRI](siri/index.md) | Il profilo italiano di SIRI |
-| [Indicatori](indicatori/index.md) | Gli indicatori di qualità ART (Delibera ART 53/2024) |
-| [Modello dati](modello-dati/index.md) | Gli strati del modello dati e la documentazione del database |
-| [Dashboard](dashboard/index.md) | Le dashboard degli indicatori |
-| [Guida operativa](guida/index.md) | Trasmissione dei dati, validazione, domande frequenti |
-| [Contratti](contratti/index.md) | Un mini-sito per ogni contratto di servizio |
+-   :material-sitemap-outline:{ .lg .middle } **Architettura**
+
+    ---
+
+    I sottosistemi della piattaforma e i loro moduli.
+
+    [:material-arrow-right: Vai alla sezione](architettura/index.md)
+
+-   :material-timetable:{ .lg .middle } **NeTEx**
+
+    ---
+
+    Il profilo italiano di NeTEx.
+
+    Versione corrente: [5.0.0](netex/5.0.0/index.md)
+
+    [:material-arrow-right: Vai alla sezione](netex/index.md)
+
+-   :material-bus-clock:{ .lg .middle } **SIRI**
+
+    ---
+
+    Il profilo italiano di SIRI.
+
+    Versione corrente: [1.0.5](siri/1.0.5/index.md)
+
+    [:material-arrow-right: Vai alla sezione](siri/index.md)
+
+-   :material-chart-line:{ .lg .middle } **Indicatori**
+
+    ---
+
+    Gli indicatori di qualità ART (Delibera ART 53/2024).
+
+    [:material-arrow-right: Vai alla sezione](indicatori/index.md)
+
+-   :material-database-outline:{ .lg .middle } **Modello dati**
+
+    ---
+
+    Gli strati del modello dati e la documentazione del database.
+
+    [:material-arrow-right: Vai alla sezione](modello-dati/index.md)
+
+-   :material-view-dashboard-outline:{ .lg .middle } **Dashboard**
+
+    ---
+
+    Le dashboard degli indicatori.
+
+    [:material-arrow-right: Vai alla sezione](dashboard/index.md)
+
+-   :material-book-open-variant:{ .lg .middle } **Guida operativa**
+
+    ---
+
+    Trasmissione dei dati, validazione, domande frequenti.
+
+    [:material-arrow-right: Vai alla sezione](guida/index.md)
+
+-   :material-file-sign:{ .lg .middle } **Contratti**
+
+    ---
+
+    Un mini-sito per ogni contratto di servizio.
+
+    [:material-arrow-right: Vai alla sezione](contratti/index.md)
+
+</div>
+
+## Release del sito
+
+--8<-- "docs/rapsodia/release.md:recenti"
+
+[Tutte le release del sito](rapsodia/release.md)
