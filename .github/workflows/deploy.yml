@@ -1,10 +1,13 @@
-# Pubblicazione su GitHub Pages a ogni push su main, solo se il build strict riesce.
-# Richiede Pages configurato con sorgente "GitHub Actions" (passo manuale, vedi README).
+# Pubblicazione su GitHub Pages solo alle release del sito: push di un tag vX.Y.Z
+# (o avvio manuale su un tag), se il controllo della release e il build strict
+# riescono. Il merge su main non pubblica nulla (spec site-releases, CONTRIBUTING).
+# Richiede Pages con sorgente "GitHub Actions" e, nell'ambiente github-pages, la
+# regola di deploy per i tag v* (passi manuali, vedi README).
 name: Deploy
 
 on:
   push:
-    branches: [main]
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
@@ -19,12 +22,23 @@ jobs:
     name: Build strict
     runs-on: ubuntu-latest
     steps:
+      # Storia completa e branch remoti: il controllo verifica che il tag sia su main.
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v7
         with:
           python-version-file: .python-version
           cache: pip
       - run: pip install -r requirements.txt
+      # Il ref deve essere un tag annotato vX.Y.Z su main, uguale alla prima riga di
+      # docs/rapsodia/release.md; da un branch (avvio manuale) il controllo fallisce.
+      # Tag riscaricati dal remoto: checkout può registrare il tag dell'evento come tag
+      # leggero, e R4 richiede il tag annotato.
+      - name: Controllo della release
+        run: |
+          git fetch --force --tags origin
+          python scripts/check_release.py --tag "$GITHUB_REF_NAME"
       # Se il build fallisce il job si ferma qui: l'artifact non viene caricato
       # (Zensical scrive site/ anche quando il build strict fallisce).
       - run: zensical build --strict

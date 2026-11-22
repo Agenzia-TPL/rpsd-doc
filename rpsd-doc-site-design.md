@@ -7,6 +7,11 @@
 
 ## 0. Cosa cambia
 
+### Release del sito (22 novembre 2026, change `add-site-releases`)
+
+- **Pubblicazione solo alle release**: il sito si pubblica al push di un tag annotato `vX.Y.Z` su `main`, non più a ogni merge (§2.3, §9).
+- **Release del sito**: numerazione `X.Y.Z` come rpsd-tools; la pagina `rapsodia/release.md` ha una riga per release (versione, data, novità) e la home ne mostra le ultime tre (§4.2).
+
 ### Home e tab Rapsodia (22 novembre 2026, change `add-overview-pages`)
 
 - **Home**: frase su cos'è Rapsodia e per chi è il sito, testo sul progetto (quando ci sono le fonti), una scheda per ogni sezione da Architettura a Contratti con le versioni correnti dei profili, in fondo le ultime release del sito (§4.2).
@@ -120,6 +125,12 @@ Estensioni Markdown e feature del tema restano quelle della v0.1 (admonition, su
 ### 2.3 Versioning
 
 Nel sito convivono più assi di versione indipendenti: il profilo NeTEx, il profilo SIRI, ciascun contratto. `mike` (e in generale il versioning di sito) ne gestisce uno solo: versionare tutto il sito a ogni nuovo profilo NeTEx duplicherebbe anche SIRI, indicatori e contratti che non sono cambiati. Per questo le versioni sono gestite **per percorso**, non per sito.
+
+**Release del sito**
+
+- Il sito pubblicato corrisponde sempre a una release: tag annotato `vX.Y.Z` su `main`, con la riga della release in `rapsodia/release.md`. Il merge su `main` non pubblica; il deploy parte dal tag e si ferma se tag e pagina non coincidono.
+- Non è un versioning di sito alla `mike`: resta pubblicata solo l'ultima release, mentre le versioni dei profili (e, nel secondo step, dei contratti) restano assi separati, gestiti per percorso come descritto qui sotto.
+- Numerazione come rpsd-tools: sotto la 1.0 la minore cambia per sezioni o contenuti nuovi, la patch per le correzioni. Procedura in CONTRIBUTING.
 
 **Profili NeTEx e SIRI**
 
@@ -510,7 +521,7 @@ Allineato alle scadenze di progetto (config con pilot a fine novembre 2026, part
 
 *Fase 0 — Fondamenta (novembre–dicembre 2026)*
 1. Spike Zensical sui punti del §2.1; conferma della scelta o passaggio al piano B.
-2. Setup repository, `mkdocs.yml`, `.nav.yml`, CI di build e deploy.
+2. Setup repository, `mkdocs.yml`, `.nav.yml`, CI di build e deploy; pubblicazione alle release del sito (tag `vX.Y.Z`).
 3. Struttura versionata di `netex/` e `siri/` con le versioni correnti dei profili.
 
 *Fase 1 — Contenuti (dicembre 2026–marzo 2027)*
