@@ -131,9 +131,9 @@ branch di destinazione ed elenca a parte i segnaposto tolti.
 Tab e sidebar sono definiti dai file `.nav.yml` di ogni cartella: vedi la sezione
 "Navigazione" del [README](README.md).
 
-## Versioni del sito
+## Release del sito
 
-`docs/rapsodia/versioni.md` elenca le modifiche al sito in una tabella, dalla più
+`docs/rapsodia/release.md` elenca le modifiche al sito in una tabella, dalla più
 recente: una riga per ogni change completata e pubblicata, con la data di
 archiviazione, l'area e lo scopo ripreso dalla sua proposal.
 

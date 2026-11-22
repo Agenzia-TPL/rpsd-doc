@@ -74,7 +74,7 @@ rules:
 | `content-conventions` | Regole trasversali: lingua, lunghezza, admonition, pagine generate, URL stabili |
 | `profile-versioning` | Versioni dei profili NeTEx/SIRI per percorso |
 | `profile-docs` | Struttura e template delle pagine di profilo (frame NeTEx, servizi SIRI) |
-| `overview` | Home con il progetto, versioni del sito, architettura, modello dati con link alla documentazione dbt |
+| `overview` | Home con il progetto, release del sito, architettura, modello dati con link alla documentazione dbt |
 | `indicator-catalog` | Delibera, catalogo delle definizioni ART, matrice indicatori × dataset |
 | `operational-guide` | Guida per Aziende e Agenzie, funzionamento della validazione, FAQ, glossario |
 
@@ -90,7 +90,7 @@ Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restrict
 | 3 | `add-content-conventions` | Controlli in CI sulle convenzioni e pagina "come contribuire" | `content-conventions` |
 | 4 | `add-profile-versioning` | Scheletro `netex/5.0.0/`, `siri/1.0.5/`, pagine elenco versioni, avviso sulle versioni non correnti, alias `corrente` | `profile-versioning` |
 | 4b | `restructure-site-sections` | Tab Rapsodia, Architettura, Modello dati, Dashboard, Contratti (indice redazionale e segnaposto `esempio`); solo struttura, aggiunto il 14 novembre 2026 | `site-navigation`, `content-conventions` |
-| 5 | `add-overview-pages` | Home (frase introduttiva, progetto, schede delle sezioni, versioni recenti) e pagina Versioni; glossario spostato nella Guida operativa; URL stabili solo per pagine con contenuto. Architettura (sottosistemi e moduli), Modello dati e Dashboard quando ci sono le fonti | `overview`, `content-conventions` |
+| 5 | `add-overview-pages` | Home (frase introduttiva, progetto, schede delle sezioni, release recenti) e pagina Release del sito; glossario spostato nella Guida operativa; URL stabili solo per pagine con contenuto. Architettura (sottosistemi e moduli), Modello dati e Dashboard quando ci sono le fonti | `overview`, `content-conventions` |
 | 5b | `add-generated-profile-pages` | Pagine di frame e servizio, strutture comuni, enumerazioni e incongruenze di NeTEx 5.0.0 e SIRI 1.0.5, generate dal bundle di `rpsd-tools profile-docs` con i template di rpsd-doc; aggiunto il 18 novembre 2026 | `profile-docs` |
 | 6 | `add-netex-profile-docs` | Solo la parte redazionale: «Informazioni generali» del NeTEx (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per frame vengono dal change 5b | `profile-docs` |
 | 7 | `add-siri-profile-docs` | Solo la parte redazionale: «Informazioni generali» del SIRI (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per servizio vengono dal change 5b | `profile-docs` |
@@ -347,7 +347,7 @@ Each profile version SHALL explain the concepts needed before reading the frame 
 
 ### 4.6 `overview`
 
-Riformulato il 14 novembre 2026 (change `restructure-site-sections`): pagine distribuite nei tab Rapsodia, Architettura e Modello dati. Riformulato il 22 novembre 2026 (change `add-overview-pages`): il progetto si descrive nella home, il tab Rapsodia ha solo home e Versioni, il glossario passa in `operational-guide`. Nessun requisito sulla Dashboard finché il contenuto non è definito (decisione di Franco). Il diagramma del flusso potrà essere sostituito da un tipo di grafico che mostri anche App e IoT.
+Riformulato il 14 novembre 2026 (change `restructure-site-sections`): pagine distribuite nei tab Rapsodia, Architettura e Modello dati. Riformulato il 22 novembre 2026 (change `add-overview-pages`): il progetto si descrive nella home, il tab Rapsodia ha solo home e Release del sito, il glossario passa in `operational-guide`. Nessun requisito sulla Dashboard finché il contenuto non è definito (decisione di Franco). Il diagramma del flusso potrà essere sostituito da un tipo di grafico che mostri anche App e IoT.
 
 ## ADDED Requirements
 
@@ -398,7 +398,7 @@ The home page SHALL show the most recent entries of the site changelog after the
 
 #### Scenario: Bottom of the home page
 - **WHEN** a reader scrolls past the section entry points on the home page
-- **THEN** they see the latest site versions, identical to the top of the Versioni page, and a link to that page
+- **THEN** they see the latest site versions, identical to the top of the Release del sito page, and a link to that page
 
 
 ### 4.7 `indicator-catalog`

@@ -5,17 +5,17 @@ Nessun task fa push, apre PR o tocca le impostazioni GitHub senza approvazione d
 ## 1. Pagine del tab Rapsodia e URL
 
 - [x] 1.1 In `scripts/check_urls.py` escludere gli URL di BASE la cui pagina è un segnaposto (D11); casi aggiunti ai test di *Stable URLs* già presenti in `scripts/test_conventions.py` (eseguito da `pr.yml`, quindi niente `test_urls.py` né modifiche a `pr.yml`): segnaposto tolto (passa), pagina con contenuto tolta (fallisce), pagina di sezione con avviso più tabella tolta (fallisce), più il riconoscimento del segnaposto sul testo. Aggiornare CONTRIBUTING «URL stabili». Verifica: `python scripts/test_conventions.py` e `python scripts/test_versions.py` passano.
-- [x] 1.2 Eliminare `docs/rapsodia/progetto.md`; `git mv` di `docs/rapsodia/novita.md` in `docs/rapsodia/versioni.md` (titolo «Versioni») e di `docs/rapsodia/glossario.md` in `docs/guida/glossario.md`; aggiornare `docs/.nav.yml` (tab Rapsodia: `index.md`, `rapsodia/versioni.md`); nessun redirect (D8). Verifica: `python scripts/check_urls.py origin/main` passa e indica i tre URL come segnaposto tolti; nessun redirect nuovo in `mkdocs.yml`.
-- [x] 1.3 Aggiornare `scripts/check_navigation.py` (D9: `rapsodia/versioni/` al posto di `rapsodia/progetto/`). Verifica: `zensical build --strict` e `python scripts/check_navigation.py` a zero errori, glossario nella sidebar di Guida operativa.
+- [x] 1.2 Eliminare `docs/rapsodia/progetto.md`; `git mv` di `docs/rapsodia/novita.md` in `docs/rapsodia/release.md` (titolo «Release del sito») e di `docs/rapsodia/glossario.md` in `docs/guida/glossario.md`; aggiornare `docs/.nav.yml` (tab Rapsodia: `index.md`, `rapsodia/release.md`); nessun redirect (D8). Verifica: `python scripts/check_urls.py origin/main` passa e indica i tre URL come segnaposto tolti; nessun redirect nuovo in `mkdocs.yml`.
+- [x] 1.3 Aggiornare `scripts/check_navigation.py` (D9: `rapsodia/release/` al posto di `rapsodia/progetto/`). Verifica: `zensical build --strict` e `python scripts/check_navigation.py` a zero errori, glossario nella sidebar di Guida operativa.
 - [x] 1.4 Aggiornare il percorso del glossario in `scripts/check_conventions.py`, `scripts/test_conventions.py` e CONTRIBUTING «Glossario e sigle» (D9). Verifica: `python scripts/test_conventions.py` passa; `grep -rn "rapsodia/glossario" scripts CONTRIBUTING.md docs templates` non trova nulla.
 
-## 2. Pagina Versioni
+## 2. Pagina Release del sito
 
-- [x] 2.1 Scrivere `docs/rapsodia/versioni.md`: tabella con una riga per change archiviata in `openspec/changes/archive/`, dalla più recente, con data, area e scopo dalla proposal (D6); intestazione e 3 righe più recenti fra i marcatori `recenti` (D7). Aggiungere a CONTRIBUTING come si aggiunge una riga, le aree con le loro icone e come si spostano i marcatori. Verifica: ogni voce corrisponde a una cartella dell'archivio; build strict senza avvisi.
+- [x] 2.1 Scrivere `docs/rapsodia/release.md`: tabella con una riga per change archiviata in `openspec/changes/archive/`, dalla più recente, con data, area e scopo dalla proposal (D6); intestazione e 3 righe più recenti fra i marcatori `recenti` (D7). Aggiungere a CONTRIBUTING come si aggiunge una riga, le aree con le loro icone e come si spostano i marcatori. Verifica: ogni voce corrisponde a una cartella dell'archivio; build strict senza avvisi.
 
 ## 3. Home
 
-- [x] 3.1 Riscrivere `docs/index.md`: front matter `hide: [navigation, toc]` (D10), titolo e frase introduttiva (D2), otto schede da Architettura a Contratti (D1, D3) con le versioni dei profili in NeTEx e SIRI (D4), sezione «Versioni» con l'inclusione `recenti` e il link a `rapsodia/versioni.md` (D7). Verifica: nessun HTML oltre al `div` delle schede, nessun link a progetto o glossario, `python scripts/check_conventions.py` a zero errori.
+- [x] 3.1 Riscrivere `docs/index.md`: front matter `hide: [navigation, toc]` (D10), titolo e frase introduttiva (D2), otto schede da Architettura a Contratti (D1, D3) con le versioni dei profili in NeTEx e SIRI (D4), sezione «Release del sito» con l'inclusione `recenti` e il link a `rapsodia/release.md` (D7). Verifica: nessun HTML oltre al `div` delle schede, nessun link a progetto o glossario, `python scripts/check_conventions.py` a zero errori.
 
 - [x] 3.2 Icone nelle schede (D3, D3b): aggiungere `pymdownx.emoji` a `mkdocs.yml`; in ogni scheda icona accanto al titolo e link «Vai alla sezione» in fondo. Verifica: build strict senza avvisi, otto icone SVG nella home costruita, `check_versions` (V8) e `check_conventions` a zero errori.
 
@@ -32,7 +32,7 @@ Nessun task fa push, apre PR o tocca le impostazioni GitHub senza approvazione d
 ## 6. Verifica finale
 
 - [x] 6.1 `zensical build --strict` senza avvisi e controlli di `pr.yml` in locale (`check_navigation`, `check_conventions`, `check_urls origin/main`, `check_versions --site site`, `generate_profile_pages --all --check`, `test_conventions`, `test_versions`, `test_generate_profile_pages`). Verifica: tutti a zero errori.
-- [x] 6.2 Controllo delle pagine costruite: home senza sidebar né indice, tab Rapsodia attivo, otto schede con link funzionanti, versioni 5.0.0 e 1.0.5, sezione Versioni uguale alla testa di `rapsodia/versioni/`; i tre vecchi URL non sono serviti; glossario in Guida operativa; nessun redirect nuovo in `mkdocs.yml`. Verifica: HTML costruito e `zensical serve`.
+- [x] 6.2 Controllo delle pagine costruite: home senza sidebar né indice, tab Rapsodia attivo, otto schede con link funzionanti, versioni 5.0.0 e 1.0.5, sezione Release del sito uguale alla testa di `rapsodia/release/`; i tre vecchi URL non sono serviti; glossario in Guida operativa; nessun redirect nuovo in `mkdocs.yml`. Verifica: HTML costruito e `zensical serve`.
 
 ## Workflow follow-up
 

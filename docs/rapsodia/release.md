@@ -1,4 +1,4 @@
-# Versioni
+# Release del sito
 
 Le modifiche al sito, dalla più recente. Ogni riga corrisponde a una change
 completata e pubblicata.

@@ -82,8 +82,8 @@ le Agenzie TPL e il team tecnico.
 
 </div>
 
-## Versioni
+## Release del sito
 
---8<-- "docs/rapsodia/versioni.md:recenti"
+--8<-- "docs/rapsodia/release.md:recenti"
 
-[Tutte le versioni del sito](rapsodia/versioni.md)
+[Tutte le release del sito](rapsodia/release.md)

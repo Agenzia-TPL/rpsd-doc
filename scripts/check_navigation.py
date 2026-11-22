@@ -22,7 +22,7 @@ EXPECTED_TABS = ["Rapsodia", "Architettura", "NeTEx", "SIRI", "Indicatori",
 # pagina (relativa a site/) -> tab che deve risultare attivo
 PAGES = {
     "index.html": "Rapsodia",
-    "rapsodia/versioni/index.html": "Rapsodia",
+    "rapsodia/release/index.html": "Rapsodia",
     "architettura/index.html": "Architettura",
     "modello-dati/index.html": "Modello dati",
     "dashboard/index.html": "Dashboard",

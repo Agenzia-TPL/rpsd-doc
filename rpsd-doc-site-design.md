@@ -9,8 +9,8 @@
 
 ### Home e tab Rapsodia (22 novembre 2026, change `add-overview-pages`)
 
-- **Home**: frase su cos'è Rapsodia e per chi è il sito, testo sul progetto (quando ci sono le fonti), una scheda per ogni sezione da Architettura a Contratti con le versioni correnti dei profili, in fondo le ultime versioni del sito (§4.2).
-- **Tab Rapsodia**: solo home e Versioni. Il progetto si descrive nella home (niente pagina `progetto`), «Novità del sito» diventa «Versioni» (`rapsodia/versioni.md`), il glossario passa nella Guida operativa (`guida/glossario.md`).
+- **Home**: frase su cos'è Rapsodia e per chi è il sito, testo sul progetto (quando ci sono le fonti), una scheda per ogni sezione da Architettura a Contratti con le versioni correnti dei profili, in fondo le ultime release del sito (§4.2).
+- **Tab Rapsodia**: solo home e Release del sito. Il progetto si descrive nella home (niente pagina `progetto`), «Novità del sito» diventa «Release del sito» (`rapsodia/release.md`), il glossario passa nella Guida operativa (`guida/glossario.md`).
 - **URL stabili**: valgono per le pagine con contenuto; una pagina pubblicata solo come segnaposto si può togliere o spostare senza redirect (§8).
 
 ### Pagine dei profili generate in rpsd-doc (18 novembre 2026, change `add-generated-profile-pages`)
@@ -233,7 +233,7 @@ un contratto segnaposto; i contratti generati arrivano con il secondo step (§5)
 
 ### 4.2 Parte generale
 
-**Rapsodia** — la home (`docs/index.md`) è l'indice del sito e la pagina del progetto: una frase su cos'è Rapsodia e per chi è il sito, il testo sul progetto (obiettivi, consorzio, partner), una scheda per ogni sezione da Architettura a Contratti (le schede NeTEx e SIRI riportano la versione corrente) e in fondo le ultime versioni del sito. Il tab contiene anche `rapsodia/versioni.md`, il changelog del sito: una voce per change pubblicata, dalla più recente; la home ne include le voci recenti. Con il secondo step la home mette in evidenza i Contratti come ingresso principale per le Aziende: una sezione «Contratti monitorati», fra le schede e le versioni, ripresa dall'elenco generato dei contratti (solo contratti pubblici), aggiunta con il primo contratto generato.
+**Rapsodia** — la home (`docs/index.md`) è l'indice del sito e la pagina del progetto: una frase su cos'è Rapsodia e per chi è il sito, il testo sul progetto (obiettivi, consorzio, partner), una scheda per ogni sezione da Architettura a Contratti (le schede NeTEx e SIRI riportano la versione corrente) e in fondo le ultime release del sito. Il tab contiene anche `rapsodia/release.md`, il changelog del sito: una voce per change pubblicata, dalla più recente; la home ne include le voci recenti. Con il secondo step la home mette in evidenza i Contratti come ingresso principale per le Aziende: una sezione «Contratti monitorati», fra le schede e le release, ripresa dall'elenco generato dei contratti (solo contratti pubblici), aggiunta con il primo contratto generato.
 
 **Architettura** — definizione generale della piattaforma, diagramma del flusso dei dati (in seguito, eventualmente, un grafico che mostri anche App e IoT) e una pagina per sottosistema: **Core (A+D)**, **App (B)**, **IoT (C)**. La pagina del Core elenca i moduli funzionali con una breve descrizione e il link al repository GitHub di ciascuno.
 
@@ -452,7 +452,7 @@ rpsd-doc/
 ├── docs/
 │   ├── .nav.yml
 │   ├── index.md
-│   ├── rapsodia/               # redazionale: versioni del sito (tab Rapsodia con index.md)
+│   ├── rapsodia/               # redazionale: release del sito (tab Rapsodia con index.md)
 │   ├── architettura/           # redazionale: Core (A+D), App (B), IoT (C)
 │   ├── netex/
 │   │   ├── index.md            # redazionale: elenco versioni

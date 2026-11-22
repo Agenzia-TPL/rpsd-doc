@@ -25,4 +25,4 @@ The home page SHALL show the most recent entries of the site changelog after the
 
 #### Scenario: Bottom of the home page
 - **WHEN** a reader scrolls past the section entry points on the home page
-- **THEN** they see the latest site versions, identical to the top of the Versioni page, and a link to that page
+- **THEN** they see the latest site versions, identical to the top of the Release del sito page, and a link to that page
