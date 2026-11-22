@@ -106,8 +106,8 @@ GitHub:
 
 | Workflow | Quando | Cosa fa |
 |---|---|---|
-| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito, `python scripts/check_navigation.py` (tab), `python scripts/check_conventions.py --commits origin/<base>` (convenzioni di contenuto, vedi CONTRIBUTING.md), `python scripts/check_urls.py origin/<base>` (URL stabili) `python scripts/check_versions.py --site site --commits origin/<base>` (versioni dei profili) e `python scripts/generate_profile_pages.py --all --check` (pagine dei profili allineate al bundle); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py`, `python scripts/test_conventions.py`, `python scripts/test_versions.py` e `python scripts/test_generate_profile_pages.py` (prove dei controlli). Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
-| `deploy.yml` | push su `main` (e avvio manuale) | job `build`: build strict e caricamento di `site/` come artifact di Pages; job `deploy`: pubblicazione su GitHub Pages. Se il build fallisce, `deploy` non parte e il sito pubblicato resta invariato |
+| `pr.yml` | ogni pull request | job `build`: `zensical build --strict` del sito, `python scripts/check_navigation.py` (tab), `python scripts/check_conventions.py --commits origin/<base>` (convenzioni di contenuto, vedi CONTRIBUTING.md), `python scripts/check_urls.py origin/<base>` (URL stabili) `python scripts/check_versions.py --site site --commits origin/<base>` (versioni dei profili) `python scripts/generate_profile_pages.py --all --check` (pagine dei profili allineate al bundle) e `python scripts/check_release.py` (pagina «Release del sito»); job `spike`: `python scripts/spike.py --scale` (400 pagine, limite 60 s, sidebar), `python scripts/check_broken_link.py`, `python scripts/check_new_subsection.py`, `python scripts/test_conventions.py`, `python scripts/test_versions.py`, `python scripts/test_generate_profile_pages.py` e `python scripts/test_release.py` (prove dei controlli). Un errore in uno dei due job fa fallire il controllo della PR, obbligatorio per il merge su `main` |
+| `deploy.yml` | push di un tag di release `vX.Y.Z` (e avvio manuale su un tag) | job `build`: controllo della release (`python scripts/check_release.py --tag <tag>`: tag annotato, su `main`, uguale alla prima riga di «Release del sito»), build strict e caricamento di `site/` come artifact di Pages; job `deploy`: pubblicazione su GitHub Pages. Se il controllo o il build falliscono, `deploy` non parte e il sito pubblicato resta invariato. Il merge su `main` non pubblica nulla: vedi CONTRIBUTING.md, «Release del sito» |
 
 Per riprodurre i controlli in locale:
 
@@ -118,12 +118,14 @@ python scripts/check_conventions.py --commits origin/main
 python scripts/check_urls.py origin/main
 python scripts/check_versions.py --site site --commits origin/main
 python scripts/generate_profile_pages.py --all --check
+python scripts/check_release.py
 python scripts/spike.py --scale
 python scripts/check_broken_link.py
 python scripts/check_new_subsection.py
 python scripts/test_conventions.py
 python scripts/test_versions.py
 python scripts/test_generate_profile_pages.py
+python scripts/test_release.py
 ```
 
 ### Passi manuali su GitHub (riservati a Franco)
@@ -142,3 +144,6 @@ Pages da GitHub Actions, `main` protetto, URL impostati, primo run verificato in
    con l'URL pubblico del sito e del repository.
 5. Al primo run, controllare in CI il tempo di build riportato da
    `scripts/spike.py --scale` (limite 60 s sul runner `ubuntu-latest`).
+6. In *Settings → Environments → github-pages*, regole di deploy: ammettere i tag
+   `v*` al posto del branch `main` (change `add-site-releases`), prima del push del
+   primo tag di release.

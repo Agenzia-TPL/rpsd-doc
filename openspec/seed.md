@@ -77,6 +77,7 @@ rules:
 | `overview` | Home con il progetto, release del sito, architettura, modello dati con link alla documentazione dbt |
 | `indicator-catalog` | Delibera, catalogo delle definizioni ART, matrice indicatori × dataset |
 | `operational-guide` | Guida per Aziende e Agenzie, funzionamento della validazione, FAQ, glossario |
+| `site-releases` | Numerazione delle release del sito, tag di release, corrispondenza con la pagina «Release del sito» |
 
 Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restricted-contracts`, `doc-generation` (interfaccia bundle ↔ `rpsd-tools`).
 
@@ -92,6 +93,7 @@ Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restrict
 | 4b | `restructure-site-sections` | Tab Rapsodia, Architettura, Modello dati, Dashboard, Contratti (indice redazionale e segnaposto `esempio`); solo struttura, aggiunto il 14 novembre 2026 | `site-navigation`, `content-conventions` |
 | 5 | `add-overview-pages` | Home (frase introduttiva, progetto, schede delle sezioni, release recenti) e pagina Release del sito; glossario spostato nella Guida operativa; URL stabili solo per pagine con contenuto. Architettura (sottosistemi e moduli), Modello dati e Dashboard quando ci sono le fonti | `overview`, `content-conventions` |
 | 5b | `add-generated-profile-pages` | Pagine di frame e servizio, strutture comuni, enumerazioni e incongruenze di NeTEx 5.0.0 e SIRI 1.0.5, generate dal bundle di `rpsd-tools profile-docs` con i template di rpsd-doc; aggiunto il 18 novembre 2026 | `profile-docs` |
+| 5c | `add-site-releases` | Release del sito: numerazione `X.Y.Z`, tag annotato `vX.Y.Z`, pubblicazione solo ai tag, pagina «Release del sito» con una riga per release; aggiunto il 22 novembre 2026 | `site-releases`, `site-platform`, `overview` |
 | 6 | `add-netex-profile-docs` | Solo la parte redazionale: «Informazioni generali» del NeTEx (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per frame vengono dal change 5b | `profile-docs` |
 | 7 | `add-siri-profile-docs` | Solo la parte redazionale: «Informazioni generali» del SIRI (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per servizio vengono dal change 5b | `profile-docs` |
 | 8 | `add-indicator-catalog` | Pagine sulla delibera, catalogo generato, matrice | `indicator-catalog` |
@@ -118,14 +120,18 @@ The site SHALL build from a clean checkout with a single documented command, usi
 - **THEN** the strict build fails and names the page and the broken link
 
 ### Requirement: Automated deployment
-The site SHALL be published to its public URL automatically when the main branch changes, and only when the strict build succeeds.
+The site SHALL be published to its public URL automatically when a release tag is pushed, and only when the release check and the strict build succeed.
+
+#### Scenario: Release tag pushed
+- **WHEN** a release tag is pushed, the release check passes and the strict build passes
+- **THEN** the published site reflects the content of that release without manual steps
 
 #### Scenario: Merge to main
-- **WHEN** a change is merged into the main branch and the strict build passes
-- **THEN** the published site reflects the change without manual steps
+- **WHEN** a change is merged into the main branch and no release tag is pushed
+- **THEN** the published site is left unchanged
 
 #### Scenario: Failing build
-- **WHEN** the strict build fails on the main branch
+- **WHEN** the strict build fails for a release tag
 - **THEN** the published site is left unchanged
 
 ### Requirement: Pull request preview check
@@ -387,11 +393,11 @@ The site SHALL describe the layers of the data model and SHALL link to the datab
 - **THEN** they reach the dbt documentation, or an access-controlled page if it is not public
 
 ### Requirement: Site changelog
-The site SHALL list its changes in reverse chronological order.
+The site SHALL list its releases in reverse chronological order, each with its version number, its date and the changes it includes.
 
 #### Scenario: New profile version documented
-- **WHEN** the documentation of a new profile version is published
-- **THEN** the changelog has an entry with the date and the version
+- **WHEN** the documentation of a new profile version is published in a release
+- **THEN** the row of that release has its version number and date and names the profile version among its changes
 
 ### Requirement: Latest versions on the home page
 The home page SHALL show the most recent entries of the site changelog after the section entry points, with a link to the full changelog page.
@@ -486,6 +492,35 @@ The guide SHALL include frequently asked questions grouped by topic, each with i
 #### Scenario: Link to an answer
 - **WHEN** someone shares the link to a question
 - **THEN** the link opens the page at that question
+
+
+### 4.9 `site-releases`
+
+Aggiunto il 22 novembre 2026 (change `add-site-releases`): release del sito sul modello di rpsd-tools, pubblicazione solo ai tag.
+
+## ADDED Requirements
+
+### Requirement: Release numbering
+Every release of the site SHALL have a version number of the form X.Y.Z, greater than the version of the previous release.
+
+#### Scenario: Valid release list
+- **WHEN** the «Release del sito» page lists its releases
+- **THEN** every version has the form X.Y.Z and the versions decrease from the first row to the last
+
+#### Scenario: Release out of order
+- **WHEN** a pull request adds a release whose version is not greater than the previous one
+- **THEN** the check on the pull request fails and names the version
+
+### Requirement: Release tag matches the changelog
+A release SHALL be published only from an annotated tag vX.Y.Z on a commit of the main branch whose «Release del sito» page lists X.Y.Z as its first row.
+
+#### Scenario: Tag consistent with the page
+- **WHEN** the tag v0.1.0 is pushed on a commit of main whose release page starts with 0.1.0
+- **THEN** the release check passes
+
+#### Scenario: Tag not matching the page
+- **WHEN** a tag is pushed whose version is not the first row of the release page, or that points to a commit outside main
+- **THEN** the release check fails, names the mismatch and the site is not published
 
 
 ## 5. Punti da decidere prima o durante i change

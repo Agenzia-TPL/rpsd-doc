@@ -38,6 +38,8 @@ jobs:
         run: python scripts/check_versions.py --site site --commits "origin/${GITHUB_BASE_REF}"
       - name: Pagine dei profili allineate al bundle in data/profili/
         run: python scripts/generate_profile_pages.py --all --check
+      - name: Release del sito (formato, ordine, righe recenti per la home)
+        run: python scripts/check_release.py
 
   spike:
     name: Spike (scala, sidebar, link rotti)
@@ -61,3 +63,5 @@ jobs:
         run: python scripts/test_versions.py
       - name: Prove del generatore delle pagine dei profili (bundle minimo)
         run: python scripts/test_generate_profile_pages.py
+      - name: Prove dei controlli sulle release (pagina e tag)
+        run: python scripts/test_release.py

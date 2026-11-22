@@ -133,9 +133,15 @@ Tab e sidebar sono definiti dai file `.nav.yml` di ogni cartella: vedi la sezion
 
 ## Release del sito
 
-`docs/rapsodia/release.md` elenca le modifiche al sito in una tabella, dalla più
-recente: una riga per ogni change completata e pubblicata, con la data di
-archiviazione, l'area e lo scopo ripreso dalla sua proposal.
+Il sito pubblicato cambia solo a una **release**: il merge su `main` non pubblica nulla
+(spec `site-releases`, design del change `add-site-releases`).
+
+**Numerazione** `X.Y.Z`, come rpsd-tools: sotto la 1.0 la minore cambia per sezioni o
+contenuti nuovi, la patch per le correzioni.
+
+**Pagina** `docs/rapsodia/release.md`: una tabella `Versione | Data | Novità`, una riga
+per release, dalla più recente. Versione in grassetto, data «G mmm AAAA», novità
+separate da ` · `, ciascuna preceduta dall'icona della sua area:
 
 | Area | Icona |
 |---|---|
@@ -145,13 +151,46 @@ archiviazione, l'area e lo scopo ripreso dalla sua proposal.
 | Navigazione | `:material-compass-outline:` |
 | Sito | `:material-rocket-launch-outline:` |
 
-La home mostra l'intestazione e le righe comprese fra i marcatori
-`<!-- --8<-- [start:recenti] -->` e `<!-- --8<-- [end:recenti] -->`, incluse con
-`pymdownx.snippets`: si scrivono una volta sola. I marcatori stanno fra le righe della
-tabella e non la spezzano, perché `pymdownx.snippets` li toglie prima del rendering.
+Esempio di riga:
 
-Quando si aggiunge una riga in cima, si sposta il marcatore `end:recenti` in modo che
-fra i due marcatori restino l'intestazione e le **tre** righe più recenti.
+```markdown
+| **0.2.0** | 5 dic 2026 | :material-file-document-multiple-outline: Introduzione al profilo NeTEx · :material-sitemap-outline: Pagine dell'architettura |
+```
+
+La home mostra l'intestazione e le righe fra i marcatori
+`<!-- --8<-- [start:recenti] -->` e `<!-- --8<-- [end:recenti] -->`, incluse con
+`pymdownx.snippets`. I marcatori non spezzano la tabella: `pymdownx.snippets` li toglie
+prima del rendering. Quando si aggiunge una riga in cima si sposta `end:recenti` in modo
+che fra i due marcatori restino l'intestazione e le **tre** righe più recenti.
+
+**Quando**: dopo l'archiviazione di una change che tocca il sito si valuta con Franco se
+fare una release; più change possono uscire nella stessa.
+
+**Procedura**:
+
+1. branch `release-X.Y.Z` da `main` aggiornato, con la sola riga nuova in `release.md`;
+   PR «Release X.Y.Z» e merge;
+2. tag annotato sul commit di merge, con le stesse novità della riga, senza icone:
+
+   ```text
+   git tag -a vX.Y.Z <commit di merge> -F messaggio.txt
+
+   rpsd-doc X.Y.Z — <sintesi in una riga>
+
+   Novità:
+   - <novità 1>
+   - <novità 2>
+   ```
+
+3. push del tag (`git push origin vX.Y.Z`), solo con l'approvazione di Franco: parte
+   `deploy.yml`, che pubblica il sito solo se il controllo della release e il build
+   strict riescono.
+
+Per ripubblicare una release si avvia `deploy.yml` a mano scegliendo il suo tag; da un
+branch il controllo fallisce.
+
+Controllo: `scripts/check_release.py` (regole R1–R3 sulle PR; R4 al deploy, con
+`--tag`: tag annotato, su `main`, uguale alla prima riga della pagina).
 
 ## Profili versionati
 
