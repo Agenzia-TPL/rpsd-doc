@@ -74,9 +74,9 @@ rules:
 | `content-conventions` | Regole trasversali: lingua, lunghezza, admonition, pagine generate, URL stabili |
 | `profile-versioning` | Versioni dei profili NeTEx/SIRI per percorso |
 | `profile-docs` | Struttura e template delle pagine di profilo (frame NeTEx, servizi SIRI) |
-| `overview` | Home, panoramica, glossario, modello dati con link alla documentazione dbt |
+| `overview` | Home con il progetto, versioni del sito, architettura, modello dati con link alla documentazione dbt |
 | `indicator-catalog` | Delibera, catalogo delle definizioni ART, matrice indicatori × dataset |
-| `operational-guide` | Guida per Aziende e Agenzie, funzionamento della validazione, FAQ |
+| `operational-guide` | Guida per Aziende e Agenzie, funzionamento della validazione, FAQ, glossario |
 
 Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restricted-contracts`, `doc-generation` (interfaccia bundle ↔ `rpsd-tools`).
 
@@ -90,7 +90,7 @@ Secondo step, da non specificare ora: `contracts`, `validation-rules`, `restrict
 | 3 | `add-content-conventions` | Controlli in CI sulle convenzioni e pagina "come contribuire" | `content-conventions` |
 | 4 | `add-profile-versioning` | Scheletro `netex/5.0.0/`, `siri/1.0.5/`, pagine elenco versioni, avviso sulle versioni non correnti, alias `corrente` | `profile-versioning` |
 | 4b | `restructure-site-sections` | Tab Rapsodia, Architettura, Modello dati, Dashboard, Contratti (indice redazionale e segnaposto `esempio`); solo struttura, aggiunto il 14 novembre 2026 | `site-navigation`, `content-conventions` |
-| 5 | `add-overview-pages` | Contenuti di Rapsodia (home, progetto, glossario, novità), Architettura (sottosistemi e moduli), Modello dati, Dashboard | `overview` |
+| 5 | `add-overview-pages` | Home (frase introduttiva, progetto, schede delle sezioni, versioni recenti) e pagina Versioni; glossario spostato nella Guida operativa; URL stabili solo per pagine con contenuto. Architettura (sottosistemi e moduli), Modello dati e Dashboard quando ci sono le fonti | `overview`, `content-conventions` |
 | 5b | `add-generated-profile-pages` | Pagine di frame e servizio, strutture comuni, enumerazioni e incongruenze di NeTEx 5.0.0 e SIRI 1.0.5, generate dal bundle di `rpsd-tools profile-docs` con i template di rpsd-doc; aggiunto il 18 novembre 2026 | `profile-docs` |
 | 6 | `add-netex-profile-docs` | Solo la parte redazionale: «Informazioni generali» del NeTEx (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per frame vengono dal change 5b | `profile-docs` |
 | 7 | `add-siri-profile-docs` | Solo la parte redazionale: «Informazioni generali» del SIRI (introduzione, concetti, esempi commentati), fuori dalla cartella di versione. Le pagine per servizio vengono dal change 5b | `profile-docs` |
@@ -223,11 +223,19 @@ Hand-written pages SHALL NOT exceed 1500 words.
 - **THEN** the check reports the page and its word count
 
 ### Requirement: Stable URLs
-A published page URL SHALL keep resolving after the page is moved or renamed.
+A published page URL SHALL keep resolving after the page is moved or renamed, unless the published page is only a placeholder: a title and the "Sezione in preparazione" notice, with no other content.
 
 #### Scenario: Page moved
 - **WHEN** a published page is moved to a new path
 - **THEN** the old URL redirects to the new one
+
+#### Scenario: Placeholder page removed
+- **WHEN** a page that is published only as a placeholder is removed or moved without a redirect
+- **THEN** the URL check passes and the old URL is no longer served
+
+#### Scenario: Page with content removed
+- **WHEN** a page whose published version has content beyond the placeholder notice is removed without a redirect
+- **THEN** the URL check fails and lists the URL
 
 ### Requirement: Consistent callouts
 Pages SHALL use a fixed set of callout types with fixed meanings: note, tip, warning, danger "Obbligatorio per KPI", example, info "Novità Rapsodia".
@@ -339,7 +347,7 @@ Each profile version SHALL explain the concepts needed before reading the frame 
 
 ### 4.6 `overview`
 
-Riformulato il 14 novembre 2026 (change `restructure-site-sections`): pagine distribuite nei tab Rapsodia, Architettura e Modello dati. Nessun requisito sulla Dashboard finché il contenuto non è definito (decisione di Franco). Il diagramma del flusso potrà essere sostituito da un tipo di grafico che mostri anche App e IoT.
+Riformulato il 14 novembre 2026 (change `restructure-site-sections`): pagine distribuite nei tab Rapsodia, Architettura e Modello dati. Riformulato il 22 novembre 2026 (change `add-overview-pages`): il progetto si descrive nella home, il tab Rapsodia ha solo home e Versioni, il glossario passa in `operational-guide`. Nessun requisito sulla Dashboard finché il contenuto non è definito (decisione di Franco). Il diagramma del flusso potrà essere sostituito da un tipo di grafico che mostri anche App e IoT.
 
 ## ADDED Requirements
 
@@ -351,10 +359,10 @@ The home page SHALL state in one screen what Rapsodia is and who the site is for
 - **THEN** they see a one-sentence description, one entry point per main section, and the current versions of the NeTEx and SIRI profiles
 
 ### Requirement: Project overview
-The Rapsodia section SHALL describe the project: goals, consortium and partners.
+The home page SHALL describe the project: goals, consortium and partners.
 
-#### Scenario: Project page
-- **WHEN** a reader opens the project page
+#### Scenario: Project description
+- **WHEN** a reader opens the home page
 - **THEN** they find the goals of the project and the consortium members and partners with their role
 
 ### Requirement: Architecture by subsystem
@@ -371,13 +379,6 @@ The Core page SHALL list the functional modules of the Core, each with a short d
 - **WHEN** a reader opens the Core page
 - **THEN** each module has its name, what it does in one or two sentences and a working link to its repository
 
-### Requirement: Glossary
-The site SHALL provide an alphabetical glossary of the domain terms used across the site.
-
-#### Scenario: Term lookup
-- **WHEN** a reader opens the glossary
-- **THEN** terms are in alphabetical order and each has a definition and its own anchor
-
 ### Requirement: Data model entry point
 The site SHALL describe the layers of the data model and SHALL link to the database documentation generated by dbt, which is published separately.
 
@@ -391,6 +392,13 @@ The site SHALL list its changes in reverse chronological order.
 #### Scenario: New profile version documented
 - **WHEN** the documentation of a new profile version is published
 - **THEN** the changelog has an entry with the date and the version
+
+### Requirement: Latest versions on the home page
+The home page SHALL show the most recent entries of the site changelog after the section entry points, with a link to the full changelog page.
+
+#### Scenario: Bottom of the home page
+- **WHEN** a reader scrolls past the section entry points on the home page
+- **THEN** they see the latest site versions, identical to the top of the Versioni page, and a link to that page
 
 
 ### 4.7 `indicator-catalog`
@@ -436,6 +444,13 @@ The site SHALL provide a matrix showing, for each indicator, which datasets it d
 ### 4.8 `operational-guide`
 
 ## ADDED Requirements
+
+### Requirement: Glossary
+The operational guide SHALL provide an alphabetical glossary of the domain terms used across the site.
+
+#### Scenario: Term lookup
+- **WHEN** a reader opens the glossary
+- **THEN** terms are in alphabetical order and each has a definition and its own anchor
 
 ### Requirement: End-to-end process for operators
 The guide SHALL describe the process a transport operator follows from producing the data to receiving the validation outcome, with a sequence diagram.

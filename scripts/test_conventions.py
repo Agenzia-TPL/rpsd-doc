@@ -21,7 +21,7 @@ GENERATED_PATHS = ("docs/indicatori/catalogo/\ndocs/indicatori/matrice/\n"
 PLACEHOLDER = ('---\nsegnaposto: true\n---\n\n# Esempio\n\n!!! warning "Contratto segnaposto"\n\n    Testo.\n')
 GENERATED_FM = "---\ngenerato: true\ngenerato_da: rpsd-tools 0.1.0\n---\n"
 GLOSSARY = "# Glossario\n\n### PdE {#pde .sigla}\n\nDefinizione di prova.\n\n### Frame {#frame}\n\nVoce non sigla.\n"
-GLOSSARY_LINK = "[PdE](../rapsodia/glossario.md#pde)"
+GLOSSARY_LINK = "[PdE](../guida/glossario.md#pde)"
 
 
 class Fixture(unittest.TestCase):
@@ -215,13 +215,13 @@ class Glossary(Fixture):
         self.assertEqual(self.check(f"Il {GLOSSARY_LINK} è trasmesso. Poi il PdE cambia."), [])
 
     def test_link_to_built_url_passes(self):
-        self.assertEqual(self.check("Il [PdE](../../rapsodia/glossario/#pde) è trasmesso."), [])
+        self.assertEqual(self.check("Il [PdE](../../guida/glossario/#pde) è trasmesso."), [])
 
     def test_first_use_not_linked_fails(self):
         self.assertEqual(self.check(f"Il PdE è trasmesso. Poi il {GLOSSARY_LINK} cambia."), ["S1"])
 
     def test_link_to_wrong_anchor_fails(self):
-        self.assertEqual(self.check("Il [PdE](../rapsodia/glossario.md#frame) è trasmesso."), ["S1"])
+        self.assertEqual(self.check("Il [PdE](../guida/glossario.md#frame) è trasmesso."), ["S1"])
 
     def test_code_and_headings_are_ignored(self):
         self.assertEqual(self.check(f"## Il PdE\n\nIl campo `PdE` e poi il {GLOSSARY_LINK}."), [])
@@ -265,7 +265,7 @@ class StableUrls(unittest.TestCase):
     def lost(self) -> list[str]:
         base_urls, _ = cu.build(self.base, strict=False)
         head_urls, _ = cu.build(self.head, strict=True)
-        return cu.compare(base_urls, head_urls)
+        return cu.compare(base_urls, head_urls, self.base / "docs")[0]
 
     def test_moved_page_without_redirect_fails(self):
         self.assertEqual(self.lost(), ["vecchia/"])
@@ -280,6 +280,40 @@ class StableUrls(unittest.TestCase):
         self.assertEqual(self.lost(), [])
         redirect = (self.head / "site" / "vecchia" / "index.html").read_text(encoding="utf-8")
         self.assertIn("../nuova/pagina/", redirect)
+
+    def test_removed_placeholder_passes(self):
+        # Scenario: Placeholder page removed
+        (self.base / "docs" / "vecchia.md").write_text(URL_PLACEHOLDER, encoding="utf-8")
+        self.assertEqual(self.lost(), [])
+
+    def test_removed_section_page_with_content_fails(self):
+        # Scenario: Page with content removed (avviso più altro contenuto)
+        (self.base / "docs" / "vecchia.md").write_text(URL_PLACEHOLDER + URL_SECTION_TABLE, encoding="utf-8")
+        self.assertEqual(self.lost(), ["vecchia/"])
+
+
+URL_PLACEHOLDER = ('# Pagina\n\n!!! note "Sezione in preparazione"\n\n'
+               '    I contenuti di questa pagina saranno pubblicati progressivamente.\n')
+URL_SECTION_TABLE = "\n## Versioni documentate\n\n| Versione | Stato |\n|---|---|\n| 5.0.0 | corrente |\n"
+
+
+class PlaceholderRecognition(unittest.TestCase):
+    """Riconoscimento dei segnaposto sul solo testo (requisito Stable URLs)."""
+
+    def test_placeholder(self):
+        self.assertTrue(cu.is_placeholder_text(URL_PLACEHOLDER))
+
+    def test_placeholder_with_front_matter(self):
+        self.assertTrue(cu.is_placeholder_text("---\ntitle: x\n---\n" + URL_PLACEHOLDER))
+
+    def test_note_plus_content_is_not_placeholder(self):
+        self.assertFalse(cu.is_placeholder_text(URL_PLACEHOLDER + URL_SECTION_TABLE))
+
+    def test_page_without_note_is_not_placeholder(self):
+        self.assertFalse(cu.is_placeholder_text("# Pagina\n\nTesto.\n"))
+
+    def test_other_note_is_not_placeholder(self):
+        self.assertFalse(cu.is_placeholder_text('# Pagina\n\n!!! note "Altro"\n\n    Testo.\n'))
 
 
 if __name__ == "__main__":

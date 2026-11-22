@@ -60,6 +60,11 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - attr_list
+  # Icone delle schede in home. Forma di Material: Zensical la accetta, quindi la
+  # stessa configurazione vale per entrambi (fase 1, design del sito §2.1).
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - md_in_html
   - toc:
       permalink: true

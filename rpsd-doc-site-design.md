@@ -7,6 +7,12 @@
 
 ## 0. Cosa cambia
 
+### Home e tab Rapsodia (22 novembre 2026, change `add-overview-pages`)
+
+- **Home**: frase su cos'è Rapsodia e per chi è il sito, testo sul progetto (quando ci sono le fonti), una scheda per ogni sezione da Architettura a Contratti con le versioni correnti dei profili, in fondo le ultime versioni del sito (§4.2).
+- **Tab Rapsodia**: solo home e Versioni. Il progetto si descrive nella home (niente pagina `progetto`), «Novità del sito» diventa «Versioni» (`rapsodia/versioni.md`), il glossario passa nella Guida operativa (`guida/glossario.md`).
+- **URL stabili**: valgono per le pagine con contenuto; una pagina pubblicata solo come segnaposto si può togliere o spostare senza redirect (§8).
+
 ### Pagine dei profili generate in rpsd-doc (18 novembre 2026, change `add-generated-profile-pages`)
 
 - **Strumento**: le pagine di frame e servizio non vengono più da uno strumento dedicato (previsto nella v0.3) ma dal bundle `site.yaml` di `rpsd-tools profile-docs generate`, committato in `data/profili/<profilo>/<versione>/` (§3).
@@ -138,7 +144,7 @@ Regola di base: **una pagina è o redazionale o generata, mai mista.** Le direct
 
 | Sezione | Origine | Strumento |
 |---------|---------|-----------|
-| Rapsodia (home, progetto, glossario, novità), Architettura, Dashboard | Redazionale | — |
+| Rapsodia (home, versioni), Architettura, Dashboard | Redazionale | — |
 | NeTEx / SIRI — introduzione, concetti, esempi commentati | Redazionale | — |
 | NeTEx / SIRI — pagine di frame e servizio, strutture comuni, enumerazioni, incongruenze (per versione di profilo, l'intera cartella) | Generata da XSD + note delle linee guida 5T, via bundle `site.yaml` | `rpsd-tools profile-docs` (bundle) + `scripts/generate_profile_pages.py` (template di rpsd-doc) |
 | Indicatori — delibera, CMQ, penali | Redazionale | — |
@@ -227,7 +233,7 @@ un contratto segnaposto; i contratti generati arrivano con il secondo step (§5)
 
 ### 4.2 Parte generale
 
-**Rapsodia** — la home (`docs/index.md`) è l'indice del sito: cos'è Rapsodia e un ingresso per ogni sezione. Il tab contiene anche le pagine `rapsodia/progetto.md` (obiettivi, consorzio, partner), `rapsodia/glossario.md` e `rapsodia/novita.md` (changelog del sito). Con il secondo step la home mette in evidenza i Contratti come ingresso principale per le Aziende.
+**Rapsodia** — la home (`docs/index.md`) è l'indice del sito e la pagina del progetto: una frase su cos'è Rapsodia e per chi è il sito, il testo sul progetto (obiettivi, consorzio, partner), una scheda per ogni sezione da Architettura a Contratti (le schede NeTEx e SIRI riportano la versione corrente) e in fondo le ultime versioni del sito. Il tab contiene anche `rapsodia/versioni.md`, il changelog del sito: una voce per change pubblicata, dalla più recente; la home ne include le voci recenti. Con il secondo step la home mette in evidenza i Contratti come ingresso principale per le Aziende: una sezione «Contratti monitorati», fra le schede e le versioni, ripresa dall'elenco generato dei contratti (solo contratti pubblici), aggiunta con il primo contratto generato.
 
 **Architettura** — definizione generale della piattaforma, diagramma del flusso dei dati (in seguito, eventualmente, un grafico che mostri anche App e IoT) e una pagina per sottosistema: **Core (A+D)**, **App (B)**, **IoT (C)**. La pagina del Core elenca i moduli funzionali con una breve descrizione e il link al repository GitHub di ciascuno.
 
@@ -446,7 +452,7 @@ rpsd-doc/
 ├── docs/
 │   ├── .nav.yml
 │   ├── index.md
-│   ├── rapsodia/               # redazionale: progetto, glossario, novità (tab Rapsodia con index.md)
+│   ├── rapsodia/               # redazionale: versioni del sito (tab Rapsodia con index.md)
 │   ├── architettura/           # redazionale: Core (A+D), App (B), IoT (C)
 │   ├── netex/
 │   │   ├── index.md            # redazionale: elenco versioni
@@ -460,7 +466,7 @@ rpsd-doc/
 │   │   └── matrice/            # GENERATO (index.md)
 │   ├── modello-dati/           # redazionale (→ link dbt docs)
 │   ├── dashboard/              # redazionale
-│   ├── guida/                  # redazionale
+│   ├── guida/                  # redazionale, compreso il glossario
 │   ├── contratti/              # index.md redazionale; <id-contratto>/ GENERATO
 │   │   └── esempio/            # segnaposto, da togliere col primo contratto generato
 │   ├── validazione/            # GENERATO — secondo step, solo ipotesi B
@@ -489,7 +495,7 @@ Ipotesi per il secondo step, da valutare: repository privato con i soli contratt
 
 Restano valide quelle della v0.1 (tono tecnico ma accessibile, termini dello standard in inglese, massimo 1500 parole per pagina, admonition con significato fisso, XML sempre annotato, glossario linkabile). Si aggiungono:
 
-- **ID stabili come anchor e come URL**: ID regola, codice indicatore, id contratto non si rinominano; se necessario si usa `redirects`.
+- **ID stabili come anchor e come URL**: ID regola, codice indicatore, id contratto non si rinominano; se necessario si usa `redirects`. Fanno eccezione le pagine pubblicate solo come segnaposto («Sezione in preparazione»): finché non hanno contenuto si possono togliere o spostare senza redirect.
 - **Il contratto rimanda, non copia**: le pagine di contratto riportano i valori risolti e linkano la definizione generale.
 - **Normativa generale nella parte generale, allegati di gara nel contratto.**
 - **Pagine generate riconoscibili**: riquadro di testata con versione config e decorrenza; front matter `generato: true`.
@@ -508,7 +514,7 @@ Allineato alle scadenze di progetto (config con pilot a fine novembre 2026, part
 3. Struttura versionata di `netex/` e `siri/` con le versioni correnti dei profili.
 
 *Fase 1 — Contenuti (dicembre 2026–marzo 2027)*
-4. Rapsodia (home, progetto, glossario, novità), Architettura, Modello dati con link alla documentazione dbt, Dashboard.
+4. Rapsodia (home, versioni), Architettura, Modello dati con link alla documentazione dbt, Dashboard.
 5. NeTEx e SIRI: introduzione, concetti, pagine di frame e servizio, esempi.
 6. Indicatori: pagine sulla delibera, catalogo delle definizioni, matrice.
 7. Guida operativa, incluso il funzionamento della validazione.

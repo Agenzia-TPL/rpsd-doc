@@ -14,6 +14,8 @@ Regole (design del change add-profile-versioning, D6):
   V6  (con --site DIR) avviso su tutte e sole le pagine delle versioni non correnti
   V7  (con --commits BASE) i commit che modificano una versione non corrente hanno il
       trailer "Errata: <motivo>"
+  V8  home: docs/index.md linka la versione corrente di ogni profilo
+      (<profilo>/<corrente>/index.md) e nessuna cartella di versione non corrente
 
 Uso: python scripts/check_versions.py [--site DIR] [--commits BASE] [--root DIR]
 """
@@ -171,6 +173,30 @@ def check_version_list(root: Path, config: dict, notes: list[str] | None = None)
     return problems
 
 
+# --------------------------------------------------------------------------- V8
+
+HOME_LINK = re.compile(r"\]\(([^)\s]+)\)")
+
+
+def check_home(root: Path, config: dict) -> list[Problem]:
+    path = root / "docs" / "index.md"
+    where = "docs/index.md"
+    if not path.exists():
+        return [Problem("V8", where, "home assente")]
+    links = {link.removeprefix("./") for link in HOME_LINK.findall(path.read_text(encoding="utf-8"))}
+    problems = []
+    for name, prof in profiles(config).items():
+        current = str(prof.get("corrente", ""))
+        target = f"{name}/{current}/index.md"
+        if target not in links:
+            problems.append(Problem("V8", where, f"manca il link alla versione corrente di {name}: {target}"))
+        for v in (prof.get("versioni") or {}):
+            v = str(v)
+            if v != current and any(link.startswith(f"{name}/{v}/") for link in links):
+                problems.append(Problem("V8", where, f"link alla versione non corrente {name} {v}"))
+    return problems
+
+
 # --------------------------------------------------------------------------- V6
 
 
@@ -250,6 +276,7 @@ def main() -> int:
         "sidebar sulla versione corrente (V3)": check_sidebar_nav(root, config),
         "alias della versione corrente (V4)": check_alias(config),
         "elenco versioni (V5)": check_version_list(root, config, notes),
+        "versioni correnti in home (V8)": check_home(root, config),
     }
     if args.site:
         results["avviso sulle versioni non correnti (V6)"] = check_site_notices(args.site.resolve(), config)

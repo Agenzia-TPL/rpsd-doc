@@ -6,12 +6,16 @@ pubblicato) e quello della copia corrente, ciascuno in una directory temporanea,
 gli URL delle pagine servite. Ogni URL di BASE deve esistere anche nella copia corrente,
 come pagina o come redirect (plugin `redirects`, `redirect_maps` in mkdocs.yml).
 
+Eccezione (requisito Stable URLs): un URL la cui pagina in BASE è solo un segnaposto
+(titolo e callout «Sezione in preparazione», nient'altro) può sparire senza redirect.
+
 Uso: python scripts/check_urls.py BASE [--root DIR]
 """
 from __future__ import annotations
 
 import argparse
 import io
+import re
 import subprocess
 import sys
 import tarfile
@@ -51,8 +55,46 @@ def export_revision(root: Path, rev: str, dest: Path) -> None:
         tar.extractall(dest, filter="data")
 
 
-def compare(base_urls: set[str], head_urls: set[str]) -> list[str]:
-    return sorted(base_urls - head_urls)
+PLACEHOLDER_NOTE = re.compile(r'^!!!\s+note\s+"Sezione in preparazione"\s*$')
+
+
+def strip_front_matter(text: str) -> str:
+    lines = text.splitlines()
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() in ("---", "..."):
+                return "\n".join(lines[i + 1:])
+    return text
+
+
+def is_placeholder_text(text: str) -> bool:
+    """Vero se la pagina contiene solo il titolo e il callout «Sezione in preparazione»."""
+    lines = [line for line in strip_front_matter(text).splitlines() if line.strip()]
+    if len(lines) < 2 or not lines[0].startswith("# ") or not PLACEHOLDER_NOTE.match(lines[1]):
+        return False
+    # dopo il callout solo il suo corpo, indentato
+    return all(line.startswith(("    ", "\t")) for line in lines[2:])
+
+
+def source_page(docs: Path, url: str) -> Path | None:
+    """File Markdown di docs/ che produce l'URL (x/ → x.md oppure x/index.md)."""
+    stem = url.rstrip("/")
+    candidates = [docs / "index.md"] if not stem else [docs / f"{stem}.md", docs / stem / "index.md"]
+    return next((c for c in candidates if c.is_file()), None)
+
+
+def is_placeholder(docs: Path, url: str) -> bool:
+    page = source_page(docs, url)
+    return page is not None and is_placeholder_text(page.read_text(encoding="utf-8"))
+
+
+def compare(base_urls: set[str], head_urls: set[str], base_docs: Path | None = None) -> tuple[list[str], list[str]]:
+    """(URL persi, URL tolti perché segnaposto in BASE)."""
+    missing = sorted(base_urls - head_urls)
+    if base_docs is None:
+        return missing, []
+    placeholders = [u for u in missing if is_placeholder(base_docs, u)]
+    return [u for u in missing if u not in placeholders], placeholders
 
 
 def main() -> int:
@@ -74,9 +116,11 @@ def main() -> int:
         copy_site_sources(head_dir, root)
         base_urls, _ = build(base_dir, strict=False)
         head_urls, _ = build(head_dir, strict=True)
+        lost, removed_placeholders = compare(base_urls, head_urls, base_dir / "docs")
 
-    lost = compare(base_urls, head_urls)
     print(f"URL in {args.base}: {len(base_urls)}; nella copia corrente: {len(head_urls)}")
+    for url in removed_placeholders:
+        print(f"  segnaposto tolto, nessun redirect richiesto: /{url}")
     if lost:
         print("Controllo URL: FALLITO — URL pubblicati non più serviti:")
         for url in lost:
@@ -84,7 +128,7 @@ def main() -> int:
         print("Se la pagina è stata spostata o rinominata, aggiungere in mkdocs.yml, sotto "
               "plugins → redirects → redirect_maps, una voce 'vecchio/percorso.md: nuovo/percorso.md'.")
         return 1
-    print("Controllo URL: OK (ogni URL pubblicato è ancora servito, come pagina o come redirect)")
+    print("Controllo URL: OK (ogni URL pubblicato è ancora servito, come pagina o come redirect, salvo i segnaposto tolti)")
     return 0
 
 
