@@ -1,6 +1,6 @@
 ---
 generato: true
-generato_da: rpsd-tools 0.6.0
+generato_da: rpsd-tools 0.8.0
 ---
 <!-- GENERATED — DO NOT EDIT · profile-docs netex-it · netex-it-lev5@cecb0cd -->
 

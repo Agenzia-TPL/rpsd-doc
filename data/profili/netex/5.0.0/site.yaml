@@ -14,7 +14,7 @@ review:
   date: '2026-11-11'
   note: 'Proposte dell''11/11/2026 approvate: GML annotato, campi assenti dal Lev5 saltati, restrizioni
     dei valori tenute, nome e valore dell''XSD sempre prevalenti.'
-generator: rpsd-tools 0.6.0
+generator: rpsd-tools 0.8.0
 pages:
 - id: index
   file: index.md
@@ -7026,86 +7026,86 @@ pages:
       kind: element
       card: 0..1
       type: EquipmentRefStructure
-    - field: CommunicationServiceRef
-      kind: element
-      card: 0..1
-      type: CommunicationServiceRefStructure
-    - field: AssistanceServiceRef
-      kind: element
-      card: 0..1
-      type: AssistanceServiceRefStructure
-    - field: PassengerInformationEquipmentRef
-      kind: element
-      card: 0..1
-      type: PassengerInformationEquipmentRefStructure
     - field: AccessVehicleEquipmentRef
       kind: element
       card: 0..1
       type: AccessVehicleEquipmentRefStructure
-    - field: HelpPointEquipmentRef
+    - field: AssistanceServiceRef
       kind: element
       card: 0..1
-      type: HelpPointEquipmentRefStructure
-    - field: TicketValidatorEquipmentRef
+      type: AssistanceServiceRefStructure
+    - field: CommunicationServiceRef
       kind: element
       card: 0..1
-      type: TicketValidatorEquipmentRefStructure
-    - field: PassengerSafetyEquipmentRef
-      kind: element
-      card: 0..1
-      type: PassengerSafetyEquipmentRefStructure
-    - field: WheelchairVehicleRef
-      kind: element
-      card: 0..1
-      type: WheelchairVehicleRefStructure
-    - field: TicketingEquipmentRef
-      kind: element
-      card: 0..1
-      type: TicketingEquipmentRefStructure
-    - field: ShelterEquipmentRef
-      kind: element
-      card: 0..1
-      type: ShelterEquipmentRefStructure
+      type: CommunicationServiceRefStructure
     - field: CycleStorageEquipmentRef
       kind: element
       card: 0..1
       type: CycleStorageEquipmentRefStructure
-    - field: LuggageLockerEquipmentRef
-      kind: element
-      card: 0..1
-      type: LuggageLockerEquipmentRefStructure
-    - field: HeadingSignRef
-      kind: element
-      card: 0..1
-      type: HeadingSignRefStructure
-    - field: EscalatorEquipmentRef
-      kind: element
-      card: 0..1
-      type: EscalatorEquipmentRefStructure
-    - field: RampEquipmentRef
-      kind: element
-      card: 0..1
-      type: RampEquipmentRefStructure
-    - field: LiftEquipmentRef
-      kind: element
-      card: 0..1
-      type: LiftEquipmentRefStructure
-    - field: StaircaseEquipmentRef
-      kind: element
-      card: 0..1
-      type: StaircaseEquipmentRefStructure
     - field: EntranceEquipmentRef
       kind: element
       card: 0..1
       type: EntranceEquipmentRefStructure
-    - field: RoughSurfaceRef
+    - field: EscalatorEquipmentRef
       kind: element
       card: 0..1
-      type: RoughSurfaceRefStructure
+      type: EscalatorEquipmentRefStructure
+    - field: HeadingSignRef
+      kind: element
+      card: 0..1
+      type: HeadingSignRefStructure
+    - field: HelpPointEquipmentRef
+      kind: element
+      card: 0..1
+      type: HelpPointEquipmentRefStructure
     - field: LiftCallEquipmentRef
       kind: element
       card: 0..1
       type: LiftCallEquipmentRefStructure
+    - field: LiftEquipmentRef
+      kind: element
+      card: 0..1
+      type: LiftEquipmentRefStructure
+    - field: LuggageLockerEquipmentRef
+      kind: element
+      card: 0..1
+      type: LuggageLockerEquipmentRefStructure
+    - field: PassengerInformationEquipmentRef
+      kind: element
+      card: 0..1
+      type: PassengerInformationEquipmentRefStructure
+    - field: PassengerSafetyEquipmentRef
+      kind: element
+      card: 0..1
+      type: PassengerSafetyEquipmentRefStructure
+    - field: RampEquipmentRef
+      kind: element
+      card: 0..1
+      type: RampEquipmentRefStructure
+    - field: RoughSurfaceRef
+      kind: element
+      card: 0..1
+      type: RoughSurfaceRefStructure
+    - field: ShelterEquipmentRef
+      kind: element
+      card: 0..1
+      type: ShelterEquipmentRefStructure
+    - field: StaircaseEquipmentRef
+      kind: element
+      card: 0..1
+      type: StaircaseEquipmentRefStructure
+    - field: TicketValidatorEquipmentRef
+      kind: element
+      card: 0..1
+      type: TicketValidatorEquipmentRefStructure
+    - field: TicketingEquipmentRef
+      kind: element
+      card: 0..1
+      type: TicketingEquipmentRefStructure
+    - field: WheelchairVehicleRef
+      kind: element
+      card: 0..1
+      type: WheelchairVehicleRefStructure
     - field: AccessibilityAssessment
       kind: element
       card: 0..1
