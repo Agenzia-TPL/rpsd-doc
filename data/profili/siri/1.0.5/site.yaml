@@ -14,7 +14,7 @@ review:
   date: '2026-11-11'
   note: Note SIRI rivedute con le decisioni dell'11/11/2026 (FramedVehicleJourneyRef nel PT, presentCount
     nei parcheggi).
-generator: rpsd-tools 0.6.0
+generator: rpsd-tools 0.8.0
 pages:
 - id: index
   file: index.md

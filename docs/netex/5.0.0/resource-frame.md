@@ -1,6 +1,6 @@
 ---
 generato: true
-generato_da: rpsd-tools 0.6.0
+generato_da: rpsd-tools 0.8.0
 ---
 <!-- GENERATED — DO NOT EDIT · profile-docs netex-it · netex-it-lev5@cecb0cd -->
 
@@ -1127,26 +1127,26 @@ Linee guida §5.2.3.4.17 «WheelchairVehicleEquipment», Tabella 34. Tipo dell'X
     | `Units` | 0..1 | `xsd:integer` |
     | `VehicleTypeRef` | 0..1 | `VehicleTypeRefStructure` |
     | `EquipmentRef` | 0..1 | `EquipmentRefStructure` |
-    | `CommunicationServiceRef` | 0..1 | `CommunicationServiceRefStructure` |
-    | `AssistanceServiceRef` | 0..1 | `AssistanceServiceRefStructure` |
-    | `PassengerInformationEquipmentRef` | 0..1 | `PassengerInformationEquipmentRefStructure` |
     | `AccessVehicleEquipmentRef` | 0..1 | `AccessVehicleEquipmentRefStructure` |
-    | `HelpPointEquipmentRef` | 0..1 | `HelpPointEquipmentRefStructure` |
-    | `TicketValidatorEquipmentRef` | 0..1 | `TicketValidatorEquipmentRefStructure` |
-    | `PassengerSafetyEquipmentRef` | 0..1 | `PassengerSafetyEquipmentRefStructure` |
-    | `WheelchairVehicleRef` | 0..1 | `WheelchairVehicleRefStructure` |
-    | `TicketingEquipmentRef` | 0..1 | `TicketingEquipmentRefStructure` |
-    | `ShelterEquipmentRef` | 0..1 | `ShelterEquipmentRefStructure` |
+    | `AssistanceServiceRef` | 0..1 | `AssistanceServiceRefStructure` |
+    | `CommunicationServiceRef` | 0..1 | `CommunicationServiceRefStructure` |
     | `CycleStorageEquipmentRef` | 0..1 | `CycleStorageEquipmentRefStructure` |
-    | `LuggageLockerEquipmentRef` | 0..1 | `LuggageLockerEquipmentRefStructure` |
-    | `HeadingSignRef` | 0..1 | `HeadingSignRefStructure` |
-    | `EscalatorEquipmentRef` | 0..1 | `EscalatorEquipmentRefStructure` |
-    | `RampEquipmentRef` | 0..1 | `RampEquipmentRefStructure` |
-    | `LiftEquipmentRef` | 0..1 | `LiftEquipmentRefStructure` |
-    | `StaircaseEquipmentRef` | 0..1 | `StaircaseEquipmentRefStructure` |
     | `EntranceEquipmentRef` | 0..1 | `EntranceEquipmentRefStructure` |
-    | `RoughSurfaceRef` | 0..1 | `RoughSurfaceRefStructure` |
+    | `EscalatorEquipmentRef` | 0..1 | `EscalatorEquipmentRefStructure` |
+    | `HeadingSignRef` | 0..1 | `HeadingSignRefStructure` |
+    | `HelpPointEquipmentRef` | 0..1 | `HelpPointEquipmentRefStructure` |
     | `LiftCallEquipmentRef` | 0..1 | `LiftCallEquipmentRefStructure` |
+    | `LiftEquipmentRef` | 0..1 | `LiftEquipmentRefStructure` |
+    | `LuggageLockerEquipmentRef` | 0..1 | `LuggageLockerEquipmentRefStructure` |
+    | `PassengerInformationEquipmentRef` | 0..1 | `PassengerInformationEquipmentRefStructure` |
+    | `PassengerSafetyEquipmentRef` | 0..1 | `PassengerSafetyEquipmentRefStructure` |
+    | `RampEquipmentRef` | 0..1 | `RampEquipmentRefStructure` |
+    | `RoughSurfaceRef` | 0..1 | `RoughSurfaceRefStructure` |
+    | `ShelterEquipmentRef` | 0..1 | `ShelterEquipmentRefStructure` |
+    | `StaircaseEquipmentRef` | 0..1 | `StaircaseEquipmentRefStructure` |
+    | `TicketValidatorEquipmentRef` | 0..1 | `TicketValidatorEquipmentRefStructure` |
+    | `TicketingEquipmentRef` | 0..1 | `TicketingEquipmentRefStructure` |
+    | `WheelchairVehicleRef` | 0..1 | `WheelchairVehicleRefStructure` |
     | `AccessibilityAssessment` | 0..1 | `AccessibilityAssessmentL5Structure` |
     | `NumberOfWheelchairAreas` | 0..1 | `xsd:nonNegativeInteger` |
 
